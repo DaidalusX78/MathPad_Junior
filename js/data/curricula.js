@@ -6,6 +6,7 @@ export const curriculaData = {
   i18n: {
     en: {
       welcome: "Welcome",
+      byline: "Interactive Stylus Workbook for Kids",
       playerName: "Player Name",
       mascot: "Mascot Avatar",
       favColor: "Colour Theme",
@@ -72,6 +73,7 @@ export const curriculaData = {
     },
     es: {
       welcome: "Bienvenida",
+      byline: "Cuaderno Táctil Interactivo para Niños y Niñas",
       playerName: "Nombre del Jugador/a",
       mascot: "Mascota Avatar",
       favColor: "Tema de Color",

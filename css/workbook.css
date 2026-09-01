@@ -37,6 +37,23 @@
   letter-spacing: -0.01em;
 }
 
+.welcome-byline {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-top: -8px;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.welcome-brand-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+}
+
 /* ------------------- SCREEN 1: OPTIONS PAGE ------------------- */
 .page-header {
   display: flex;

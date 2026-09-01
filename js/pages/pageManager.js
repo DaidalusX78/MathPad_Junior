@@ -80,6 +80,7 @@ export class PageManager {
     };
 
     setElemText('welTitle', t.welcome);
+    setElemText('welByline', t.byline || 'Interactive Stylus Workbook for Kids');
     setElemText('lblPlayerName', t.playerName);
     setElemText('lblMascot', t.mascot);
     setElemText('lblFavColor', t.favColor);

@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>MathPad Junior - Interactive Math Workbook</title>
+  <title>MathPad Junior - Interactive Stylus Workbook for Kids</title>
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#a855f7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MathPad Jr">
+  <link rel="icon" type="image/svg+xml" href="media/logo/mathpad_junior_logo_designs.svg">
+  <link rel="apple-touch-icon" href="media/logo/mathpad_junior_logo_designs.svg">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +28,9 @@
   <!-- SCREEN 0: WELCOME & INITIAL SETUP -->
   <div class="screen active" id="screenWelcome">
     <div class="welcome-card">
-      <div class="welcome-title" id="welTitle">Welcome</div>
+      <img class="welcome-brand-logo" src="media/logo/mathpad_junior_logo_designs.svg" alt="MathPad Junior Logo">
+      <div class="welcome-title" id="welTitle">MathPad Junior</div>
+      <div class="welcome-byline" id="welByline">Interactive Stylus Workbook for Kids</div>
 
       <div class="input-group">
         <label class="input-label" id="lblPlayerName">Player Name</label>

@@ -34,6 +34,15 @@ class App {
       this.pageManager.showScreen('screenWelcome');
     }
 
+    // Check URL parameters for PWA app shortcuts (e.g. ?mode=tables or ?mode=random)
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get('mode');
+    if (modeParam) {
+      setTimeout(() => {
+        this.practicePage.startPractice(modeParam);
+      }, 100);
+    }
+
     // Attach global listeners
     window.addEventListener('resize', () => {
       if (this.pageManager.currentScreen === 'screenPractice') {
@@ -51,6 +60,22 @@ class App {
     });
 
     this.bindWindowGlobals();
+    this.registerServiceWorker();
+  }
+
+  registerServiceWorker() {
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('./sw.js')
+          .then((reg) => {
+            console.log('MathPad Junior PWA ServiceWorker registered successfully with scope:', reg.scope);
+          })
+          .catch((err) => {
+            console.warn('ServiceWorker registration failed:', err);
+          });
+      });
+    }
   }
 
   bindWindowGlobals() {

@@ -1,0 +1,43 @@
+{
+  "name": "MathPad Junior - Interactive Stylus Workbook for Kids",
+  "short_name": "MathPad Jr",
+  "description": "Interactive Stylus-Powered Math Workbook with Handwriting Recognition for Kids",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#a855f7",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    {
+      "src": "./media/logo/mathpad_junior_logo_designs.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./media/logo/mathpad_junior_logo_designs.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Times Tables",
+      "short_name": "Tables",
+      "description": "Practice Times Tables",
+      "url": "./index.html?mode=tables",
+      "icons": [{ "src": "./media/logo/mathpad_junior_logo_designs.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Random Mix",
+      "short_name": "Random",
+      "description": "Start a Random 10-Question Mix",
+      "url": "./index.html?mode=random",
+      "icons": [{ "src": "./media/logo/mathpad_junior_logo_designs.svg", "sizes": "96x96" }]
+    }
+  ]
+}
