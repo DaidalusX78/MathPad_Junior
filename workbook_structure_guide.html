@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eli's Math Book - Interactive Workbook Inspector</title>
+  <style>
+    :root {
+      --bg-canvas: #0f172a;
+      --page-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-base: #cbd5e1;
+      
+      /* Target accent colors */
+      --id-color: #dc2626;
+      --id-bg: #fef2f2;
+      --class-color: #2563eb;
+      --class-bg: #eff6ff;
+      --interactive-color: #7c3aed;
+      --interactive-bg: #f5f3ff;
+      
+      --hover-outline: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Developer Bar */
+    header.inspector-bar {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .inspector-bar h1 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-live {
+      background: #10b981;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .instruction-text {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    /* Main Workbook Viewport */
+    .viewport {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+
+    /* Target Workbook Hull */
+    .workbook-page-container {
+      width: 100%;
+      max-width: 860px;
+      background: var(--page-bg);
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+
+    /* Clickable Blueprint Target Styling */
+    .inspectable {
+      position: relative;
+      border: 2px dashed var(--border-base);
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .inspectable:hover {
+      border-color: var(--hover-outline);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* Attached Selector Indicator Labels */
+    .blueprint-tags {
+      position: absolute;
+      top: -11px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .tag-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .tag-id { background: var(--id-color); }
+    .tag-class { background: var(--class-color); }
+    .tag-interactive { background: var(--interactive-color); }
+
+    /* Workbook Inner Components */
+    #page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+
+    #student-info-bar {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 16px;
+      background: #f8fafc;
+    }
+
+    .info-field-mock {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-bottom: 2px dotted #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    #exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .problem-card {
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 200px;
+    }
+
+    .problem-statement {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .workspace-area {
+      flex: 1;
+      min-height: 100px;
+      border: 2px dashed #d8b4fe !important;
+      background: var(--interactive-bg);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #6b21a8;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .answer-blank {
+      width: 140px;
+      align-self: flex-end;
+      background: #ffffff;
+      border: 2px solid var(--class-color) !important;
+      text-align: center;
+      padding: 8px 12px;
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
+
+    #page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal / Pop-Up Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 540px;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #64748b;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    .close-btn:hover {
+      color: #0f172a;
+    }
+
+    .modal-body {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      font-size: 0.95rem;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    .detail-tag-container {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .selector-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .code-id {
+      color: var(--id-color);
+      background: var(--id-bg);
+      border: 1px solid #fca5a5;
+    }
+
+    .code-class {
+      color: var(--class-color);
+      background: var(--class-bg);
+      border: 1px solid #bfdbfe;
+    }
+
+    .modal-footer {
+      padding: 12px 20px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .dismiss-btn {
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dismiss-btn:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="inspector-bar">
+    <h1>
+      <span>Eli's Math Book Inspector</span>
+      <span class="badge-live">Interactive Blueprint</span>
+    </h1>
+    <div class="instruction-text">
+      💡 Click on any boxed section, grid item, or canvas layer to inspect its selector specifications.
+    </div>
+  </header>
+
+  <main class="viewport">
+    
+    <div class="workbook-page-container inspectable" data-node="page-container">
+      <div class="blueprint-tags">
+        <span class="tag-badge tag-class">.workbook-page-container</span>
+      </div>
+
+      <header id="page-header" class="workbook-header inspectable" data-node="page-header">
+        <div class="blueprint-tags">
+          <span class="tag-badge tag-id">#page-header</span>
+          <span class="tag-badge tag-class">.workbook-header</span>
+        </div>
+        <div>
+          <h2 style="font-size: 1.25rem;">Eli's Math Practice: Multi-Digit Division</h2>
+          <span style="font-size: 0.85rem; color: #64748b;">Topic: Long Division with Remainders</span>
+        </div>
+        <span style="font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 4px 10px; border-radius: 6px;">Sheet #04</span>
+      </header>
+
+      <section id="student-info-bar" class="inspectable" data-node="student-info-bar">
+        <div class="blueprint-tags">
+          <span class="tag-badge tag-id">#student-info-bar</span>
+        </div>
+        <div class="info-field-mock"><strong>Student:</strong> Eli</div>
+        <div class="info-field-mock"><strong>Date:</strong> 2026-08-27</div>
+        <div class="info-field-mock"><strong>Score:</strong> ___ / 10</div>
+      </section>
+
+      <main id="exercise-grid" class="inspectable" data-node="exercise-grid">
+        <div class="blueprint-tags">
+          <span class="tag-badge tag-id">#exercise-grid</span>
+        </div>
+
+        <article class="problem-card inspectable" data-node="problem-card">
+          <div class="blueprint-tags">
+            <span class="tag-badge tag-class">.problem-card</span>
+          </div>
+          <div class="problem-statement">1) 144 ÷ 12 = ?</div>
+          
+          <div class="workspace-area inspectable" data-node="workspace-area">
+            <div class="blueprint-tags">
+              <span class="tag-badge tag-class">.workspace-area</span>
+              <span class="tag-badge tag-interactive">Canvas Layer</span>
+            </div>
+            <span>✍️ Stylus Input / Scratchpad Canvas</span>
+            <span style="font-size: 0.75rem; opacity: 0.7;">(Pointer & Touch events bound here)</span>
+          </div>
+
+          <div class="answer-blank inspectable" data-node="answer-blank">
+            <div class="blueprint-tags">
+              <span class="tag-badge tag-class">.answer-blank</span>
+            </div>
+            <span>Ans: [ &nbsp; ]</span>
+          </div>
+        </article>
+
+        <article class="problem-card inspectable" data-node="problem-card">
+          <div class="blueprint-tags">
+            <span class="tag-badge tag-class">.problem-card</span>
+          </div>
+          <div class="problem-statement">2) 225 ÷ 15 = ?</div>
+          
+          <div class="workspace-area inspectable" data-node="workspace-area">
+            <div class="blueprint-tags">
+              <span class="tag-badge tag-class">.workspace-area</span>
+              <span class="tag-badge tag-interactive">Canvas Layer</span>
+            </div>
+            <span>✍️ Stylus Input / Scratchpad Canvas</span>
+            <span style="font-size: 0.75rem; opacity: 0.7;">(Pointer & Touch events bound here)</span>
+          </div>
+
+          <div class="answer-blank inspectable" data-node="answer-blank">
+            <div class="blueprint-tags">
+              <span class="tag-badge tag-class">.answer-blank</span>
+            </div>
+            <span>Ans: [ &nbsp; ]</span>
+          </div>
+        </article>
+
+      </main>
+
+      <footer id="page-footer" class="workbook-footer inspectable" data-node="page-footer">
+        <div class="blueprint-tags">
+          <span class="tag-badge tag-id">#page-footer</span>
+          <span class="tag-badge tag-class">.workbook-footer</span>
+        </div>
+        <span>Eli's Math Book &bull; Interactive Digital Workbook</span>
+        <span>Target Accuracy: 90%+</span>
+      </footer>
+
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="inspectorModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Element Specification</h3>
+        <button class="close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row">
+          <span class="detail-label">Active Selectors</span>
+          <div class="detail-tag-container" id="modalSelectors">
+            </div>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Placement / DOM Hierarchy</span>
+          <p class="detail-value" id="modalPlacement"></p>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Primary Role & Function</span>
+          <p class="detail-value" id="modalRole"></p>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Behavior & Interactivity Details</span>
+          <p class="detail-value" id="modalBehavior"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="dismiss-btn" id="modalDismissBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Selector & Architectural Specifications Dictionary
+    const elementSpecs = {
+      "page-container": {
+        title: "Workbook Page Hull",
+        id: null,
+        classes: [".workbook-page-container"],
+        placement: "Root visual wrapper under the <body> viewport; holds all worksheet components.",
+        role: "Defines the physical boundaries, standard workbook margins, drop-shadow elevation, and background canvas framing.",
+        behavior: "Enforces max-width constraints (860px) and centers the digital page on widescreen displays or tablets."
+      },
+      "page-header": {
+        title: "Page Header Region",
+        id: "#page-header",
+        classes: [".workbook-header"],
+        placement: "First direct child of .workbook-page-container.",
+        role: "Displays the lesson title, specific math chapter, topic tags, and the current sheet number.",
+        behavior: "Flex container with space-between alignment to separate module titles from sheet pagination pills."
+      },
+      "student-info-bar": {
+        title: "Student Metadata Bar",
+        id: "#student-info-bar",
+        classes: [],
+        placement: "Positioned directly beneath #page-header.",
+        role: "Houses persistent session fields: Student Name, Assignment Date, and Live/Recorded Score tally.",
+        behavior: "3-column responsive grid layout with dotted baseline indicators for a physical notebook appearance."
+      },
+      "exercise-grid": {
+        title: "Exercise Layout Grid",
+        id: "#exercise-grid",
+        classes: [],
+        placement: "Central body region of .workbook-page-container.",
+        role: "Organizes and distributes all active problem cards into an aligned dual-column or single-column matrix.",
+        behavior: "CSS Grid container set to repeat(2, 1fr) for tablet landscape / desktop, collapsing to 1 column on mobile screens."
+      },
+      "problem-card": {
+        title: "Problem Card Component",
+        id: null,
+        classes: [".problem-card"],
+        placement: "Child card within #exercise-grid.",
+        role: "Encapsulates a single math challenge: holds problem prompt, scratchpad canvas, and final answer blank.",
+        behavior: "Flex column box with uniform height distribution to prevent misalignment across adjacent grid rows."
+      },
+      "workspace-area": {
+        title: "Canvas & Handwriting Scratchpad",
+        id: null,
+        classes: [".workspace-area"],
+        placement: "Middle child of .problem-card, directly beneath the problem prompt.",
+        role: "Mount target for HTML5 Canvas or SVG stylus input layers allowing freehand long-division calculations.",
+        behavior: "Listens for pointer events (pointerdown, pointermove, pointerup) and captures Apple Pencil / stylus stroke data."
+      },
+      "answer-blank": {
+        title: "Final Answer Field",
+        id: null,
+        classes: [".answer-blank"],
+        placement: "Bottom-right anchored element within .problem-card.",
+        role: "Final result entry box. Connects directly to OCR recognition engines or manual numerical keypad entry.",
+        behavior: "Self-aligns to flex-end; triggers auto-validation or answer-checking logic upon input."
+      },
+      "page-footer": {
+        title: "Workbook Footer Region",
+        id: "#page-footer",
+        classes: [".workbook-footer"],
+        placement: "Last direct child of .workbook-page-container.",
+        role: "Contains metadata credits, series branding, performance metrics (target accuracy), and page controls.",
+        behavior: "Flexbox row providing visual closure to the bottom of the worksheet sheet."
+      }
+    };
+
+    // Modal DOM Elements
+    const modal = document.getElementById("inspectorModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalSelectors = document.getElementById("modalSelectors");
+    const modalPlacement = document.getElementById("modalPlacement");
+    const modalRole = document.getElementById("modalRole");
+    const modalBehavior = document.getElementById("modalBehavior");
+
+    const closeBtn = document.getElementById("modalCloseBtn");
+    const dismissBtn = document.getElementById("modalDismissBtn");
+
+    // Open Modal with Specific Specs
+    function openInspector(nodeKey) {
+      const data = elementSpecs[nodeKey];
+      if (!data) return;
+
+      modalTitle.textContent = data.title;
+      modalPlacement.textContent = data.placement;
+      modalRole.textContent = data.role;
+      modalBehavior.textContent = data.behavior;
+
+      // Populate Selector Badges
+      modalSelectors.innerHTML = "";
+      if (data.id) {
+        const idSpan = document.createElement("span");
+        idSpan.className = "selector-code code-id";
+        idSpan.textContent = data.id;
+        modalSelectors.appendChild(idSpan);
+      }
+      if (data.classes && data.classes.length > 0) {
+        data.classes.forEach(cls => {
+          const classSpan = document.createElement("span");
+          classSpan.className = "selector-code code-class";
+          classSpan.textContent = cls;
+          modalSelectors.appendChild(classSpan);
+        });
+      }
+      if (!data.id && (!data.classes || data.classes.length === 0)) {
+        modalSelectors.innerHTML = `<span style="font-size:0.85rem; color:#64748b;">(Structural Container)</span>`;
+      }
+
+      modal.classList.add("active");
+    }
+
+    function closeModal() {
+      modal.classList.remove("active");
+    }
+
+    // Attach Click Event Handlers to Inspectable Elements
+    document.querySelectorAll(".inspectable").forEach(el => {
+      el.addEventListener("click", (e) => {
+        // Prevent click events from bubbling up to parent containers
+        e.stopPropagation();
+        const nodeKey = el.getAttribute("data-node");
+        openInspector(nodeKey);
+      });
+    });
+
+    // Close Modal Events
+    closeBtn.addEventListener("click", closeModal);
+    dismissBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on Escape Key
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("active")) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

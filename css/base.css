@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Base Styles, Reset & Typography
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: var(--app-font);
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  transition: font-family 0.2s ease;
+  color-scheme: light;
+}
+
+/* ------------------- Paper Background Textures ------------------- */
+body.paper-blank,
+.canvas-container.paper-blank {
+  background-color: #f8fafc;
+  background-image: none;
+}
+
+body.paper-squares,
+.canvas-container.paper-squares {
+  background-color: #fdfefe;
+  background-image:
+    linear-gradient(to right, #cbd5e1 1.2px, transparent 1.2px),
+    linear-gradient(to bottom, #cbd5e1 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+body.paper-dots,
+.canvas-container.paper-dots {
+  background-color: #fdfefe;
+  background-image: radial-gradient(#94a3b8 1.8px, transparent 1.8px);
+  background-size: 20px 20px;
+}
+
+body.paper-lines,
+.canvas-container.paper-lines {
+  background-color: #fdfefe;
+  background-image: linear-gradient(#cbd5e1 1.2px, transparent 1.2px);
+  background-size: 100% 28px;
+}
+
+/* ------------------- Screen Transitions ------------------- */
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.screen.active {
+  display: flex;
+}

@@ -1,0 +1,37 @@
+/* ==========================================================================
+   MathPad Junior - Main Design System & CSS Entry Point
+   ========================================================================== */
+
+:root {
+  --bg-main: #f8fafc;
+  --card-bg: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-light: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+
+  /* Dynamic User Theme */
+  --theme-accent: #a855f7;
+  --theme-accent-hover: #9333ea;
+  --theme-subtle: #fdf4ff;
+  --theme-border: #f0abfc;
+
+  /* Function / Category Palette */
+  --col-tables: #0284c7;
+  --col-mult: #7c3aed;
+  --col-div: #ea580c;
+  --col-add: #059669;
+  --col-sub: #dc2626;
+  --col-word: #4f46e5;
+  --col-geo: #0891b2;
+  --col-all: #d97706;
+  --col-random: #db2777;
+
+  --app-font: 'Fredoka', system-ui, -apple-system, sans-serif;
+}
+
+@import url('./base.css');
+@import url('./components/components.css');
+@import url('./workbook.css');
+@import url('./canvas.css');

@@ -1,0 +1,306 @@
+/* ==========================================================================
+   Reusable UI Components (Modals, Badges, Buttons, Forms)
+   ========================================================================== */
+
+/* ------------------- Player Header Badge ------------------- */
+.player-header-badge {
+  background: #ffffff;
+  border: 2.5px solid var(--theme-border);
+  color: var(--theme-accent);
+  padding: 6px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+
+.player-header-badge:active {
+  transform: scale(0.95);
+  background: var(--theme-subtle);
+}
+
+.badge-avatar {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.badge-name {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--theme-accent);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+/* ------------------- Interactive Logo ------------------- */
+.interactive-logo {
+  font-size: 1.9rem;
+  font-weight: 900;
+  font-family: 'Fredoka', cursive, sans-serif;
+  background: linear-gradient(135deg, var(--theme-accent), #ec4899 70%, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.interactive-logo:active {
+  transform: scale(0.96);
+}
+
+/* ------------------- Avatar & Theme Buttons ------------------- */
+.avatar-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.avatar-btn {
+  font-size: 1.6rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 2px solid var(--border-light);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.avatar-btn.active {
+  border-color: var(--theme-accent);
+  background: var(--theme-subtle);
+  transform: scale(1.12);
+}
+
+.theme-swatch-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.theme-swatch {
+  flex: 1;
+  height: 34px;
+  border-radius: 10px;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.theme-swatch.active {
+  transform: scale(1.1);
+  border-color: #0f172a;
+}
+
+/* ------------------- Font Selector Grid ------------------- */
+.font-selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.font-btn {
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 2px solid var(--border-light);
+  background: #f8fafc;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: center;
+}
+
+.font-btn.active {
+  border-color: var(--theme-accent);
+  background: var(--theme-subtle);
+  color: var(--theme-accent);
+}
+
+/* ------------------- Paper Selector Grid ------------------- */
+.paper-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.paper-btn {
+  padding: 7px 4px;
+  border-radius: 10px;
+  border: 2px solid var(--border-light);
+  background: #f8fafc;
+  font-weight: 800;
+  font-size: 0.74rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.paper-btn.active {
+  border-color: var(--theme-accent);
+  background: var(--theme-subtle);
+  color: var(--theme-accent);
+}
+
+/* ------------------- Flag Toggles ------------------- */
+.welcome-flags {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.welcome-flag-btn,
+.flag-btn {
+  font-size: 1.45rem;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border-light);
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.welcome-flag-btn.active,
+.flag-btn.active {
+  border-color: var(--theme-accent);
+  background: var(--theme-subtle);
+  transform: scale(1.08);
+}
+
+/* ------------------- Inputs & Action Buttons ------------------- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.input-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.name-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border-light);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  outline: none;
+  background: #ffffff;
+  font-family: inherit;
+}
+
+.name-input:focus {
+  border-color: var(--theme-accent);
+}
+
+.btn-start {
+  background: var(--theme-accent);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+}
+
+.btn-start:active {
+  transform: scale(0.97);
+}
+
+/* ------------------- Modals ------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid var(--border-light);
+  padding: 22px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.modal-close {
+  background: #f8fafc;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-weight: 800;
+  color: #475569;
+}
+
+.setting-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.setting-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-label {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #334155;
+}
+
+.flag-toggle {
+  display: flex;
+  gap: 6px;
+}

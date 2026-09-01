@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Eli's Math Book v0.26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600;700;800&family=Lexend:wght@600;800&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border-light: #e2e8f0;
+    --success: #10b981;
+    --warning: #f59e0b;
+
+    /* Dynamic User Theme */
+    --theme-accent: #a855f7;
+    --theme-accent-hover: #9333ea;
+    --theme-subtle: #fdf4ff;
+    --theme-border: #f0abfc;
+
+    /* Function Colors */
+    --col-tables: #0284c7;
+    --col-mult: #7c3aed;
+    --col-div: #ea580c;
+    --col-add: #059669;
+    --col-sub: #dc2626;
+    --col-word: #4f46e5;
+    --col-geo: #0891b2;
+    --col-all: #d97706;
+    --col-random: #db2777;
+
+    --app-font: 'Fredoka', system-ui, -apple-system, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ------------------- VISUAL PAPER TEXTURES (LIVE BACKGROUND) ------------------- */
+  body {
+    font-family: var(--app-font);
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    touch-action: none;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    transition: font-family 0.2s ease;
+    color-scheme: light;
+  }
+
+  /* 1. Blank Paper (Default) */
+  body.paper-blank, .canvas-container.paper-blank {
+    background-color: #f8fafc;
+    background-image: none;
+  }
+
+  /* 2. Math Squares Grid (24px graph paper) */
+  body.paper-squares, .canvas-container.paper-squares {
+    background-color: #fdfefe;
+    background-image: 
+      linear-gradient(to right, #cbd5e1 1.2px, transparent 1.2px),
+      linear-gradient(to bottom, #cbd5e1 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+  }
+
+  /* 3. Dot Matrix Paper (20px dots) */
+  body.paper-dots, .canvas-container.paper-dots {
+    background-color: #fdfefe;
+    background-image: radial-gradient(#94a3b8 1.8px, transparent 1.8px);
+    background-size: 20px 20px;
+  }
+
+  /* 4. Lined Notebook Paper (28px ruled lines) */
+  body.paper-lines, .canvas-container.paper-lines {
+    background-color: #fdfefe;
+    background-image: linear-gradient(#cbd5e1 1.2px, transparent 1.2px);
+    background-size: 100% 28px;
+  }
+
+  .screen {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .screen.active {
+    display: flex;
+  }
+
+  /* ------------------- SCREEN 0: WELCOME & SETUP ------------------- */
+  #screenWelcome {
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  .welcome-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 2px solid var(--border-light);
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.1);
+    width: 100%;
+    max-width: 440px;
+    padding: 24px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .welcome-title {
+    font-size: 1.85rem;
+    font-weight: 900;
+    font-family: 'Fredoka', cursive, sans-serif;
+    background: linear-gradient(135deg, var(--theme-accent), #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.01em;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .input-label {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--border-light);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    outline: none;
+    background: #ffffff;
+    font-family: inherit;
+  }
+  .name-input:focus {
+    border-color: var(--theme-accent);
+  }
+
+  .avatar-row {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .avatar-btn {
+    font-size: 1.6rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 2px solid var(--border-light);
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .avatar-btn.active {
+    border-color: var(--theme-accent);
+    background: var(--theme-subtle);
+    transform: scale(1.12);
+  }
+
+  .theme-swatch-row {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .theme-swatch {
+    flex: 1;
+    height: 34px;
+    border-radius: 10px;
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+  .theme-swatch.active {
+    transform: scale(1.1);
+    border-color: #0f172a;
+  }
+
+  .font-selector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .font-btn {
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    background: #f8fafc;
+    font-weight: 800;
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: center;
+  }
+  .font-btn.active {
+    border-color: var(--theme-accent);
+    background: var(--theme-subtle);
+    color: var(--theme-accent);
+  }
+
+  .paper-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .paper-btn {
+    padding: 7px 4px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    background: #f8fafc;
+    font-weight: 800;
+    font-size: 0.74rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+  }
+  .paper-btn.active {
+    border-color: var(--theme-accent);
+    background: var(--theme-subtle);
+    color: var(--theme-accent);
+  }
+
+  .welcome-flags {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .welcome-flag-btn {
+    font-size: 1.6rem;
+    padding: 6px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--border-light);
+    background: #ffffff;
+    cursor: pointer;
+  }
+  .welcome-flag-btn.active {
+    border-color: var(--theme-accent);
+    background: var(--theme-subtle);
+    transform: scale(1.08);
+  }
+
+  .btn-start {
+    background: var(--theme-accent);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 900;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    font-family: inherit;
+  }
+  .btn-start:active { transform: scale(0.97); }
+
+  /* ------------------- SCREEN 1: OPTIONS PAGE ------------------- */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 8px 20px;
+    flex-shrink: 0;
+  }
+
+  .interactive-logo {
+    font-size: 1.9rem;
+    font-weight: 900;
+    font-family: 'Fredoka', cursive, sans-serif;
+    background: linear-gradient(135deg, var(--theme-accent), #ec4899 70%, #f59e0b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 16px;
+  }
+  .interactive-logo:active { transform: scale(0.96); }
+
+  .player-header-badge {
+    background: #ffffff;
+    border: 2.5px solid var(--theme-border);
+    color: var(--theme-accent);
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.15s ease;
+  }
+  .player-header-badge:active {
+    transform: scale(0.95);
+    background: var(--theme-subtle);
+  }
+
+  .badge-avatar {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .badge-name {
+    font-size: 1.55rem;
+    font-weight: 900;
+    color: var(--theme-accent);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .grid-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    padding: 10px 18px 16px 18px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .btn-tactile {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 2px solid var(--border-light);
+    box-shadow: -4px 4px 0px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 6px;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    text-align: center;
+  }
+  .btn-tactile:active {
+    transform: translate(-3px, 3px);
+    box-shadow: inset 3px -3px 6px rgba(15, 23, 42, 0.12);
+  }
+
+  .btn-tables { border-color: #bae6fd; }
+  .btn-tables .topic-title { color: var(--col-tables); }
+  .btn-mult { border-color: #ddd6fe; }
+  .btn-mult .topic-title { color: var(--col-mult); }
+  .btn-div { border-color: #ffedd5; }
+  .btn-div .topic-title { color: var(--col-div); }
+  .btn-add { border-color: #a7f3d0; }
+  .btn-add .topic-title { color: var(--col-add); }
+  .btn-sub { border-color: #fecaca; }
+  .btn-sub .topic-title { color: var(--col-sub); }
+  .btn-word { border-color: #c7d2fe; }
+  .btn-word .topic-title { color: var(--col-word); }
+  .btn-geo { border-color: #a5f3fc; }
+  .btn-geo .topic-title { color: var(--col-geo); }
+  .btn-all { border-color: #fde68a; }
+  .btn-all .topic-title { color: var(--col-all); }
+  .btn-random { border-color: #fbcfe8; }
+  .btn-random .topic-title { color: var(--col-random); }
+
+  .topic-icon { font-size: 1.8rem; margin-bottom: 4px; }
+  .topic-title { font-size: 0.96rem; font-weight: 800; line-height: 1.15; }
+  .topic-count { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); margin-top: 3px; }
+
+  /* ------------------- SCREEN 1B: DEV GEOMETRIC SHAPE MODE ------------------- */
+  .dev-shape-btn {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 2px solid var(--border-light);
+    box-shadow: -4px 4px 0px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(0,0,0,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .dev-shape-btn:active {
+    transform: translate(-3px, 3px);
+    box-shadow: inset 3px -3px 6px rgba(15, 23, 42, 0.12);
+  }
+  .dev-shape-svg {
+    width: 50px;
+    height: 50px;
+    stroke: #334155;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ------------------- SCREEN 2: PRACTICE WORKBOOK ------------------- */
+  header {
+    background: #ffffff;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    flex-shrink: 0;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    font-family: 'Fredoka', cursive, sans-serif;
+    color: var(--text-dark);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 12px 6px 12px;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .question-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border-light);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  .q-left-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .q-type-label {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--theme-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .q-count-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .q-text {
+    font-size: 2.1rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    word-break: break-word;
+  }
+
+  .q-right-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+
+  .action-stack-btn {
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: center;
+    border: 1.5px solid var(--border-light);
+    background: #ffffff;
+    color: var(--text-dark);
+    font-family: inherit;
+    transition: all 0.1s ease;
+  }
+  .action-stack-btn:active { transform: scale(0.97); }
+
+  .action-stack-btn.show-btn {
+    background: #ffffff;
+    border-color: var(--border-light);
+    color: #475569;
+  }
+  .action-stack-btn.show-btn.revealed {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #047857;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+
+  .action-stack-btn.check-btn {
+    background: var(--theme-accent);
+    color: #ffffff;
+    border-color: var(--theme-accent);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+
+  .workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1.5px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    overflow: hidden;
+    min-height: 180px;
+    position: relative;
+  }
+
+  .toolbar {
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border-light);
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .tool-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tool-btn {
+    background: #ffffff;
+    border: 1.5px solid var(--border-light);
+    color: #334155;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .tool-btn.active {
+    background: var(--theme-accent);
+    color: #ffffff;
+    border-color: var(--theme-accent);
+  }
+
+  .clean-dropdown {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    border: 1.5px solid var(--border-light) !important;
+    border-radius: 10px !important;
+    padding: 6px 28px 6px 10px !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    font-family: inherit !important;
+    color-scheme: light !important;
+  }
+
+  .clean-dropdown option {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    font-weight: 700;
+    padding: 6px 10px;
+  }
+
+  .clean-dropdown:focus {
+    border-color: var(--theme-accent) !important;
+  }
+
+  /* ------------------- PAPER STYLE THEMES ------------------- */
+  .canvas-container {
+    flex: 1;
+    position: relative;
+    background-color: #ffffff;
+    touch-action: none;
+    overflow: hidden;
+    margin-bottom: 4px;
+    transition: background-image 0.2s ease;
+  }
+
+  .canvas-container.paper-squares {
+    background-image: 
+      linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+      linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .canvas-container.paper-dots {
+    background-image: radial-gradient(#94a3b8 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+  }
+  .canvas-container.paper-lines {
+    background-image: linear-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 100% 28px;
+  }
+  .canvas-container.paper-blank {
+    background-image: none;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+    z-index: 6;
+  }
+
+  /* Answer Box Container */
+  .target-answer-box-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .ai-badge-above {
+    background: #ffffff;
+    border: 1.5px solid var(--border-light);
+    padding: 3px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #64748b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  }
+
+  .recognized-val {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--theme-accent);
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .target-answer-box {
+    width: 225px;
+    height: 120px;
+    border: 2.5px dashed #94a3b8;
+    background: rgba(248, 250, 252, 0.75);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6px;
+  }
+
+  .answer-box-label {
+    font-size: 0.72rem;
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ------------------- PALM SHIELD WITH LEFT-SIDE LIVE SCORE ------------------- */
+  .palm-shield {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top, rgba(241, 245, 249, 0.88) 0%, rgba(248, 250, 252, 0.5) 80%, transparent 100%);
+    border-top: 2px dashed #94a3b8;
+    pointer-events: auto;
+    touch-action: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 8px 16px 0 16px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #475569;
+    z-index: 12;
+  }
+
+  .shield-left-score {
+    background: #ffffff;
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    padding: 3px 12px;
+    color: #0f172a;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .shield-handle {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 3px 18px;
+    font-size: 0.74rem;
+    color: #475569;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+  }
+
+  .shield-right-placeholder {
+    width: 80px;
+  }
+
+  /* Feedback Toast */
+  .feedback-toast {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: #0f172a;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    display: none;
+    z-index: 20;
+    animation: toastPop 0.25s ease forwards;
+  }
+  .feedback-toast.correct {
+    border-color: var(--success);
+    color: #047857;
+    background: #ecfdf5;
+  }
+  .feedback-toast.try-again {
+    border-color: var(--warning);
+    color: #b45309;
+    background: #fffbeb;
+  }
+
+  @keyframes toastPop {
+    0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* Footer with Center Home Button */
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 2px;
+    margin-bottom: 4px;
+    flex-shrink: 0;
+  }
+
+  .footer-btn {
+    background: #ffffff;
+    border: 1.5px solid var(--border-light);
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.86rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .footer-btn.center-home {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+    font-weight: 900;
+    padding: 8px 24px;
+  }
+
+  .footer-btn.primary {
+    background: var(--theme-accent);
+    color: white;
+    border-color: var(--theme-accent);
+  }
+
+  /* ------------------- SCREEN 3: SCORE & GRADE SCREEN (/10) ------------------- */
+  #screenGrade {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .grade-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .grade-badge-icon { font-size: 3.2rem; }
+  .grade-title { font-size: 1.6rem; font-weight: 900; color: var(--text-dark); }
+
+  .grade-score-circle {
+    background: #f8fafc;
+    border: 3.5px solid var(--theme-accent);
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+  }
+
+  .grade-num {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--theme-accent);
+    line-height: 1;
+  }
+
+  .grade-total { font-size: 0.95rem; font-weight: 800; color: #64748b; }
+  .grade-summary-text { font-size: 1rem; font-weight: 700; color: #334155; }
+
+  .grade-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .grade-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* ------------------- SETTINGS & PROFILE EDITOR MODAL ------------------- */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 16px;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1.5px solid var(--border-light);
+    padding: 22px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: popIn 0.2s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .modal-close {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: 800;
+    color: #475569;
+  }
+
+  .setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .setting-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .setting-label {
+    font-size: 0.84rem;
+    font-weight: 800;
+    color: #334155;
+  }
+
+  .flag-toggle {
+    display: flex;
+    gap: 6px;
+  }
+
+  .flag-btn {
+    font-size: 1.35rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .flag-btn.active {
+    border-color: var(--theme-accent);
+    background: var(--theme-subtle);
+    transform: scale(1.1);
+  }
+</style>
+</head>
+<body class="paper-blank">
+
+<!-- SCREEN 0: WELCOME & INITIAL SETUP -->
+<div class="screen active" id="screenWelcome">
+  <div class="welcome-card">
+    <div class="welcome-title" id="welTitle">Welcome</div>
+
+    <div class="input-group">
+      <label class="input-label" id="lblPlayerName">Player Name</label>
+      <input type="text" class="name-input" id="playerNameInput" placeholder="e.g. Eli" maxlength="20">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" id="lblMascot">Mascot Avatar</label>
+      <div class="avatar-row">
+        <button class="avatar-btn active" onclick="selectAvatar('🦄', this)">🦄</button>
+        <button class="avatar-btn" onclick="selectAvatar('🐱', this)">🐱</button>
+        <button class="avatar-btn" onclick="selectAvatar('🦊', this)">🦊</button>
+        <button class="avatar-btn" onclick="selectAvatar('🐼', this)">🐼</button>
+        <button class="avatar-btn" onclick="selectAvatar('🚀', this)">🚀</button>
+        <button class="avatar-btn" onclick="selectAvatar('🎨', this)">🎨</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" id="lblFavColor">Colour Theme</label>
+      <div class="theme-swatch-row">
+        <div class="theme-swatch active" style="background: #a855f7;" onclick="selectTheme('#a855f7', '#fdf4ff', '#f0abfc', this)" title="Lilac"></div>
+        <div class="theme-swatch" style="background: #0284c7;" onclick="selectTheme('#0284c7', '#f0f9ff', '#bae6fd', this)" title="Sky Blue"></div>
+        <div class="theme-swatch" style="background: #059669;" onclick="selectTheme('#059669', '#ecfdf5', '#a7f3d0', this)" title="Emerald"></div>
+        <div class="theme-swatch" style="background: #db2777;" onclick="selectTheme('#db2777', '#fdf2f8', '#fbcfe8', this)" title="Berry Pink"></div>
+        <div class="theme-swatch" style="background: #d97706;" onclick="selectTheme('#d97706', '#fffbeb', '#fde68a', this)" title="Amber"></div>
+        <div class="theme-swatch" style="background: #0f172a;" onclick="selectTheme('#0f172a', '#f8fafc', '#cbd5e1', this)" title="Slate"></div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" id="lblFontFamily">App Font</label>
+      <div class="font-selector-grid">
+        <button class="font-btn active" onclick="selectFont('Fredoka', this)" style="font-family: 'Fredoka', sans-serif;">Fredoka (Fun)</button>
+        <button class="font-btn" onclick="selectFont('Nunito', this)" style="font-family: 'Nunito', sans-serif;">Nunito (Clean)</button>
+        <button class="font-btn" onclick="selectFont('Lexend', this)" style="font-family: 'Lexend', sans-serif;">Lexend (Fluent)</button>
+        <button class="font-btn" onclick="selectFont('Comfortaa', this)" style="font-family: 'Comfortaa', sans-serif;">Comfortaa (Round)</button>
+      </div>
+    </div>
+
+    <!-- Paper Style Grid Picker (Live texture preview) -->
+    <div class="input-group">
+      <label class="input-label" id="lblPaperStyle">Scratchpad Paper (Live Preview)</label>
+      <div class="paper-selector-grid">
+        <button class="paper-btn active" onclick="selectPaper('paper-blank', this)" id="btnPaperBlank">Blank</button>
+        <button class="paper-btn" onclick="selectPaper('paper-squares', this)" id="btnPaperSquares">Squares</button>
+        <button class="paper-btn" onclick="selectPaper('paper-dots', this)" id="btnPaperDots">Dots</button>
+        <button class="paper-btn" onclick="selectPaper('paper-lines', this)" id="btnPaperLines">Lines</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" id="lblPrefLang">Language</label>
+      <div class="welcome-flags">
+        <button class="welcome-flag-btn active" id="welFlagEN" onclick="setWelcomeLang('en')">🇬🇧</button>
+        <button class="welcome-flag-btn" id="welFlagES" onclick="setWelcomeLang('es')">🇪🇸</button>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="saveProfileAndProceed()" id="btnLetsGo">Next</button>
+  </div>
+</div>
+
+<!-- SCREEN 1: OPTIONS PAGE -->
+<div class="screen" id="screenHome">
+  <div class="page-header">
+    <div class="interactive-logo" onclick="openDevShapeScreen()" title="Tap to switch to Geometric Dev Mode">
+      <span id="appLogoTitle">Eli's Math Book</span>
+    </div>
+
+    <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
+      <span class="badge-avatar" id="badgeAvatarHome">🦄</span>
+      <span class="badge-name" id="badgeNameHome">Eli</span>
+    </button>
+  </div>
+
+  <div class="grid-container" id="gridStandard">
+    <div class="btn-tactile btn-tables" onclick="startPractice('tables')">
+      <div class="topic-icon">🔢</div>
+      <div class="topic-title" id="tTables">Times Tables</div>
+      <div class="topic-count" id="cTables">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-mult" onclick="startPractice('mult')">
+      <div class="topic-icon">✖️</div>
+      <div class="topic-title" id="tMult">Multiplication</div>
+      <div class="topic-count" id="cMult">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-div" onclick="startPractice('div')">
+      <div class="topic-icon">➗</div>
+      <div class="topic-title" id="tDiv">Division</div>
+      <div class="topic-count" id="cDiv">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-add" onclick="startPractice('add')">
+      <div class="topic-icon">➕</div>
+      <div class="topic-title" id="tAdd">Addition</div>
+      <div class="topic-count" id="cAdd">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-sub" onclick="startPractice('sub')">
+      <div class="topic-icon">➖</div>
+      <div class="topic-title" id="tSub">Subtraction</div>
+      <div class="topic-count" id="cSub">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-word" onclick="startPractice('word')">
+      <div class="topic-icon">📖</div>
+      <div class="topic-title" id="tWord">Word Problems</div>
+      <div class="topic-count" id="cWord">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-geo" onclick="startPractice('geo')">
+      <div class="topic-icon">📐</div>
+      <div class="topic-title" id="tGeo">Geometry & Measure</div>
+      <div class="topic-count" id="cGeo">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-all" onclick="startPractice('all_seq')">
+      <div class="topic-icon">🌟</div>
+      <div class="topic-title" id="tAllSeq">All in Sequence</div>
+      <div class="topic-count" id="cAllSeq">10 Questions</div>
+    </div>
+
+    <div class="btn-tactile btn-random" onclick="startPractice('random')">
+      <div class="topic-icon">🎲</div>
+      <div class="topic-title" id="tRandom">Random Mix</div>
+      <div class="topic-count" id="cRandom">10 Questions</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 1B: DEV GEOMETRIC SHAPE PAGE -->
+<div class="screen" id="screenDevShapes">
+  <div class="page-header">
+    <div class="interactive-logo" onclick="openStandardHomeScreen()" title="Tap to return to standard mode">
+      <span>Geometric Dev Mode</span>
+    </div>
+    <button class="player-header-badge" onclick="openSettingsModal()">
+      <span class="badge-avatar" id="badgeAvatarDev">🦄</span>
+      <span class="badge-name" id="badgeNameDev">Eli</span>
+    </button>
+  </div>
+
+  <div class="grid-container" id="gridDev">
+    <div class="dev-shape-btn" onclick="startPractice('tables')" title="Times Tables">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('mult')" title="Multiplication">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('div')" title="Division">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2" fill="currentColor"/><line x1="5" y1="12" x2="19" y2="12"/><circle cx="12" cy="18" r="2" fill="currentColor"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('add')" title="Addition">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('sub')" title="Subtraction">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('word')" title="Word Problems">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('geo')" title="Geometry">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M3 21h18L3 3z"/><path d="M3 15h6v6"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('all_seq')" title="All in Sequence">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="dev-shape-btn" onclick="startPractice('random')" title="Random Mix">
+      <svg class="dev-shape-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2: PRACTICE WORKBOOK -->
+<div class="screen" id="screenPractice">
+  <header>
+    <div class="header-left">
+      <div class="header-title" id="practiceHeaderTitle">Eli's Math Book</div>
+    </div>
+    <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
+      <span class="badge-avatar" id="badgeAvatarPractice">🦄</span>
+      <span class="badge-name" id="badgeNamePractice">Eli</span>
+    </button>
+  </header>
+
+  <main>
+    <div class="question-card">
+      <div class="q-left-block">
+        <div class="q-type-label" id="qCatTag">Multiplication</div>
+        <div class="q-count-label" id="qNumber">Question 1 of 10</div>
+        <div class="q-text" id="qText">7 × 8 =</div>
+      </div>
+
+      <div class="q-right-actions">
+        <button class="action-stack-btn show-btn" id="revealBtn" onclick="toggleAnswer()">Show Answer</button>
+        <button class="action-stack-btn check-btn" id="checkHandwritingBtn" onclick="recognizeHandwriting()">
+          <span id="lblCheckHandwriting">Check Answer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <div class="feedback-toast" id="feedbackToast">Correct!</div>
+
+      <div class="toolbar">
+        <div class="tool-group">
+          <button class="tool-btn active" id="penTool" onclick="setTool('pen')"><span id="lblPen">Pen</span></button>
+          <button class="tool-btn" id="eraserTool" onclick="setTool('eraser')"><span id="lblEraser">Eraser</span></button>
+          <button class="tool-btn" onclick="undoCanvas()"><span id="lblUndo">Undo</span></button>
+          <button class="tool-btn" onclick="clearCanvas()"><span id="lblClear">Clear</span></button>
+        </div>
+
+        <div class="tool-group">
+          <span style="font-size:0.75rem; color: #475569; font-weight:800;" id="lblInk">Ink:</span>
+          <select class="clean-dropdown" id="colorSelect" onchange="setColorFromDropdown(this.value)">
+            <option value="#b57edc" selected>Lilac</option>
+            <option value="#dc2626">Red</option>
+            <option value="#16a34a">Green</option>
+            <option value="#2563eb">Blue</option>
+            <option value="#0f172a">Black</option>
+          </select>
+        </div>
+
+        <div class="tool-group">
+          <select class="clean-dropdown" id="strokeSize" onchange="setStrokeSize(this.value)">
+            <option value="2.5" selected id="optThin">Thin</option>
+            <option value="4.5" id="optMed">Medium</option>
+            <option value="8" id="optThick">Thick</option>
+            <option value="16" id="optMarker">Marker</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="canvas-container paper-squares" id="canvasContainer">
+        <!-- Canvas Drawing Surface -->
+        <canvas id="paintCanvas"></canvas>
+
+        <!-- Target Answer Box -->
+        <div class="target-answer-box-wrapper">
+          <div class="ai-badge-above">
+            <span id="lblWritten">Written:</span>
+            <span class="recognized-val" id="recognizedVal">--</span>
+          </div>
+          <div class="target-answer-box" id="targetAnswerBox">
+            <span class="answer-box-label" id="lblAnswerBoxGuide">Answer Box</span>
+          </div>
+        </div>
+
+        <!-- Palm Rest with Live Session Score on the Left -->
+        <div class="palm-shield" id="palmShield">
+          <div class="shield-left-score">
+            <span>⭐</span>
+            <span id="lblLiveScoreText">Score:</span>
+            <span id="liveScoreCount" style="font-weight:900; color:var(--theme-accent);">0/10</span>
+          </div>
+          <div class="shield-handle"><span id="shieldLabel">Palm Rest</span></div>
+          <div class="shield-right-placeholder"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <button class="footer-btn" id="prevBtn" onclick="prevQuestion()">← <span id="lblPrev">Previous</span></button>
+      <button class="footer-btn center-home" onclick="goToHome()"><span id="lblHomeCenter">Home</span></button>
+      <button class="footer-btn primary" id="nextBtn" onclick="nextQuestion()"><span id="lblNext">Next</span> →</button>
+    </footer>
+  </main>
+</div>
+
+<!-- SCREEN 3: SCORE & GRADE SCREEN (/10) -->
+<div class="screen" id="screenGrade">
+  <div class="grade-card">
+    <div class="grade-badge-icon" id="gradeBadgeIcon">🌟</div>
+    <div class="grade-title" id="gradeTitle">Quiz Completed!</div>
+    
+    <div class="grade-score-circle">
+      <div class="grade-num" id="gradeScoreVal">10</div>
+      <div class="grade-total">out of 10</div>
+    </div>
+
+    <div class="grade-summary-text" id="gradeSummaryMsg">Outstanding score!</div>
+
+    <div class="grade-actions">
+      <button class="footer-btn" onclick="goToHome()" id="btnGradeHome">Home Menu</button>
+      <button class="footer-btn primary" onclick="retryQuiz()" id="btnGradeRetry">Play Another 10</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS & PROFILE EDITOR MODAL -->
+<div class="modal-overlay" id="settingsModal" onclick="handleOverlayClick(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Settings & Profile</div>
+      <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+    </div>
+
+    <!-- 1. Player Name -->
+    <div class="setting-row">
+      <label class="setting-label" id="lblModalPlayerName">Player Name</label>
+      <input type="text" class="name-input" id="modalPlayerNameInput" oninput="updatePlayerNameLive(this.value)">
+    </div>
+
+    <!-- 2. Avatar Selection -->
+    <div class="setting-row">
+      <label class="setting-label" id="lblModalMascot">Mascot Avatar</label>
+      <div class="avatar-row">
+        <button class="avatar-btn" id="av-unicorn" onclick="selectAvatar('🦄', this)">🦄</button>
+        <button class="avatar-btn" id="av-kitten" onclick="selectAvatar('🐱', this)">🐱</button>
+        <button class="avatar-btn" id="av-fox" onclick="selectAvatar('🦊', this)">🦊</button>
+        <button class="avatar-btn" id="av-panda" onclick="selectAvatar('🐼', this)">🐼</button>
+        <button class="avatar-btn" id="av-rocket" onclick="selectAvatar('🚀', this)">🚀</button>
+        <button class="avatar-btn" id="av-art" onclick="selectAvatar('🎨', this)">🎨</button>
+      </div>
+    </div>
+
+    <!-- 3. Theme Color -->
+    <div class="setting-row">
+      <label class="setting-label" id="lblModalTheme">Colour Theme</label>
+      <div class="theme-swatch-row">
+        <div class="theme-swatch" id="th-lilac" style="background: #a855f7;" onclick="selectTheme('#a855f7', '#fdf4ff', '#f0abfc', this)"></div>
+        <div class="theme-swatch" id="th-blue" style="background: #0284c7;" onclick="selectTheme('#0284c7', '#f0f9ff', '#bae6fd', this)"></div>
+        <div class="theme-swatch" id="th-green" style="background: #059669;" onclick="selectTheme('#059669', '#ecfdf5', '#a7f3d0', this)"></div>
+        <div class="theme-swatch" id="th-pink" style="background: #db2777;" onclick="selectTheme('#db2777', '#fdf2f8', '#fbcfe8', this)"></div>
+        <div class="theme-swatch" id="th-amber" style="background: #d97706;" onclick="selectTheme('#d97706', '#fffbeb', '#fde68a', this)"></div>
+        <div class="theme-swatch" id="th-slate" style="background: #0f172a;" onclick="selectTheme('#0f172a', '#f8fafc', '#cbd5e1', this)"></div>
+      </div>
+    </div>
+
+    <!-- 4. Paper Style Live Preview -->
+    <div class="setting-row">
+      <label class="setting-label" id="lblModalPaper">Scratchpad Paper (Live Preview)</label>
+      <div class="paper-selector-grid">
+        <button class="paper-btn" onclick="selectPaper('paper-blank', this)" id="modalBtnPaperBlank">Blank</button>
+        <button class="paper-btn" onclick="selectPaper('paper-squares', this)" id="modalBtnPaperSquares">Squares</button>
+        <button class="paper-btn" onclick="selectPaper('paper-dots', this)" id="modalBtnPaperDots">Dots</button>
+        <button class="paper-btn" onclick="selectPaper('paper-lines', this)" id="modalBtnPaperLines">Lines</button>
+      </div>
+    </div>
+
+    <!-- 5. Language Selector -->
+    <div class="setting-row">
+      <div class="setting-row-header">
+        <div class="setting-label" id="lblLangSetting">Language</div>
+        <div class="flag-toggle">
+          <button class="flag-btn" id="flagEN" onclick="changeLanguage('en')" title="UK English">🇬🇧</button>
+          <button class="flag-btn" id="flagES" onclick="changeLanguage('es')" title="Español">🇪🇸</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Palm Guard Toggle -->
+    <div class="setting-row">
+      <div class="setting-row-header">
+        <div class="setting-label" id="lblPalmSetting">Palm Rest Guard</div>
+        <button class="tool-btn active" id="palmModalBtn" onclick="togglePalmShield()">
+          <span id="lblPalmStatus">Active</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 7. Sound Effects Toggle -->
+    <div class="setting-row">
+      <div class="setting-row-header">
+        <div class="setting-label" id="lblSoundSetting">Sound Effects</div>
+        <button class="tool-btn active" id="soundModalBtn" onclick="toggleSoundFx()">
+          <span id="lblSoundStatus">On</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 8. Custom Questions Import -->
+    <div class="setting-row">
+      <div class="setting-row-header">
+        <div class="setting-label" id="lblImportSetting">Custom Questions</div>
+        <input type="file" id="csvFileInput" accept=".csv,.json" style="display:none;" onchange="handleFileUpload(event)">
+        <button class="tool-btn" onclick="document.getElementById('csvFileInput').click()" id="lblUploadBtn">
+          Load Sheet
+        </button>
+      </div>
+    </div>
+
+    <!-- 9. Switch Player -->
+    <div class="setting-row" style="border-bottom: none;">
+      <div class="setting-row-header">
+        <div class="setting-label" id="lblPlayerSwitch">Switch Profile</div>
+        <button class="tool-btn" onclick="logoutPlayer()" style="color: #dc2626; border-color: #fca5a5;">
+          <span id="lblLogout">Change Player</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= GLOBAL JAVASCRIPT ========================= -->
+<script>
+/* Global Dictionaries & Data Objects */
+const i18n = {
+  en: {
+    welcome: "Welcome",
+    playerName: "Player Name",
+    mascot: "Mascot Avatar",
+    favColor: "Colour Theme",
+    fontFamily: "App Font",
+    paperStyle: "Scratchpad Paper (Live Preview)",
+    prefLang: "Language",
+    letsGo: "Next",
+    categories: {
+      tables: "Times Tables",
+      mult: "Multiplication",
+      div: "Division",
+      add: "Addition",
+      sub: "Subtraction",
+      word: "Word Problems",
+      geo: "Geometry & Measure",
+      all_seq: "All in Sequence",
+      random: "Random Mix"
+    },
+    countLabel: "10 Questions",
+    home: "Home",
+    settings: "Settings & Profile",
+    questionOf: (curr, total) => `Question ${curr} of ${total}`,
+    checkAnswer: "Check Answer",
+    checking: "Reading...",
+    showAnswer: "Show Answer",
+    hideAnswer: "Hide Answer",
+    written: "Written:",
+    correctMsg: "Brilliant! That's correct!",
+    tryAgainMsg: (detected) => `Detected "${detected}". Keep going!`,
+    noInkMsg: "Write your answer in the Answer Box first!",
+    couldNotReadMsg: "Could not read handwriting. Please write clearly or check answer!",
+    pen: "Pen",
+    eraser: "Eraser",
+    undo: "Undo",
+    clear: "Clear",
+    ink: "Ink:",
+    thin: "Thin",
+    med: "Medium",
+    thick: "Thick",
+    marker: "Marker",
+    prev: "Previous",
+    next: "Next",
+    finish: "Finish",
+    shieldText: "Palm Rest",
+    liveScoreLabel: "Score:",
+    answerBoxGuide: "Answer Box",
+    paperSquares: "Squares",
+    paperDots: "Dots",
+    paperLines: "Lines",
+    paperBlank: "Blank",
+    palmActive: "Active",
+    palmOff: "Inactive",
+    soundOn: "On",
+    soundOff: "Off",
+    langSetting: "Language",
+    palmSetting: "Palm Rest Guard",
+    soundSetting: "Sound Effects",
+    customSetting: "Custom Questions",
+    loadSheet: "Load Sheet",
+    changePlayer: "Change Player",
+    profileSetting: "Switch Profile",
+    modalPaper: "Scratchpad Paper (Live Preview)",
+    gradeTitles: ["Great Effort!", "Well Done!", "Outstanding Work!"],
+    gradeSummary: (score, name) => `You scored ${score} out of 10! Keep up the amazing work!`,
+    playAnother: "Play Another 10",
+    homeMenu: "Home Menu"
+  },
+  es: {
+    welcome: "Bienvenida",
+    playerName: "Nombre del Jugador/a",
+    mascot: "Mascota Avatar",
+    favColor: "Tema de Color",
+    fontFamily: "Tipografía",
+    paperStyle: "Papel de Cuaderno (Vista Previa)",
+    prefLang: "Idioma",
+    letsGo: "Siguiente",
+    categories: {
+      tables: "Tablas de Multiplicar",
+      mult: "Multiplicación",
+      div: "División",
+      add: "Suma",
+      sub: "Resta",
+      word: "Problemas",
+      geo: "Geometría y Medida",
+      all_seq: "Todo en Secuencia",
+      random: "Mezcla Aleatoria"
+    },
+    countLabel: "10 Preguntas",
+    home: "Menú",
+    settings: "Ajustes y Perfil",
+    questionOf: (curr, total) => `Pregunta ${curr} de ${total}`,
+    checkAnswer: "Comprobar Respuesta",
+    checking: "Leyendo...",
+    showAnswer: "Ver Solución",
+    hideAnswer: "Ocultar Solución",
+    written: "Escrito:",
+    correctMsg: "¡Genial! ¡Es correcto!",
+    tryAgainMsg: (detected) => `Detectado "${detected}". ¡Sigue intentándolo!`,
+    noInkMsg: "¡Escribe tu respuesta en el Recuadro de Respuesta!",
+    couldNotReadMsg: "No se pudo leer la escritura. ¡Escribe claro o mira la solución!",
+    pen: "Lápiz",
+    eraser: "Goma",
+    undo: "Deshacer",
+    clear: "Borrar",
+    ink: "Tinta:",
+    thin: "Fino",
+    med: "Medio",
+    thick: "Grueso",
+    marker: "Rotulador",
+    prev: "Anterior",
+    next: "Siguiente",
+    finish: "Terminar",
+    shieldText: "Reposamanos",
+    liveScoreLabel: "Puntos:",
+    answerBoxGuide: "Recuadro de Respuesta",
+    paperSquares: "Cuadrícula",
+    paperDots: "Puntos",
+    paperLines: "Líneas",
+    paperBlank: "Blanco",
+    palmActive: "Activo",
+    palmOff: "Inactivo",
+    soundOn: "Activado",
+    soundOff: "Desactivado",
+    langSetting: "Idioma",
+    palmSetting: "Protector Reposamanos",
+    soundSetting: "Efectos de Sonido",
+    customSetting: "Preguntas Personalizadas",
+    loadSheet: "Cargar Hoja",
+    changePlayer: "Cambiar Jugador",
+    profileSetting: "Cambiar Perfil",
+    modalPaper: "Papel de Cuaderno (Vista Previa)",
+    gradeTitles: ["¡Buen Intento!", "¡Muy Bien Hecho!", "¡Sobresaliente!"],
+    gradeSummary: (score, name) => `¡Has conseguido ${score} de 10! ¡Excelente trabajo!`,
+    playAnother: "Jugar Otros 10",
+    homeMenu: "Menú Principal"
+  }
+};
+
+const masterQuestions = [
+  // 1. Times Tables (12)
+  { id: 101, cat: 'tables', q_en: "3 × 4 =", q_es: "3 × 4 =", a_en: "12", a_es: "12", num: "12", aliases: ["12"] },
+  { id: 102, cat: 'tables', q_en: "6 × 7 =", q_es: "6 × 7 =", a_en: "42", a_es: "42", num: "42", aliases: ["42"] },
+  { id: 103, cat: 'tables', q_en: "8 × 4 =", q_es: "8 × 4 =", a_en: "32", a_es: "32", num: "32", aliases: ["32"] },
+  { id: 104, cat: 'tables', q_en: "9 × 3 =", q_es: "9 × 3 =", a_en: "27", a_es: "27", num: "27", aliases: ["27"] },
+  { id: 105, cat: 'tables', q_en: "11 × 6 =", q_es: "11 × 6 =", a_en: "66", a_es: "66", num: "66", aliases: ["66"] },
+  { id: 106, cat: 'tables', q_en: "12 × 5 =", q_es: "12 × 5 =", a_en: "60", a_es: "60", num: "60", aliases: ["60"] },
+  { id: 107, cat: 'tables', q_en: "7 × 7 =", q_es: "7 × 7 =", a_en: "49", a_es: "49", num: "49", aliases: ["49"] },
+  { id: 108, cat: 'tables', q_en: "8 × 8 =", q_es: "8 × 8 =", a_en: "64", a_es: "64", num: "64", aliases: ["64"] },
+  { id: 109, cat: 'tables', q_en: "9 × 9 =", q_es: "9 × 9 =", a_en: "81", a_es: "81", num: "81", aliases: ["81"] },
+  { id: 110, cat: 'tables', q_en: "6 × 8 =", q_es: "6 × 8 =", a_en: "48", a_es: "48", num: "48", aliases: ["48"] },
+  { id: 111, cat: 'tables', q_en: "12 × 8 =", q_es: "12 × 8 =", a_en: "96", a_es: "96", num: "96", aliases: ["96"] },
+  { id: 112, cat: 'tables', q_en: "12 × 12 =", q_es: "12 × 12 =", a_en: "144", a_es: "144", num: "144", aliases: ["144"] },
+
+  // 2. Multiplication (12)
+  { id: 1, cat: 'mult', q_en: "7 × 8 =", q_es: "7 × 8 =", a_en: "56", a_es: "56", num: "56", aliases: ["56"] },
+  { id: 10, cat: 'mult', q_en: "9 × 6 =", q_es: "9 × 6 =", a_en: "54", a_es: "54", num: "54", aliases: ["54"] },
+  { id: 14, cat: 'mult', q_en: "12 × 7 =", q_es: "12 × 7 =", a_en: "84", a_es: "84", num: "84", aliases: ["84"] },
+  { id: 23, cat: 'mult', q_en: "8 × 9 =", q_es: "8 × 9 =", a_en: "72", a_es: "72", num: "72", aliases: ["72"] },
+  { id: 27, cat: 'mult', q_en: "(9 × 9) − (7 × 6) =", q_es: "(9 × 9) − (7 × 6) =", a_en: "39", a_es: "39", num: "39", aliases: ["39"] },
+  { id: 31, cat: 'mult', q_en: "14 × 5 =", q_es: "14 × 5 =", a_en: "70", a_es: "70", num: "70", aliases: ["70"] },
+  { id: 32, cat: 'mult', q_en: "25 × 4 =", q_es: "25 × 4 =", a_en: "100", a_es: "100", num: "100", aliases: ["100"] },
+  { id: 33, cat: 'mult', q_en: "15 × 6 =", q_es: "15 × 6 =", a_en: "90", a_es: "90", num: "90", aliases: ["90"] },
+  { id: 34, cat: 'mult', q_en: "(8 × 7) + (6 × 4) =", q_es: "(8 × 7) + (6 × 4) =", a_en: "80", a_es: "80", num: "80", aliases: ["80"] },
+  { id: 35, cat: 'mult', q_en: "13 × 4 =", q_es: "13 × 4 =", a_en: "52", a_es: "52", num: "52", aliases: ["52"] },
+  { id: 36, cat: 'mult', q_en: "16 × 3 =", q_es: "16 × 3 =", a_en: "48", a_es: "48", num: "48", aliases: ["48"] },
+  { id: 37, cat: 'mult', q_en: "(11 × 11) − 21 =", q_es: "(11 × 11) − 21 =", a_en: "100", a_es: "100", num: "100", aliases: ["100"] },
+
+  // 3. Division (12)
+  { id: 2, cat: 'div', q_en: "84 ÷ 4 =", q_es: "84 : 4 =", a_en: "21", a_es: "21", num: "21", aliases: ["21"] },
+  { id: 13, cat: 'div', q_en: "96 ÷ 3 =", q_es: "96 : 3 =", a_en: "32", a_es: "32", num: "32", aliases: ["32"] },
+  { id: 22, cat: 'div', q_en: "108 ÷ 9 =", q_es: "108 : 9 =", a_en: "12", a_es: "12", num: "12", aliases: ["12"] },
+  { id: 28, cat: 'div', q_en: "135 ÷ 5 =", q_es: "135 : 5 =", a_en: "27", a_es: "27", num: "27", aliases: ["27"] },
+  { id: 41, cat: 'div', q_en: "144 ÷ 12 =", q_es: "144 : 12 =", a_en: "12", a_es: "12", num: "12", aliases: ["12"] },
+  { id: 42, cat: 'div', q_en: "72 ÷ 8 =", q_es: "72 : 8 =", a_en: "9", a_es: "9", num: "9", aliases: ["9"] },
+  { id: 43, cat: 'div', q_en: "120 ÷ 6 =", q_es: "120 : 6 =", a_en: "20", a_es: "20", num: "20", aliases: ["20"] },
+  { id: 44, cat: 'div', q_en: "180 ÷ 9 =", q_es: "180 : 9 =", a_en: "20", a_es: "20", num: "20", aliases: ["20"] },
+  { id: 45, cat: 'div', q_en: "210 ÷ 7 =", q_es: "210 : 7 =", a_en: "30", a_es: "30", num: "30", aliases: ["30"] },
+  { id: 46, cat: 'div', q_en: "156 ÷ 3 =", q_es: "156 : 3 =", a_en: "52", a_es: "52", num: "52", aliases: ["52"] },
+  { id: 47, cat: 'div', q_en: "225 ÷ 5 =", q_es: "225 : 5 =", a_en: "45", a_es: "45", num: "45", aliases: ["45"] },
+  { id: 48, cat: 'div', q_en: "192 ÷ 6 =", q_es: "192 : 6 =", a_en: "32", a_es: "32", num: "32", aliases: ["32"] },
+
+  // 4. Addition (12)
+  { id: 3, cat: 'add', q_en: "348 + 275 =", q_es: "348 + 275 =", a_en: "623", a_es: "623", num: "623", aliases: ["623"] },
+  { id: 11, cat: 'add', q_en: "156 + 289 =", q_es: "156 + 289 =", a_en: "445", a_es: "445", num: "445", aliases: ["445"] },
+  { id: 20, cat: 'add', q_en: "435 + 389 =", q_es: "435 + 389 =", a_en: "824", a_es: "824", num: "824", aliases: ["824"] },
+  { id: 29, cat: 'add', q_en: "654 + 278 =", q_es: "654 + 278 =", a_en: "932", a_es: "932", num: "932", aliases: ["932"] },
+  { id: 51, cat: 'add', q_en: "512 + 398 =", q_es: "512 + 398 =", a_en: "910", a_es: "910", num: "910", aliases: ["910"] },
+  { id: 52, cat: 'add', q_en: "247 + 683 =", q_es: "247 + 683 =", a_en: "930", a_es: "930", num: "930", aliases: ["930"] },
+  { id: 53, cat: 'add', q_en: "729 + 185 =", q_es: "729 + 185 =", a_en: "914", a_es: "914", num: "914", aliases: ["914"] },
+  { id: 54, cat: 'add', q_en: "486 + 357 =", q_es: "486 + 357 =", a_en: "843", a_es: "843", num: "843", aliases: ["843"] },
+  { id: 55, cat: 'add', q_en: "835 + 179 =", q_es: "835 + 179 =", a_en: "1014", a_es: "1014", num: "1014", aliases: ["1014", "1,014", "1.014"] },
+  { id: 56, cat: 'add', q_en: "609 + 295 =", q_es: "609 + 295 =", a_en: "904", a_es: "904", num: "904", aliases: ["904"] },
+  { id: 57, cat: 'add', q_en: "378 + 465 =", q_es: "378 + 465 =", a_en: "843", a_es: "843", num: "843", aliases: ["843"] },
+  { id: 58, cat: 'add', q_en: "564 + 438 =", q_es: "564 + 438 =", a_en: "1002", a_es: "1002", num: "1002", aliases: ["1002", "1,002", "1.002"] },
+
+  // 5. Subtraction (12)
+  { id: 4, cat: 'sub', q_en: "502 − 168 =", q_es: "502 − 168 =", a_en: "334", a_es: "334", num: "334", aliases: ["334"] },
+  { id: 12, cat: 'sub', q_en: "600 − 247 =", q_es: "600 − 247 =", a_en: "353", a_es: "353", num: "353", aliases: ["353"] },
+  { id: 21, cat: 'sub', q_en: "703 − 428 =", q_es: "703 − 428 =", a_en: "275", a_es: "275", num: "275", aliases: ["275"] },
+  { id: 30, cat: 'sub', q_en: "1,000 − 364 =", q_es: "1.000 − 364 =", a_en: "636", a_es: "636", num: "636", aliases: ["636"] },
+  { id: 61, cat: 'sub', q_en: "840 − 275 =", q_es: "840 − 275 =", a_en: "565", a_es: "565", num: "565", aliases: ["565"] },
+  { id: 62, cat: 'sub', q_en: "921 − 458 =", q_es: "921 − 458 =", a_en: "463", a_es: "463", num: "463", aliases: ["463"] },
+  { id: 63, cat: 'sub', q_en: "750 − 386 =", q_es: "750 − 386 =", a_en: "364", a_es: "364", num: "364", aliases: ["364"] },
+  { id: 64, cat: 'sub', q_en: "1,200 − 450 =", q_es: "1.200 − 450 =", a_en: "750", a_es: "750", num: "750", aliases: ["750"] },
+  { id: 65, cat: 'sub', q_en: "614 − 279 =", q_es: "614 − 279 =", a_en: "335", a_es: "335", num: "335", aliases: ["335"] },
+  { id: 66, cat: 'sub', q_en: "805 − 537 =", q_es: "805 − 537 =", a_en: "268", a_es: "268", num: "268", aliases: ["268"] },
+  { id: 67, cat: 'sub', q_en: "900 − 412 =", q_es: "900 − 412 =", a_en: "488", a_es: "488", num: "488", aliases: ["488"] },
+  { id: 68, cat: 'sub', q_en: "1,500 − 675 =", q_es: "1.500 − 675 =", a_en: "825", a_es: "825", num: "825", aliases: ["825"] },
+
+  // 6. Word Problems (12)
+  { id: 5, cat: 'word', q_en: "A baker packs 72 cookies equally into 6 boxes. How many in each box?", q_es: "Un pastelero coloca 72 galletas a partes iguales en 6 cajas. ¿Cuántas van en cada caja?", a_en: "12", a_es: "12", num: "12", aliases: ["12"] },
+  { id: 8, cat: 'word', q_en: "A film starts at 3:15 PM and lasts 1 hr 45 min. What time does it finish?", q_es: "Una película empieza a las 15:15 y dura 1 hora y 45 minutos. ¿A qué hora termina?", a_en: "5:00 PM", a_es: "17:00 (5:00 PM)", num: "5:00", aliases: ["5:00", "500", "5", "5pm", "17:00", "1700"] },
+  { id: 18, cat: 'word', q_en: "You buy 3 notebooks for £2.50 each and pay with £10. What is your change?", q_es: "Compras 3 cuadernos a 2,50 € cada uno y pagas con 10 €. ¿Cuánto te devuelven?", a_en: "£2.50", a_es: "2,50 €", num: "2.50", aliases: ["2.50", "2.5", "250", "2,50", "2,5"] },
+  { id: 26, cat: 'word', q_en: "A train departs at 10:40 AM and arrives at 12:15 PM. How many minutes was the journey?", q_es: "Un tren sale a las 10:40 y llega a las 12:15. ¿Cuántos minutos duró el viaje?", a_en: "95 mins", a_es: "95 minutos", num: "95", aliases: ["95", "1hr35", "1h35"] },
+  { id: 71, cat: 'word', q_en: "Eli has 60 stickers. She gives 1/4 to Mia and 1/3 to Noah. How many stickers does Eli have left?", q_es: "Eli tiene 60 pegatinas. Da 1/4 a Mia y 1/3 a Noah. ¿Cuántas pegatinas le quedan a Eli?", a_en: "25 stickers", a_es: "25 pegatinas", num: "25", aliases: ["25"] },
+  { id: 72, cat: 'word', q_en: "A rope is 4.8 metres long. It is cut into 4 equal pieces. How many centimetres is each piece?", q_es: "Una cuerda mide 4,8 metros de largo. Se corta en 4 partes iguales. ¿Cuántos centímetros mide cada trozo?", a_en: "120 cm", a_es: "120 cm", num: "120", aliases: ["120", "120cm"] },
+  { id: 73, cat: 'word', q_en: "A school has 8 classes with 28 students in each class. How many students in total?", q_es: "Un colegio tiene 8 clases con 28 alumnos en cada una. ¿Cuántos alumnos hay en total?", a_en: "224 students", a_es: "224 alumnos", num: "224", aliases: ["224"] },
+  { id: 74, cat: 'word', q_en: "Liam saves £4.50 each week for 8 weeks. How much money has he saved?", q_es: "Liam ahorra 4,50 € cada semana durante 8 semanas. ¿Cuánto dinero ha ahorrado?", a_en: "£36", a_es: "36 €", num: "36", aliases: ["36", "36.00", "36,00"] },
+  { id: 75, cat: 'word', q_en: "A sports pitch is 90 m long and 45 m wide. What is the total perimeter in metres?", q_es: "Un campo de deportes mide 90 m de largo y 45 m de ancho. ¿Cuál es su perímetro en metros?", a_en: "270 m", a_es: "270 m", num: "270", aliases: ["270", "270m"] },
+  { id: 76, cat: 'word', q_en: "A pizza is cut into 12 slices. Leo eats 3 slices and Maya eats 5. How many slices are left?", q_es: "Una pizza se divide en 12 porciones. Leo come 3 y Maya come 5. ¿Cuántas porciones quedan?", a_en: "4 slices", a_es: "4 porciones", num: "4", aliases: ["4"] },
+  { id: 77, cat: 'word', q_en: "A bottle holds 1.5 litres of juice. If 350 ml is poured out, how many ml are left?", q_es: "Una botella contiene 1,5 litros de zumo. Si se vierten 350 ml, ¿cuántos ml quedan?", a_en: "1,150 ml", a_es: "1.150 ml", num: "1150", aliases: ["1150", "1150ml", "1,150", "1.150", "1.15", "1,15"] },
+  { id: 78, cat: 'word', q_en: "A pack of 6 pens costs £3.60. How much does 1 pen cost in pence or pounds?", q_es: "Un paquete de 6 bolígrafos cuesta 3,60 €. ¿Cuánto cuesta 1 bolígrafo?", a_en: "£0.60 (60p)", a_es: "0,60 €", num: "0.60", aliases: ["0.60", "0.6", "60p", "60", "0,60", "0,6"] },
+
+  // 7. Geometry & Measurement (12)
+  { id: 6, cat: 'geo', q_en: "Rectangle: length 9 cm, width 4 cm. What is its perimeter in cm?", q_es: "Rectángulo: largo 9 cm, ancho 4 cm. ¿Cuál es su perímetro en cm?", a_en: "26 cm", a_es: "26 cm", num: "26", aliases: ["26", "26cm"] },
+  { id: 7, cat: 'geo', q_en: "What is 6,482 rounded to the nearest hundred?", q_es: "¿Cuál es el número 6.482 redondeado a la centena más cercana?", a_en: "6,500", a_es: "6.500", num: "6500", aliases: ["6500", "6,500", "6.500"] },
+  { id: 9, cat: 'geo', q_en: "(6 × 5) − (18 ÷ 2) =", q_es: "(6 × 5) − (18 : 2) =", a_en: "21", a_es: "21", num: "21", aliases: ["21"] },
+  { id: 15, cat: 'geo', q_en: "Square with side length 7 cm. What is its area in cm²?", q_es: "Cuadrado de 7 cm de lado. ¿Cuál es su área en cm²?", a_en: "49 cm²", a_es: "49 cm²", num: "49", aliases: ["49", "49cm2"] },
+  { id: 16, cat: 'geo', q_en: "What is 4,738 rounded to the nearest thousand?", q_es: "¿Cuál es el número 4.738 redondeado al millar más cercano?", a_en: "5,000", a_es: "5.000", num: "5000", aliases: ["5000", "5,000", "5.000"] },
+  { id: 17, cat: 'geo', q_en: "How many minutes are in 3 hours and 25 minutes?", q_es: "¿Cuántos minutos son en total 3 horas y 25 minutos?", a_en: "205 mins", a_es: "205 minutos", num: "205", aliases: ["205", "205mins"] },
+  { id: 19, cat: 'geo', q_en: "(8 × 4) + (25 ÷ 5) =", q_es: "(8 × 4) + (25 : 5) =", a_en: "37", a_es: "37", num: "37", aliases: ["37"] },
+  { id: 24, cat: 'geo', q_en: "Garden: 8 m long and 5 m wide. What is its area in m²?", q_es: "Jardín: 8 m de largo y 5 m de ancho. ¿Cuál es su área en metros cuadrados (m²)?", a_en: "40 m²", a_es: "40 m²", num: "40", aliases: ["40", "40m2"] },
+  { id: 25, cat: 'geo', q_en: "What is the place value of the digit 7 in 37,421?", q_es: "¿Cuál es el valor posicional de la cifra 7 en 37.421?", a_en: "7,000", a_es: "7.000 (Millar)", num: "7000", aliases: ["7000", "7,000", "7.000"] },
+  { id: 81, cat: 'geo', q_en: "Triangle with base 10 cm and height 6 cm. What is its area in cm²?", q_es: "Triángulo con base 10 cm y altura 6 cm. ¿Cuál es su área en cm²?", a_en: "30 cm²", a_es: "30 cm²", num: "30", aliases: ["30", "30cm2"] },
+  { id: 82, cat: 'geo', q_en: "How many degrees are in the three angles of any triangle added together?", q_es: "¿Cuántos grados suman los tres ángulos de cualquier triángulo?", a_en: "180°", a_es: "180°", num: "180", aliases: ["180", "180°", "180deg"] },
+  { id: 83, cat: 'geo', q_en: "A cube has edges of length 4 cm. What is its volume in cm³?", q_es: "Un cubo tiene aristas de 4 cm de longitud. ¿Cuál es su volumen en cm³?", a_en: "64 cm³", a_es: "64 cm³", num: "64", aliases: ["64", "64cm3"] }
+];
+
+/* Global State */
+let playerName = localStorage.getItem('elismark_player') || '';
+let currentLang = localStorage.getItem('elismark_lang') || 'en';
+let userAvatar = localStorage.getItem('elismark_avatar') || '🦄';
+let userThemeAccent = localStorage.getItem('elismark_theme_accent') || '#a855f7';
+let userThemeSubtle = localStorage.getItem('elismark_theme_subtle') || '#fdf4ff';
+let userThemeBorder = localStorage.getItem('elismark_theme_border') || '#f0abfc';
+let userFont = localStorage.getItem('elismark_font') || 'Fredoka';
+let userPaper = localStorage.getItem('elismark_paper') || 'paper-blank';
+let soundFxEnabled = localStorage.getItem('elismark_sound') !== 'false';
+
+let activeMode = 'all_seq';
+let isShieldActive = true;
+let isAnswerRevealed = false;
+let activePointerId = null;
+
+let sessionQuestions = [];
+let currentIndex = 0;
+let drawingHistory = {};
+let inkHistory = {};
+let undoStack = [];
+let sessionScores = {};
+
+let currentStrokeWidth = 2.5;
+let currentColor = '#b57edc';
+let currentTool = 'pen';
+let isDrawing = false;
+let lastPoint = null;
+let inkStrokes = [];
+let currentStroke = null;
+
+const canvas = document.getElementById('paintCanvas');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+const container = document.getElementById('canvasContainer');
+
+/* Audio FX */
+function playSound(type) {
+  if (!soundFxEnabled) return;
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'success') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.45);
+    } else if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+  } catch(e){}
+}
+
+function updatePlayerNameLive(val) {
+  playerName = val.trim() || 'Eli';
+  localStorage.setItem('elismark_player', playerName);
+  updateAllStaticText();
+}
+
+function selectAvatar(av, el) {
+  userAvatar = av;
+  localStorage.setItem('elismark_avatar', av);
+  document.querySelectorAll('.avatar-btn').forEach(b => {
+    b.classList.toggle('active', b.innerText.trim() === av);
+  });
+  updateAllStaticText();
+  playSound('click');
+}
+
+function selectTheme(accent, subtle, border, el) {
+  userThemeAccent = accent;
+  userThemeSubtle = subtle;
+  userThemeBorder = border;
+
+  document.documentElement.style.setProperty('--theme-accent', accent);
+  document.documentElement.style.setProperty('--theme-subtle', subtle);
+  document.documentElement.style.setProperty('--theme-border', border);
+
+  localStorage.setItem('elismark_theme_accent', accent);
+  localStorage.setItem('elismark_theme_subtle', subtle);
+  localStorage.setItem('elismark_theme_border', border);
+
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    const bg = s.style.backgroundColor || s.getAttribute('style') || '';
+    s.classList.toggle('active', bg.includes(accent));
+  });
+  updateAllStaticText();
+  playSound('click');
+}
+
+function selectFont(fontName, el) {
+  userFont = fontName;
+  document.documentElement.style.setProperty('--app-font', `'${fontName}', sans-serif`);
+  localStorage.setItem('elismark_font', fontName);
+
+  document.querySelectorAll('.font-btn').forEach(b => {
+    b.classList.toggle('active', b.innerText.trim() === fontName);
+  });
+  playSound('click');
+}
+
+/* Instant Background Texture Live Preview on body & canvas */
+function selectPaper(paperClass, el) {
+  userPaper = paperClass;
+  localStorage.setItem('elismark_paper', paperClass);
+
+  // Apply to body and canvas container
+  document.body.className = paperClass;
+  if (container) container.className = `canvas-container ${paperClass}`;
+
+  // Sync all buttons across Welcome & Settings Modal
+  document.querySelectorAll('.paper-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick')?.includes(paperClass));
+  });
+  playSound('click');
+}
+
+function setWelcomeLang(lang) {
+  currentLang = lang;
+  document.getElementById('welFlagEN').classList.toggle('active', lang === 'en');
+  document.getElementById('welFlagES').classList.toggle('active', lang === 'es');
+  updateAllStaticText();
+  playSound('click');
+}
+
+function saveProfileAndProceed() {
+  const input = document.getElementById('playerNameInput');
+  playerName = input.value.trim() || 'Eli';
+  localStorage.setItem('elismark_player', playerName);
+  localStorage.setItem('elismark_lang', currentLang);
+
+  document.getElementById('screenWelcome').classList.remove('active');
+  document.getElementById('screenHome').classList.add('active');
+  updateAllStaticText();
+  playSound('click');
+}
+
+function logoutPlayer() {
+  localStorage.removeItem('elismark_player');
+  closeSettingsModal();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screenWelcome').classList.add('active');
+}
+
+function openDevShapeScreen() {
+  document.getElementById('screenHome').classList.remove('active');
+  document.getElementById('screenDevShapes').classList.add('active');
+  playSound('click');
+}
+
+function openStandardHomeScreen() {
+  document.getElementById('screenDevShapes').classList.remove('active');
+  document.getElementById('screenHome').classList.add('active');
+  playSound('click');
+}
+
+function updateLiveScoreDisplay() {
+  const score = Object.keys(sessionScores).length;
+  document.getElementById('liveScoreCount').innerText = `${score}/10`;
+}
+
+/* 10-Question Randomizer & Clean Slate Routing Engine */
+function startPractice(mode) {
+  activeMode = mode;
+  sessionScores = {};
+  isAnswerRevealed = false;
+  currentIndex = 0;
+
+  drawingHistory = {};
+  inkHistory = {};
+  undoStack = [];
+  inkStrokes = [];
+  currentStroke = null;
+
+  let pool = [];
+  if (mode === 'all_seq') {
+    const order = ['tables', 'mult', 'div', 'add', 'sub', 'word', 'geo'];
+    pool = [...masterQuestions].sort((a, b) => order.indexOf(a.cat) - order.indexOf(b.cat));
+  } else if (mode === 'random') {
+    pool = [...masterQuestions].sort(() => Math.random() - 0.5);
+  } else {
+    pool = masterQuestions.filter(q => q.cat === mode);
+    pool.sort(() => Math.random() - 0.5);
+  }
+
+  sessionQuestions = [];
+  for (let i = 0; i < 10; i++) {
+    sessionQuestions.push(pool[i % pool.length]);
+  }
+
+  // Switch screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screenPractice').classList.add('active');
+
+  updateLiveScoreDisplay();
+
+  // Reset Canvas Surface
+  setTimeout(() => {
+    resizeCanvas();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    loadQuestion(0);
+  }, 40);
+
+  playSound('click');
+}
+
+function retryQuiz() {
+  startPractice(activeMode);
+}
+
+function goToHome() {
+  saveCurrentCanvas();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screenHome').classList.add('active');
+  playSound('click');
+}
+
+function openSettingsModal() {
+  document.getElementById('modalPlayerNameInput').value = playerName || 'Eli';
+
+  // Highlight active avatar
+  document.querySelectorAll('#settingsModal .avatar-btn').forEach(b => {
+    b.classList.toggle('active', b.innerText.trim() === userAvatar);
+  });
+
+  // Highlight active theme swatch
+  document.querySelectorAll('#settingsModal .theme-swatch').forEach(s => {
+    const bg = s.style.backgroundColor || s.getAttribute('style') || '';
+    s.classList.toggle('active', bg.includes(userThemeAccent));
+  });
+
+  // Highlight active paper button
+  document.querySelectorAll('#settingsModal .paper-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick')?.includes(userPaper));
+  });
+
+  // Highlight active language
+  document.getElementById('flagEN').classList.toggle('active', currentLang === 'en');
+  document.getElementById('flagES').classList.toggle('active', currentLang === 'es');
+
+  // Status indicators
+  const t = i18n[currentLang];
+  document.getElementById('palmModalBtn').classList.toggle('active', isShieldActive);
+  document.getElementById('lblPalmStatus').innerText = isShieldActive ? t.palmActive : t.palmOff;
+  document.getElementById('soundModalBtn').classList.toggle('active', soundFxEnabled);
+  document.getElementById('lblSoundStatus').innerText = soundFxEnabled ? t.soundOn : t.soundOff;
+
+  document.getElementById('settingsModal').classList.add('active');
+  playSound('click');
+}
+
+function closeSettingsModal() {
+  document.getElementById('settingsModal').classList.remove('active');
+}
+
+function handleOverlayClick(e) {
+  if (e.target.id === 'settingsModal') {
+    closeSettingsModal();
+  }
+}
+
+function togglePalmShield() {
+  isShieldActive = !isShieldActive;
+  document.getElementById('palmShield').style.display = isShieldActive ? 'flex' : 'none';
+  const t = i18n[currentLang];
+  document.getElementById('palmModalBtn').classList.toggle('active', isShieldActive);
+  document.getElementById('lblPalmStatus').innerText = isShieldActive ? t.palmActive : t.palmOff;
+  playSound('click');
+}
+
+function toggleSoundFx() {
+  soundFxEnabled = !soundFxEnabled;
+  localStorage.setItem('elismark_sound', soundFxEnabled);
+  const t = i18n[currentLang];
+  document.getElementById('soundModalBtn').classList.toggle('active', soundFxEnabled);
+  document.getElementById('lblSoundStatus').innerText = soundFxEnabled ? t.soundOn : t.soundOff;
+  playSound('click');
+}
+
+/* Live Language Toggle */
+function changeLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('elismark_lang', currentLang);
+  document.getElementById('flagEN').classList.toggle('active', lang === 'en');
+  document.getElementById('flagES').classList.toggle('active', lang === 'es');
+  document.getElementById('welFlagEN').classList.toggle('active', lang === 'en');
+  document.getElementById('welFlagES').classList.toggle('active', lang === 'es');
+  updateAllStaticText();
+
+  if (document.getElementById('screenPractice').classList.contains('active') && sessionQuestions.length > 0) {
+    const qItem = sessionQuestions[currentIndex];
+    const t = i18n[currentLang];
+    document.getElementById('qNumber').innerText = t.questionOf(currentIndex + 1, sessionQuestions.length);
+    document.getElementById('qCatTag').innerText = t.categories[qItem.cat] || qItem.cat;
+    document.getElementById('qText').innerText = (currentLang === 'es') ? qItem.q_es : qItem.q_en;
+    
+    const revealBtn = document.getElementById('revealBtn');
+    if (isAnswerRevealed) {
+      revealBtn.innerText = `💡 ${(currentLang === 'es') ? qItem.a_es : qItem.a_en}`;
+    } else {
+      revealBtn.innerText = t.showAnswer;
+    }
+  }
+  playSound('click');
+}
+
+function updateAllStaticText() {
+  const t = i18n[currentLang];
+
+  // Welcome Screen
+  document.getElementById('welTitle').innerText = t.welcome;
+  document.getElementById('lblPlayerName').innerText = t.playerName;
+  document.getElementById('lblMascot').innerText = t.mascot;
+  document.getElementById('lblFavColor').innerText = t.favColor;
+  document.getElementById('lblFontFamily').innerText = t.fontFamily;
+  document.getElementById('lblPaperStyle').innerText = t.paperStyle;
+  document.getElementById('lblPrefLang').innerText = t.prefLang;
+  document.getElementById('btnLetsGo').innerText = t.letsGo;
+  document.getElementById('btnPaperSquares').innerText = t.paperSquares;
+  document.getElementById('btnPaperDots').innerText = t.paperDots;
+  document.getElementById('btnPaperLines').innerText = t.paperLines;
+  document.getElementById('btnPaperBlank').innerText = t.paperBlank;
+
+  // Home Screen
+  document.getElementById('tTables').innerText = t.categories.tables;
+  document.getElementById('tMult').innerText = t.categories.mult;
+  document.getElementById('tDiv').innerText = t.categories.div;
+  document.getElementById('tAdd').innerText = t.categories.add;
+  document.getElementById('tSub').innerText = t.categories.sub;
+  document.getElementById('tWord').innerText = t.categories.word;
+  document.getElementById('tGeo').innerText = t.categories.geo;
+  document.getElementById('tAllSeq').innerText = t.categories.all_seq;
+  document.getElementById('tRandom').innerText = t.categories.random;
+
+  document.getElementById('cTables').innerText = t.countLabel;
+  document.getElementById('cMult').innerText = t.countLabel;
+  document.getElementById('cDiv').innerText = t.countLabel;
+  document.getElementById('cAdd').innerText = t.countLabel;
+  document.getElementById('cSub').innerText = t.countLabel;
+  document.getElementById('cWord').innerText = t.countLabel;
+  document.getElementById('cGeo').innerText = t.countLabel;
+  document.getElementById('cAllSeq').innerText = t.countLabel;
+  document.getElementById('cRandom').innerText = t.countLabel;
+
+  // Header Player Badges
+  const displayName = playerName || 'Eli';
+  document.getElementById('badgeAvatarHome').innerText = userAvatar;
+  document.getElementById('badgeNameHome').innerText = displayName;
+  document.getElementById('badgeAvatarDev').innerText = userAvatar;
+  document.getElementById('badgeNameDev').innerText = displayName;
+  document.getElementById('badgeAvatarPractice').innerText = userAvatar;
+  document.getElementById('badgeNamePractice').innerText = displayName;
+
+  // Practice Toolbar & Controls
+  document.getElementById('lblCheckHandwriting').innerText = t.checkAnswer;
+  document.getElementById('lblWritten').innerText = t.written;
+  document.getElementById('lblPen').innerText = t.pen;
+  document.getElementById('lblEraser').innerText = t.eraser;
+  document.getElementById('lblUndo').innerText = t.undo;
+  document.getElementById('lblClear').innerText = t.clear;
+  document.getElementById('lblInk').innerText = t.ink;
+  document.getElementById('optThin').innerText = t.thin;
+  document.getElementById('optMed').innerText = t.med;
+  document.getElementById('optThick').innerText = t.thick;
+  document.getElementById('optMarker').innerText = t.marker;
+  document.getElementById('lblPrev').innerText = t.prev;
+  document.getElementById('lblHomeCenter').innerText = t.home;
+  document.getElementById('lblNext').innerText = (currentIndex === 9) ? t.finish : t.next;
+  document.getElementById('shieldLabel').innerText = t.shieldText;
+  document.getElementById('lblLiveScoreText').innerText = t.liveScoreLabel;
+  document.getElementById('lblAnswerBoxGuide').innerText = t.answerBoxGuide;
+
+  // Settings Modal Translation
+  document.getElementById('modalTitle').innerText = t.settings;
+  document.getElementById('lblModalPlayerName').innerText = t.playerName;
+  document.getElementById('lblModalMascot').innerText = t.mascot;
+  document.getElementById('lblModalTheme').innerText = t.favColor;
+  document.getElementById('lblLangSetting').innerText = t.langSetting;
+  document.getElementById('lblPalmSetting').innerText = t.palmSetting;
+  document.getElementById('lblSoundSetting').innerText = t.soundSetting;
+  document.getElementById('lblImportSetting').innerText = t.customSetting;
+  document.getElementById('lblUploadBtn').innerText = t.loadSheet;
+  document.getElementById('lblPlayerSwitch').innerText = t.profileSetting;
+  document.getElementById('lblLogout').innerText = t.changePlayer;
+  document.getElementById('lblModalPaper').innerText = t.modalPaper;
+  document.getElementById('modalBtnPaperSquares').innerText = t.paperSquares;
+  document.getElementById('modalBtnPaperDots').innerText = t.paperDots;
+  document.getElementById('modalBtnPaperLines').innerText = t.paperLines;
+  document.getElementById('modalBtnPaperBlank').innerText = t.paperBlank;
+
+  document.getElementById('lblPalmStatus').innerText = isShieldActive ? t.palmActive : t.palmOff;
+  document.getElementById('lblSoundStatus').innerText = soundFxEnabled ? t.soundOn : t.soundOff;
+  document.getElementById('btnGradeHome').innerText = t.homeMenu;
+  document.getElementById('btnGradeRetry').innerText = t.playAnother;
+}
+
+function setColorFromDropdown(val) {
+  currentColor = val;
+  setTool('pen');
+}
+
+function resizeCanvas() {
+  const rect = container.getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0) {
+    if (canvas.width !== Math.floor(rect.width) || canvas.height !== Math.floor(rect.height)) {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+      canvas.width = Math.floor(rect.width);
+      canvas.height = Math.floor(rect.height);
+      ctx.drawImage(tempCanvas, 0, 0);
+    }
+  }
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('screenPractice').classList.contains('active')) {
+    saveCurrentCanvas();
+    resizeCanvas();
+    restoreCanvas(currentIndex);
+  }
+});
+
+function loadQuestion(index) {
+  if (!sessionQuestions || sessionQuestions.length === 0) return;
+  currentIndex = index;
+  isAnswerRevealed = false;
+  const qItem = sessionQuestions[index];
+
+  const t = i18n[currentLang];
+  document.getElementById('qNumber').innerText = t.questionOf(index + 1, 10);
+  document.getElementById('qCatTag').innerText = t.categories[qItem.cat] || qItem.cat;
+  document.getElementById('qText').innerText = (currentLang === 'es') ? qItem.q_es : qItem.q_en;
+  
+  const revealBtn = document.getElementById('revealBtn');
+  revealBtn.innerText = t.showAnswer;
+  revealBtn.classList.remove('revealed');
+
+  document.getElementById('recognizedVal').innerText = '--';
+
+  document.getElementById('prevBtn').disabled = (index === 0);
+  document.getElementById('nextBtn').innerText = (index === 9) ? t.finish : (t.next + ' →');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  restoreCanvas(index);
+  undoStack = [];
+}
+
+function saveCurrentCanvas() {
+  drawingHistory[currentIndex] = canvas.toDataURL();
+  inkHistory[currentIndex] = [...inkStrokes];
+}
+
+function restoreCanvas(idx) {
+  inkStrokes = inkHistory[idx] ? [...inkHistory[idx]] : [];
+  if (drawingHistory[idx]) {
+    const img = new Image();
+    img.src = drawingHistory[idx];
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+  }
+}
+
+function toggleAnswer() {
+  const btn = document.getElementById('revealBtn');
+  const qItem = sessionQuestions[currentIndex];
+  const t = i18n[currentLang];
+  const ans = (currentLang === 'es') ? qItem.a_es : qItem.a_en;
+
+  isAnswerRevealed = !isAnswerRevealed;
+  if (isAnswerRevealed) {
+    btn.innerText = `💡 ${ans}`;
+    btn.classList.add('revealed');
+  } else {
+    btn.innerText = t.showAnswer;
+    btn.classList.remove('revealed');
+  }
+  playSound('click');
+}
+
+function showToast(msg, type = 'correct') {
+  const toast = document.getElementById('feedbackToast');
+  toast.innerText = msg;
+  toast.className = `feedback-toast ${type}`;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2600);
+}
+
+function nextQuestion() {
+  playSound('click');
+  saveCurrentCanvas();
+  if (currentIndex < 9) {
+    loadQuestion(currentIndex + 1);
+  } else {
+    showGradeScreen();
+  }
+}
+
+function prevQuestion() {
+  playSound('click');
+  saveCurrentCanvas();
+  if (currentIndex > 0) {
+    loadQuestion(currentIndex - 1);
+  }
+}
+
+function showGradeScreen() {
+  saveCurrentCanvas();
+  document.getElementById('screenPractice').classList.remove('active');
+  document.getElementById('screenGrade').classList.add('active');
+
+  const score = Object.keys(sessionScores).length;
+  document.getElementById('gradeScoreVal').innerText = score;
+
+  const t = i18n[currentLang];
+  let title = t.gradeTitles[0];
+  let icon = '🌱';
+
+  if (score >= 8) {
+    title = t.gradeTitles[2];
+    icon = '🌟';
+    playSound('success');
+  } else if (score >= 5) {
+    title = t.gradeTitles[1];
+    icon = '👏';
+  }
+
+  document.getElementById('gradeBadgeIcon').innerText = icon;
+  document.getElementById('gradeTitle').innerText = title;
+  document.getElementById('gradeSummaryMsg').innerText = t.gradeSummary(score, playerName);
+}
+
+/* Precise Pointer Coordinates with Scale Offset */
+function getPointerPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY,
+    pressure: (e.pressure && e.pressure > 0) ? e.pressure : 0.5,
+    t: Date.now()
+  };
+}
+
+/* Offline-Ready Handwriting Recognition Engine */
+async function recognizeHandwriting() {
+  const t = i18n[currentLang];
+  const qItem = sessionQuestions[currentIndex];
+  const btn = document.getElementById('checkHandwritingBtn');
+
+  if (inkStrokes.length === 0) {
+    showToast(t.noInkMsg, 'try-again');
+    return;
+  }
+
+  const boxElem = document.getElementById('targetAnswerBox');
+  const boxRect = boxElem.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+
+  const scaleX = canvas.width / canvasRect.width;
+  const scaleY = canvas.height / canvasRect.height;
+
+  const minX = (boxRect.left - canvasRect.left - 25) * scaleX;
+  const maxX = (boxRect.right - canvasRect.left + 25) * scaleX;
+  const minY = (boxRect.top - canvasRect.top - 25) * scaleY;
+  const maxY = (boxRect.bottom - canvasRect.top + 25) * scaleY;
+
+  let boxStrokes = inkStrokes.filter(stroke => {
+    const startX = stroke[0][0];
+    const startY = stroke[1][0];
+    return (startX >= minX && startX <= maxX && startY >= minY && startY <= maxY);
+  });
+
+  const strokesToSend = (boxStrokes.length > 0) ? boxStrokes : inkStrokes;
+
+  btn.innerHTML = `<span>${t.checking}</span>`;
+  btn.disabled = true;
+
+  // Build target candidate validation set
+  const validAnswers = new Set();
+  const rawNum = (qItem.num || "").toString().trim();
+  const rawEn = (qItem.a_en || "").toString().trim();
+  const rawEs = (qItem.a_es || "").toString().trim();
+
+  const normalizeStr = s => s.toLowerCase().replace(/[^0-9a-z]/g, '');
+
+  if (rawNum) {
+    validAnswers.add(normalizeStr(rawNum));
+    const parsedF = parseFloat(rawNum);
+    if (!isNaN(parsedF)) {
+      validAnswers.add(normalizeStr(parsedF.toString()));
+      validAnswers.add(normalizeStr(parsedF.toFixed(2)));
+    }
+  }
+  if (rawEn) validAnswers.add(normalizeStr(rawEn));
+  if (rawEs) validAnswers.add(normalizeStr(rawEs));
+  if (qItem.aliases && Array.isArray(qItem.aliases)) {
+    qItem.aliases.forEach(a => validAnswers.add(normalizeStr(a)));
+  }
+
+  try {
+    const requestPayload = {
+      app_version: 0.4,
+      api_level: "533.0",
+      device: navigator.userAgent,
+      input_type: "0",
+      options: "enable_pre_space",
+      requests: [
+        {
+          writing_guide: {
+            writing_area_width: Math.floor(canvas.width),
+            writing_area_height: Math.floor(canvas.height)
+          },
+          ink: strokesToSend,
+          language: "en"
+        }
+      ]
+    };
+
+    const res = await fetch("https://inputtools.google.com/request?ime=handwriting&app=autopen&cs=1&oe=UTF-8", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestPayload)
+    });
+
+    const data = await res.json();
+    btn.innerHTML = `<span>${t.checkAnswer}</span>`;
+    btn.disabled = false;
+
+    if (data && data[1] && data[1][0] && data[1][0][1] && data[1][0][1].length > 0) {
+      const candidateList = data[1][0][1];
+      const topDetected = candidateList[0].trim();
+      document.getElementById('recognizedVal').innerText = topDetected;
+
+      const isMatch = candidateList.some(cand => {
+        const cleaned = normalizeStr(cand.toString());
+        if (!cleaned) return false;
+        if (validAnswers.has(cleaned)) return true;
+        // Check numeric equivalence
+        const numCand = parseFloat(cleaned);
+        if (!isNaN(numCand) && rawNum && !isNaN(parseFloat(rawNum)) && numCand === parseFloat(rawNum)) {
+          return true;
+        }
+        return false;
+      });
+
+      if (isMatch) {
+        sessionScores[currentIndex] = true;
+        updateLiveScoreDisplay();
+        playSound('success');
+        showToast(t.correctMsg, 'correct');
+
+        const revealBtn = document.getElementById('revealBtn');
+        revealBtn.innerText = `✅ ${(currentLang === 'es') ? qItem.a_es : qItem.a_en}`;
+        revealBtn.classList.add('revealed');
+        isAnswerRevealed = true;
+      } else {
+        showToast(t.tryAgainMsg(topDetected), 'try-again');
+      }
+      return;
+    } else {
+      showToast(t.couldNotReadMsg, 'try-again');
+      return;
+    }
+  } catch (err) {
+    console.warn("Handwriting recognition unavailable or offline:", err);
+    btn.innerHTML = `<span>${t.checkAnswer}</span>`;
+    btn.disabled = false;
+    showToast(t.couldNotReadMsg, 'try-again');
+  }
+}
+
+function saveUndoState() {
+  if (undoStack.length >= 20) undoStack.shift();
+  undoStack.push(canvas.toDataURL());
+}
+
+function undoCanvas() {
+  if (inkStrokes.length > 0) inkStrokes.pop();
+  if (undoStack.length > 0) {
+    const prev = undoStack.pop();
+    const img = new Image();
+    img.src = prev;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      saveCurrentCanvas();
+    };
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    saveCurrentCanvas();
+  }
+  playSound('click');
+}
+
+function clearCanvas() {
+  saveUndoState();
+  inkStrokes = [];
+  document.getElementById('recognizedVal').innerText = '--';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  saveCurrentCanvas();
+  playSound('click');
+}
+
+function setTool(tool) {
+  currentTool = tool;
+  document.getElementById('penTool').classList.toggle('active', tool === 'pen');
+  document.getElementById('eraserTool').classList.toggle('active', tool === 'eraser');
+  playSound('click');
+}
+
+function setStrokeSize(size) {
+  currentStrokeWidth = parseFloat(size);
+}
+
+canvas.addEventListener('pointerdown', (e) => {
+  if (isDrawing) return;
+
+  e.preventDefault();
+  activePointerId = e.pointerId;
+  canvas.setPointerCapture(e.pointerId);
+  saveUndoState();
+  isDrawing = true;
+
+  const pt = getPointerPos(e);
+  lastPoint = pt;
+
+  if (currentTool === 'pen') {
+    currentStroke = [ [Math.round(pt.x)], [Math.round(pt.y)], [pt.t] ];
+  }
+});
+
+canvas.addEventListener('pointermove', (e) => {
+  if (!isDrawing || e.pointerId !== activePointerId) return;
+  e.preventDefault();
+  const currentPoint = getPointerPos(e);
+
+  ctx.save();
+  if (currentTool === 'eraser') {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(currentPoint.x, currentPoint.y, currentStrokeWidth * 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = currentColor;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    const width = (e.pointerType === 'pen' && e.pressure > 0) ? Math.max(1.5, currentPoint.pressure * 6) : currentStrokeWidth;
+    ctx.lineWidth = width;
+
+    ctx.beginPath();
+    ctx.moveTo(lastPoint.x, lastPoint.y);
+    ctx.lineTo(currentPoint.x, currentPoint.y);
+    ctx.stroke();
+
+    if (currentStroke) {
+      currentStroke[0].push(Math.round(currentPoint.x));
+      currentStroke[1].push(Math.round(currentPoint.y));
+      currentStroke[2].push(currentPoint.t);
+    }
+  }
+  ctx.restore();
+  lastPoint = currentPoint;
+});
+
+canvas.addEventListener('pointerup', (e) => {
+  if (!isDrawing || e.pointerId !== activePointerId) return;
+  isDrawing = false;
+  activePointerId = null;
+
+  if (currentStroke && currentStroke[0].length > 1) {
+    inkStrokes.push(currentStroke);
+  }
+  currentStroke = null;
+
+  try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+  saveCurrentCanvas();
+});
+
+canvas.addEventListener('pointercancel', (e) => {
+  if (e.pointerId === activePointerId) {
+    isDrawing = false;
+    activePointerId = null;
+    currentStroke = null;
+    try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+  }
+});
+
+const palmShield = document.getElementById('palmShield');
+['pointerdown', 'pointermove', 'pointerup', 'touchstart', 'touchmove', 'touchend'].forEach(evt => {
+  palmShield.addEventListener(evt, (e) => {
+    e.stopPropagation();
+  }, { passive: false });
+});
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const parsed = [];
+  lines.forEach((line, idx) => {
+    if (idx === 0 && line.toLowerCase().includes('question')) return;
+    const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    if (parts.length >= 3) {
+      const q_en = parts[1]?.replace(/^"|"$/g, '').trim() || '';
+      const a_en = parts[2]?.replace(/^"|"$/g, '').trim() || '';
+      const numMatch = a_en.match(/\d+/);
+      parsed.push({
+        id: 'csv_' + idx,
+        cat: parts[0]?.replace(/^"|"$/g, '').trim().toLowerCase() || 'all_seq',
+        q_en: q_en,
+        a_en: a_en,
+        q_es: parts[3]?.replace(/^"|"$/g, '').trim() || q_en,
+        a_es: parts[4]?.replace(/^"|"$/g, '').trim() || a_en,
+        num: numMatch ? numMatch[0] : a_en
+      });
+    }
+  });
+  return parsed;
+}
+
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const content = event.target.result;
+    let customList = [];
+    if (file.name.endsWith('.json')) {
+      customList = JSON.parse(content);
+    } else {
+      customList = parseCSV(content);
+    }
+
+    if (customList.length > 0) {
+      masterQuestions.length = 0;
+      masterQuestions.push(...customList);
+      closeSettingsModal();
+      startPractice('all_seq');
+    }
+  };
+  reader.readAsText(file);
+}
+
+window.onload = () => {
+  document.documentElement.style.setProperty('--theme-accent', userThemeAccent);
+  document.documentElement.style.setProperty('--theme-subtle', userThemeSubtle);
+  document.documentElement.style.setProperty('--theme-border', userThemeBorder);
+  document.documentElement.style.setProperty('--app-font', `'${userFont}', sans-serif`);
+  
+  // Set welcome screen active buttons
+  const welInput = document.getElementById('playerNameInput');
+  if (welInput) welInput.value = playerName || '';
+
+  document.querySelectorAll('#screenWelcome .avatar-btn').forEach(b => {
+    b.classList.toggle('active', b.innerText.trim() === userAvatar);
+  });
+  document.querySelectorAll('#screenWelcome .theme-swatch').forEach(s => {
+    const bg = s.style.backgroundColor || s.getAttribute('style') || '';
+    s.classList.toggle('active', bg.includes(userThemeAccent));
+  });
+  document.querySelectorAll('#screenWelcome .font-btn').forEach(b => {
+    b.classList.toggle('active', b.innerText.trim() === userFont);
+  });
+  document.getElementById('welFlagEN').classList.toggle('active', currentLang === 'en');
+  document.getElementById('welFlagES').classList.toggle('active', currentLang === 'es');
+
+  selectPaper(userPaper);
+  updateAllStaticText();
+
+  document.getElementById('strokeSize').value = "2.5";
+  currentStrokeWidth = 2.5;
+
+  if (playerName) {
+    document.getElementById('screenWelcome').classList.remove('active');
+    document.getElementById('screenHome').classList.add('active');
+  } else {
+    document.getElementById('screenWelcome').classList.add('active');
+  }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>MathPad Junior v0.27 - Interactive Math Workbook</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600;700;800&family=Lexend:wght@600;800&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+  
+  <!-- Modular Stylesheet Bundle -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="paper-blank">
+
+  <!-- SCREEN 0: WELCOME & INITIAL SETUP -->
+  <div class="screen active" id="screenWelcome">
+    <div class="welcome-card">
+      <div class="welcome-title" id="welTitle">Welcome</div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblPlayerName">Player Name</label>
+        <input type="text" class="name-input" id="playerNameInput" placeholder="e.g. Eli" maxlength="20">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblMascot">Mascot Avatar</label>
+        <div class="avatar-row">
+          <button class="avatar-btn active" onclick="selectAvatar('🦄', this)">🦄</button>
+          <button class="avatar-btn" onclick="selectAvatar('🐱', this)">🐱</button>
+          <button class="avatar-btn" onclick="selectAvatar('🦊', this)">🦊</button>
+          <button class="avatar-btn" onclick="selectAvatar('🐼', this)">🐼</button>
+          <button class="avatar-btn" onclick="selectAvatar('🚀', this)">🚀</button>
+          <button class="avatar-btn" onclick="selectAvatar('🎨', this)">🎨</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblFavColor">Colour Theme</label>
+        <div class="theme-swatch-row">
+          <div class="theme-swatch active" style="background: #a855f7;" onclick="selectTheme('#a855f7', '#fdf4ff', '#f0abfc', this)" title="Lilac"></div>
+          <div class="theme-swatch" style="background: #0284c7;" onclick="selectTheme('#0284c7', '#f0f9ff', '#bae6fd', this)" title="Sky Blue"></div>
+          <div class="theme-swatch" style="background: #059669;" onclick="selectTheme('#059669', '#ecfdf5', '#a7f3d0', this)" title="Emerald"></div>
+          <div class="theme-swatch" style="background: #db2777;" onclick="selectTheme('#db2777', '#fdf2f8', '#fbcfe8', this)" title="Berry Pink"></div>
+          <div class="theme-swatch" style="background: #d97706;" onclick="selectTheme('#d97706', '#fffbeb', '#fde68a', this)" title="Amber"></div>
+          <div class="theme-swatch" style="background: #0f172a;" onclick="selectTheme('#0f172a', '#f8fafc', '#cbd5e1', this)" title="Slate"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblFontFamily">App Font</label>
+        <div class="font-selector-grid">
+          <button class="font-btn active" onclick="selectFont('Fredoka', this)" style="font-family: 'Fredoka', sans-serif;">Fredoka (Fun)</button>
+          <button class="font-btn" onclick="selectFont('Nunito', this)" style="font-family: 'Nunito', sans-serif;">Nunito (Clean)</button>
+          <button class="font-btn" onclick="selectFont('Lexend', this)" style="font-family: 'Lexend', sans-serif;">Lexend (Fluent)</button>
+          <button class="font-btn" onclick="selectFont('Comfortaa', this)" style="font-family: 'Comfortaa', sans-serif;">Comfortaa (Round)</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblPaperStyle">Scratchpad Paper (Live Preview)</label>
+        <div class="paper-selector-grid">
+          <button class="paper-btn active" onclick="selectPaper('paper-blank', this)" id="btnPaperBlank">Blank</button>
+          <button class="paper-btn" onclick="selectPaper('paper-squares', this)" id="btnPaperSquares">Squares</button>
+          <button class="paper-btn" onclick="selectPaper('paper-dots', this)" id="btnPaperDots">Dots</button>
+          <button class="paper-btn" onclick="selectPaper('paper-lines', this)" id="btnPaperLines">Lines</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="lblPrefLang">Language</label>
+        <div class="welcome-flags">
+          <button class="welcome-flag-btn active" id="welFlagEN" onclick="setWelcomeLang('en')">🇬🇧</button>
+          <button class="welcome-flag-btn" id="welFlagES" onclick="setWelcomeLang('es')">🇪🇸</button>
+        </div>
+      </div>
+
+      <button class="btn-start" onclick="saveProfileAndProceed()" id="btnLetsGo">Next</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: OPTIONS / TOPIC SELECTOR -->
+  <div class="screen" id="screenHome">
+    <div class="page-header">
+      <div class="interactive-logo" onclick="openDevShapeScreen()" title="Tap to switch to Geometric Dev Mode">
+        <span id="appLogoTitle">MathPad Junior</span>
+      </div>
+
+      <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
+        <span class="badge-avatar" id="badgeAvatarHome">🦄</span>
+        <span class="badge-name" id="badgeNameHome">Eli</span>
+      </button>
+    </div>
+
+    <div class="grid-container" id="gridStandard">
+      <div class="btn-tactile btn-tables" onclick="startPractice('tables')">
+        <div class="topic-icon">🔢</div>
+        <div class="topic-title" id="tTables">Times Tables</div>
+        <div class="topic-count" id="cTables">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-mult" onclick="startPractice('mult')">
+        <div class="topic-icon">✖️</div>
+        <div class="topic-title" id="tMult">Multiplication</div>
+        <div class="topic-count" id="cMult">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-div" onclick="startPractice('div')">
+        <div class="topic-icon">➗</div>
+        <div class="topic-title" id="tDiv">Division</div>
+        <div class="topic-count" id="cDiv">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-add" onclick="startPractice('add')">
+        <div class="topic-icon">➕</div>
+        <div class="topic-title" id="tAdd">Addition</div>
+        <div class="topic-count" id="cAdd">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-sub" onclick="startPractice('sub')">
+        <div class="topic-icon">➖</div>
+        <div class="topic-title" id="tSub">Subtraction</div>
+        <div class="topic-count" id="cSub">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-word" onclick="startPractice('word')">
+        <div class="topic-icon">📖</div>
+        <div class="topic-title" id="tWord">Word Problems</div>
+        <div class="topic-count" id="cWord">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-geo" onclick="startPractice('geo')">
+        <div class="topic-icon">📐</div>
+        <div class="topic-title" id="tGeo">Geometry & Measure</div>
+        <div class="topic-count" id="cGeo">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-all" onclick="startPractice('all_seq')">
+        <div class="topic-icon">🌟</div>
+        <div class="topic-title" id="tAllSeq">All in Sequence</div>
+        <div class="topic-count" id="cAllSeq">10 Questions</div>
+      </div>
+
+      <div class="btn-tactile btn-random" onclick="startPractice('random')">
+        <div class="topic-icon">🎲</div>
+        <div class="topic-title" id="tRandom">Random Mix</div>
+        <div class="topic-count" id="cRandom">10 Questions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1B: DEV GEOMETRIC SHAPES -->
+  <div class="screen" id="screenDevShapes">
+    <div class="page-header">
+      <div class="interactive-logo" onclick="openStandardHomeScreen()" title="Tap to return to standard mode">
+        <span>Geometric Dev Mode</span>
+      </div>
+      <button class="player-header-badge" onclick="openSettingsModal()">
+        <span class="badge-avatar" id="badgeAvatarDev">🦄</span>
+        <span class="badge-name" id="badgeNameDev">Eli</span>
+      </button>
+    </div>
+
+    <div class="grid-container" id="gridDev">
+      <div class="dev-shape-btn" onclick="startPractice('tables')" title="Times Tables">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('mult')" title="Multiplication">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('div')" title="Division">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2" fill="currentColor"/><line x1="5" y1="12" x2="19" y2="12"/><circle cx="12" cy="18" r="2" fill="currentColor"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('add')" title="Addition">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('sub')" title="Subtraction">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('word')" title="Word Problems">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('geo')" title="Geometry">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><path d="M3 21h18L3 3z"/><path d="M3 15h6v6"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('all_seq')" title="All in Sequence">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="dev-shape-btn" onclick="startPractice('random')" title="Random Mix">
+        <svg class="dev-shape-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: PRACTICE WORKBOOK -->
+  <div class="screen" id="screenPractice">
+    <header>
+      <div class="header-left">
+        <div class="header-title" id="practiceHeaderTitle">MathPad Junior</div>
+      </div>
+      <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
+        <span class="badge-avatar" id="badgeAvatarPractice">🦄</span>
+        <span class="badge-name" id="badgeNamePractice">Eli</span>
+      </button>
+    </header>
+
+    <main>
+      <div class="question-card">
+        <div class="q-left-block">
+          <div class="q-type-label" id="qCatTag">Multiplication</div>
+          <div class="q-count-label" id="qNumber">Question 1 of 10</div>
+          <div class="q-text" id="qText">7 × 8 =</div>
+        </div>
+
+        <div class="q-right-actions">
+          <button class="action-stack-btn show-btn" id="revealBtn" onclick="toggleAnswer()">Show Answer</button>
+          <button class="action-stack-btn check-btn" id="checkHandwritingBtn" onclick="recognizeHandwriting()">
+            <span id="lblCheckHandwriting">Check Answer</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="feedback-toast" id="feedbackToast">Correct!</div>
+
+        <div class="toolbar">
+          <div class="tool-group">
+            <button class="tool-btn active" id="penTool" onclick="setTool('pen')"><span id="lblPen">Pen</span></button>
+            <button class="tool-btn" id="eraserTool" onclick="setTool('eraser')"><span id="lblEraser">Eraser</span></button>
+            <button class="tool-btn" onclick="undoCanvas()"><span id="lblUndo">Undo</span></button>
+            <button class="tool-btn" onclick="clearCanvas()"><span id="lblClear">Clear</span></button>
+          </div>
+
+          <div class="tool-group">
+            <span style="font-size:0.75rem; color: #475569; font-weight:800;" id="lblInk">Ink:</span>
+            <select class="clean-dropdown" id="colorSelect" onchange="setColorFromDropdown(this.value)">
+              <option value="#b57edc" selected>Lilac</option>
+              <option value="#dc2626">Red</option>
+              <option value="#16a34a">Green</option>
+              <option value="#2563eb">Blue</option>
+              <option value="#0f172a">Black</option>
+            </select>
+          </div>
+
+          <div class="tool-group">
+            <select class="clean-dropdown" id="strokeSize" onchange="setStrokeSize(this.value)">
+              <option value="2.5" selected id="optThin">Thin</option>
+              <option value="4.5" id="optMed">Medium</option>
+              <option value="8" id="optThick">Thick</option>
+              <option value="16" id="optMarker">Marker</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="canvas-container paper-squares" id="canvasContainer">
+          <!-- Canvas Drawing Surface -->
+          <canvas id="paintCanvas"></canvas>
+
+          <!-- Target Answer Box -->
+          <div class="target-answer-box-wrapper">
+            <div class="ai-badge-above">
+              <span id="lblWritten">Written:</span>
+              <span class="recognized-val" id="recognizedVal">--</span>
+            </div>
+            <div class="target-answer-box" id="targetAnswerBox">
+              <span class="answer-box-label" id="lblAnswerBoxGuide">Answer Box</span>
+            </div>
+          </div>
+
+          <!-- Palm Rest with Live Session Score on the Left -->
+          <div class="palm-shield" id="palmShield">
+            <div class="shield-left-score">
+              <span>⭐</span>
+              <span id="lblLiveScoreText">Score:</span>
+              <span id="liveScoreCount" style="font-weight:900; color:var(--theme-accent);">0/10</span>
+            </div>
+            <div class="shield-handle"><span id="shieldLabel">Palm Rest</span></div>
+            <div class="shield-right-placeholder"></div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <button class="footer-btn" id="prevBtn" onclick="prevQuestion()">← <span id="lblPrev">Previous</span></button>
+        <button class="footer-btn center-home" onclick="goToHome()"><span id="lblHomeCenter">Home</span></button>
+        <button class="footer-btn primary" id="nextBtn" onclick="nextQuestion()"><span id="lblNext">Next</span> →</button>
+      </footer>
+    </main>
+  </div>
+
+  <!-- SCREEN 3: SCORE & GRADE SCREEN (/10) -->
+  <div class="screen" id="screenGrade">
+    <div class="grade-card">
+      <div class="grade-badge-icon" id="gradeBadgeIcon">🌟</div>
+      <div class="grade-title" id="gradeTitle">Quiz Completed!</div>
+      
+      <div class="grade-score-circle">
+        <div class="grade-num" id="gradeScoreVal">10</div>
+        <div class="grade-total">out of 10</div>
+      </div>
+
+      <div class="grade-summary-text" id="gradeSummaryMsg">Outstanding score!</div>
+
+      <div class="grade-actions">
+        <button class="footer-btn" onclick="goToHome()" id="btnGradeHome">Home Menu</button>
+        <button class="footer-btn primary" onclick="retryQuiz()" id="btnGradeRetry">Play Another 10</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS & PROFILE EDITOR MODAL -->
+  <div class="modal-overlay" id="settingsModal" onclick="handleOverlayClick(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Settings & Profile</div>
+        <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+      </div>
+
+      <!-- 1. Player Name -->
+      <div class="setting-row">
+        <label class="setting-label" id="lblModalPlayerName">Player Name</label>
+        <input type="text" class="name-input" id="modalPlayerNameInput" oninput="studentProgress.setPlayerName(this.value)">
+      </div>
+
+      <!-- 2. Avatar Selection -->
+      <div class="setting-row">
+        <label class="setting-label" id="lblModalMascot">Mascot Avatar</label>
+        <div class="avatar-row">
+          <button class="avatar-btn" onclick="selectAvatar('🦄', this)">🦄</button>
+          <button class="avatar-btn" onclick="selectAvatar('🐱', this)">🐱</button>
+          <button class="avatar-btn" onclick="selectAvatar('🦊', this)">🦊</button>
+          <button class="avatar-btn" onclick="selectAvatar('🐼', this)">🐼</button>
+          <button class="avatar-btn" onclick="selectAvatar('🚀', this)">🚀</button>
+          <button class="avatar-btn" onclick="selectAvatar('🎨', this)">🎨</button>
+        </div>
+      </div>
+
+      <!-- 3. Theme Color -->
+      <div class="setting-row">
+        <label class="setting-label" id="lblModalTheme">Colour Theme</label>
+        <div class="theme-swatch-row">
+          <div class="theme-swatch" style="background: #a855f7;" onclick="selectTheme('#a855f7', '#fdf4ff', '#f0abfc', this)"></div>
+          <div class="theme-swatch" style="background: #0284c7;" onclick="selectTheme('#0284c7', '#f0f9ff', '#bae6fd', this)"></div>
+          <div class="theme-swatch" style="background: #059669;" onclick="selectTheme('#059669', '#ecfdf5', '#a7f3d0', this)"></div>
+          <div class="theme-swatch" style="background: #db2777;" onclick="selectTheme('#db2777', '#fdf2f8', '#fbcfe8', this)"></div>
+          <div class="theme-swatch" style="background: #d97706;" onclick="selectTheme('#d97706', '#fffbeb', '#fde68a', this)"></div>
+          <div class="theme-swatch" style="background: #0f172a;" onclick="selectTheme('#0f172a', '#f8fafc', '#cbd5e1', this)"></div>
+        </div>
+      </div>
+
+      <!-- 4. Paper Style Live Preview -->
+      <div class="setting-row">
+        <label class="setting-label" id="lblModalPaper">Scratchpad Paper (Live Preview)</label>
+        <div class="paper-selector-grid">
+          <button class="paper-btn" onclick="selectPaper('paper-blank', this)" id="modalBtnPaperBlank">Blank</button>
+          <button class="paper-btn" onclick="selectPaper('paper-squares', this)" id="modalBtnPaperSquares">Squares</button>
+          <button class="paper-btn" onclick="selectPaper('paper-dots', this)" id="modalBtnPaperDots">Dots</button>
+          <button class="paper-btn" onclick="selectPaper('paper-lines', this)" id="modalBtnPaperLines">Lines</button>
+        </div>
+      </div>
+
+      <!-- 5. Language Selector -->
+      <div class="setting-row">
+        <div class="setting-row-header">
+          <div class="setting-label" id="lblLangSetting">Language</div>
+          <div class="flag-toggle">
+            <button class="flag-btn" id="flagEN" onclick="changeLanguage('en')" title="UK English">🇬🇧</button>
+            <button class="flag-btn" id="flagES" onclick="changeLanguage('es')" title="Español">🇪🇸</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Palm Guard Toggle -->
+      <div class="setting-row">
+        <div class="setting-row-header">
+          <div class="setting-label" id="lblPalmSetting">Palm Rest Guard</div>
+          <button class="tool-btn active" id="palmModalBtn" onclick="togglePalmShield()">
+            <span id="lblPalmStatus">Active</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 7. Sound Effects Toggle -->
+      <div class="setting-row">
+        <div class="setting-row-header">
+          <div class="setting-label" id="lblSoundSetting">Sound Effects</div>
+          <button class="tool-btn active" id="soundModalBtn" onclick="toggleSoundFx()">
+            <span id="lblSoundStatus">On</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 8. Custom Questions Import -->
+      <div class="setting-row">
+        <div class="setting-row-header">
+          <div class="setting-label" id="lblImportSetting">Custom Questions</div>
+          <input type="file" id="csvFileInput" accept=".csv,.json" style="display:none;" onchange="handleFileUpload(event)">
+          <button class="tool-btn" onclick="document.getElementById('csvFileInput').click()" id="lblUploadBtn">
+            Load Sheet
+          </button>
+        </div>
+      </div>
+
+      <!-- 9. Switch Player -->
+      <div class="setting-row" style="border-bottom: none;">
+        <div class="setting-row-header">
+          <div class="setting-label" id="lblPlayerSwitch">Switch Profile</div>
+          <button class="tool-btn" onclick="logoutPlayer()" style="color: #dc2626; border-color: #fca5a5;">
+            <span id="lblLogout">Change Player</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main ES6 Modular Entrypoint -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

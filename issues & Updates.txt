@@ -1,0 +1,17 @@
+
+
+
+
+
+
+Features and updates to add
+
+Refactoring to Modular Structure: At 2,442 lines, 
+
+mathpad_junior_v027.html is becoming difficult to maintain. Migrating to the structure outlined in project_structure.txt (modular JS/CSS) will make adding new question types and features much easier.
+Procedural Question Generation: Some categories rely on fixed question lists (masterQuestions), which can be augmented with dynamic algorithmic generators (e.g., dynamic multi-digit division with step-by-step layout).
+PWA / Offline Manifest: Adding a service worker and manifest would enable full offline standalone installation on iPads and Android tablets.
+
+
+
+add byline "Interactive Stylus Workbook for Kids"

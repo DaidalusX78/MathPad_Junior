@@ -1,0 +1,37 @@
+elis-math-book/
+├── index.html                  # Lightweight shell & mount point
+├── package.json                # (Optional) Build scripts & dependencies
+│
+├── assets/                     # Static media & resources
+│   ├── audio/                  # Feedback sounds, clicks
+│   ├── icons/                  # SVG icons (pen, eraser, clear, undo)
+│   └── textures/               # Paper backgrounds (grid, lined)
+│
+├── css/                        # Modular Style Architecture
+│   ├── main.css                # Global imports & CSS custom properties (tokens)
+│   ├── base.css                # Reset, typography, layout foundation
+│   ├── workbook.css            # Sheet layout (#exercise-grid, .problem-card)
+│   ├── canvas.css              # Stylus overlays, cursor states, toolbar UI
+│   └── components/             # Reusable UI (modals, buttons, badges)
+│
+├── js/                         # Logic & Engine Modules (ES6 Modules)
+│   ├── main.js                 # App entry point, bootstrap, router/page manager
+│   │
+│   ├── core/                   # Engine & Hardware Handlers
+│   │   ├── canvasEngine.js     # Pointer events, stylus pressure, stroke smoothing
+│   │   ├── historyManager.js   # Undo / Redo stack management
+│   │   └── audioManager.js     # SFX triggers & volume control
+│   │
+│   ├── pages/                  # Page / Level Controllers
+│   │   ├── pageManager.js      # Page navigation (next/prev, state persistence)
+│   │   ├── coverPage.js        # Title screen & profile selection
+│   │   └── practicePage.js     # Mounts #page-header, grid, & footer
+│   │
+│   ├── math/                   # Problem Generation & Validation
+│   │   ├── divisionEngine.js   # Dynamic division problem generator
+│   │   ├── validator.js        # Answer checking & accuracy scoring
+│   │   └── ocrHandler.js       # (Optional) Handwriting recognition hook
+│   │
+│   └── data/                   # Static Data & Problem Sets
+│       ├── curricula.json      # Structured math levels & topics
+│       └── studentProgress.js  # LocalStorage / IndexedDB state persistence

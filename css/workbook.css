@@ -1,0 +1,394 @@
+/* ==========================================================================
+   Workbook Screens & Grids Architecture
+   ========================================================================== */
+
+/* ------------------- SCREEN 0: WELCOME & SETUP ------------------- */
+#screenWelcome {
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.welcome-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 2px solid var(--border-light);
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.1);
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  z-index: 10;
+}
+
+.welcome-title {
+  font-size: 1.85rem;
+  font-weight: 900;
+  font-family: 'Fredoka', cursive, sans-serif;
+  background: linear-gradient(135deg, var(--theme-accent), #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------- SCREEN 1: OPTIONS PAGE ------------------- */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 8px 20px;
+  flex-shrink: 0;
+}
+
+.grid-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 12px;
+  padding: 10px 18px 16px 18px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.btn-tactile {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 2px solid var(--border-light);
+  box-shadow: -4px 4px 0px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  text-align: center;
+}
+
+.btn-tactile:active {
+  transform: translate(-3px, 3px);
+  box-shadow: inset 3px -3px 6px rgba(15, 23, 42, 0.12);
+}
+
+.btn-tables { border-color: #bae6fd; }
+.btn-tables .topic-title { color: var(--col-tables); }
+
+.btn-mult { border-color: #ddd6fe; }
+.btn-mult .topic-title { color: var(--col-mult); }
+
+.btn-div { border-color: #ffedd5; }
+.btn-div .topic-title { color: var(--col-div); }
+
+.btn-add { border-color: #a7f3d0; }
+.btn-add .topic-title { color: var(--col-add); }
+
+.btn-sub { border-color: #fecaca; }
+.btn-sub .topic-title { color: var(--col-sub); }
+
+.btn-word { border-color: #c7d2fe; }
+.btn-word .topic-title { color: var(--col-word); }
+
+.btn-geo { border-color: #a5f3fc; }
+.btn-geo .topic-title { color: var(--col-geo); }
+
+.btn-all { border-color: #fde68a; }
+.btn-all .topic-title { color: var(--col-all); }
+
+.btn-random { border-color: #fbcfe8; }
+.btn-random .topic-title { color: var(--col-random); }
+
+.topic-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.topic-title {
+  font-size: 0.96rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.topic-count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* ------------------- SCREEN 1B: DEV GEOMETRIC SHAPES ------------------- */
+.dev-shape-btn {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 2px solid var(--border-light);
+  box-shadow: -4px 4px 0px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.dev-shape-btn:active {
+  transform: translate(-3px, 3px);
+  box-shadow: inset 3px -3px 6px rgba(15, 23, 42, 0.12);
+}
+
+.dev-shape-svg {
+  width: 50px;
+  height: 50px;
+  stroke: #334155;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ------------------- SCREEN 2: PRACTICE WORKBOOK ------------------- */
+header {
+  background: #ffffff;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  font-family: 'Fredoka', cursive, sans-serif;
+  color: var(--text-dark);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px 6px 12px;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.question-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px 16px;
+  border: 1.5px solid var(--border-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.q-left-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.q-type-label {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--theme-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.q-count-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.q-text {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+
+.q-right-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.action-stack-btn {
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-dark);
+  font-family: inherit;
+  transition: all 0.1s ease;
+}
+
+.action-stack-btn:active {
+  transform: scale(0.97);
+}
+
+.action-stack-btn.show-btn {
+  background: #ffffff;
+  border-color: var(--border-light);
+  color: #475569;
+}
+
+.action-stack-btn.show-btn.revealed {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #047857;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.action-stack-btn.check-btn {
+  background: var(--theme-accent);
+  color: #ffffff;
+  border-color: var(--theme-accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer with Navigation Controls */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 2px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.footer-btn {
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  color: #334155;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.86rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.footer-btn.center-home {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  font-weight: 900;
+  padding: 8px 24px;
+}
+
+.footer-btn.primary {
+  background: var(--theme-accent);
+  color: white;
+  border-color: var(--theme-accent);
+}
+
+/* ------------------- SCREEN 3: SCORE & GRADE SCREEN (/10) ------------------- */
+#screenGrade {
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.grade-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.grade-badge-icon {
+  font-size: 3.2rem;
+}
+
+.grade-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-dark);
+}
+
+.grade-score-circle {
+  background: #f8fafc;
+  border: 3.5px solid var(--theme-accent);
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.grade-num {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--theme-accent);
+  line-height: 1;
+}
+
+.grade-total {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #64748b;
+}
+
+.grade-summary-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.grade-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.grade-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+}

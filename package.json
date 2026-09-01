@@ -1,0 +1,22 @@
+{
+  "name": "mathpad-junior",
+  "version": "0.27.0",
+  "description": "MathPad Junior - Interactive Stylus-Powered Math Workbook with Handwriting Recognition",
+  "type": "module",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "math",
+    "handwriting-recognition",
+    "ocr",
+    "canvas",
+    "tablet",
+    "stylus",
+    "education"
+  ],
+  "author": "Marc Bailey",
+  "license": "MIT"
+}
