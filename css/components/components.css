@@ -263,6 +263,9 @@
 .setup-reward-forecast-banner .forecast-icon {
   font-size: 1.6rem;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.3));
 }
 
@@ -272,13 +275,53 @@
   font-size: 0.95rem;
 }
 
+.diff-btn-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
 .diff-pill-btn {
+  width: 100%;
+  min-width: 0;
+  height: 64px;
+  border-radius: 16px;
+  border: 2px solid var(--border-light, #e2e8f0);
+  background: #ffffff;
+  display: flex;
   flex-direction: column;
-  height: auto;
-  padding: 10px 6px;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.diff-pill-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.diff-pill-btn.active {
+  border-color: var(--theme-accent, #a855f7);
+  background: var(--theme-subtle, #fdf4ff);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+.diff-pill-btn span {
+  font-size: 0.85rem;
   font-weight: 800;
-  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.diff-pill-btn.active span {
+  color: var(--theme-accent, #a855f7);
 }
 
 /* ------------------- Inputs & Action Buttons ------------------- */

@@ -126,22 +126,36 @@
 .btn-random { border-color: #fbcfe8; }
 .btn-random .topic-title { color: var(--col-random); }
 
+.btn-tables .topic-icon { color: var(--col-tables, #8b5cf6); }
+.btn-mult .topic-icon { color: var(--col-mult, #2563eb); }
+.btn-div .topic-icon { color: var(--col-div, #059669); }
+.btn-add .topic-icon { color: var(--col-add, #ea580c); }
+.btn-sub .topic-icon { color: var(--col-sub, #dc2626); }
+.btn-word .topic-icon { color: var(--col-word, #0891b2); }
+.btn-geo .topic-icon { color: var(--col-geo, #0284c7); }
+.btn-all .topic-icon { color: var(--col-all, #d97706); }
+.btn-random .topic-icon { color: var(--col-random, #db2777); }
+
 .topic-icon {
-  font-size: 1.8rem;
-  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 6px;
+  transition: transform 0.12s ease;
+}
+
+.topic-icon svg {
+  width: 32px;
+  height: 32px;
+  display: block;
 }
 
 .topic-title {
   font-size: 0.96rem;
   font-weight: 800;
   line-height: 1.15;
-}
-
-.topic-count {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  margin-top: 3px;
 }
 
 /* ------------------- SCREEN 1B: DEV GEOMETRIC SHAPES ------------------- */

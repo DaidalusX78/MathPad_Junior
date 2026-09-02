@@ -160,15 +160,15 @@ class App {
     let stagedDifficulty = 'medium';
 
     const topicTitles = {
-      tables: '🔢 Times Tables',
-      mult: '✖️ Multiplication',
-      div: '➗ Division',
-      add: '➕ Addition',
-      sub: '➖ Subtraction',
-      word: '📖 Word Problems',
-      geo: '📐 Geometry & Measure',
-      all_seq: '🌟 All in Sequence',
-      random: '🎲 Random Mix'
+      tables: 'Times Tables',
+      mult: 'Multiplication',
+      div: 'Division',
+      add: 'Addition',
+      sub: 'Subtraction',
+      word: 'Word Problems',
+      geo: 'Geometry & Measure',
+      all_seq: 'All in Sequence',
+      random: 'Random Mix'
     };
 
     const updateForecast = () => {
@@ -187,7 +187,7 @@ class App {
       stagedPracticeMode = mode || 'mult';
       const titleElem = document.getElementById('setupModalTitle');
       if (titleElem) {
-        titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Setup`;
+        titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Quiz Setup`;
       }
       updateForecast();
       const modal = document.getElementById('practiceSetupModal');

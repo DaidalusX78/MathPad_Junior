@@ -195,7 +195,9 @@
 
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
         <div class="coin-badge-header" id="coinBadgeHome" onclick="openCoinGuideModal()" title="Math Stars & Rewards Guide">
-          ⭐ <span id="coinCountHome">0</span> <span class="coin-info-icon">ℹ️</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#facc15" stroke="#ca8a04" stroke-width="1.2" class="badge-star-icon" style="vertical-align: -3px; margin-right: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span id="coinCountHome">0</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" class="badge-info-icon" style="vertical-align: -2px; margin-left: 3px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
         </div>
         <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
           <span class="badge-name" id="badgeNameHome">Eli</span>
@@ -206,47 +208,95 @@
 
     <div class="grid-container" id="gridStandard">
       <div class="btn-tactile btn-tables" onclick="openPracticeSetupModal('tables')">
-        <div class="topic-icon">🔢</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tTables">Times Tables</div>
       </div>
 
       <div class="btn-tactile btn-mult" onclick="openPracticeSetupModal('mult')">
-        <div class="topic-icon">✖️</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tMult">Multiplication</div>
       </div>
 
       <div class="btn-tactile btn-div" onclick="openPracticeSetupModal('div')">
-        <div class="topic-icon">➗</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
+            <circle cx="12" cy="6" r="2.5"/>
+            <line x1="5" y1="12" x2="19" y2="12" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="12" cy="18" r="2.5"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tDiv">Division</div>
       </div>
 
       <div class="btn-tactile btn-add" onclick="openPracticeSetupModal('add')">
-        <div class="topic-icon">➕</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tAdd">Addition</div>
       </div>
 
       <div class="btn-tactile btn-sub" onclick="openPracticeSetupModal('sub')">
-        <div class="topic-icon">➖</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tSub">Subtraction</div>
       </div>
 
       <div class="btn-tactile btn-word" onclick="openPracticeSetupModal('word')">
-        <div class="topic-icon">📖</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <line x1="8" y1="7" x2="16" y2="7"/>
+            <line x1="8" y1="11" x2="14" y2="11"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tWord">Word Problems</div>
       </div>
 
       <div class="btn-tactile btn-geo" onclick="openPracticeSetupModal('geo')">
-        <div class="topic-icon">📐</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18L3 3z"/>
+            <path d="M3 15h5M3 11h3M3 7h2"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tGeo">Geometry & Measure</div>
       </div>
 
       <div class="btn-tactile btn-all" onclick="openPracticeSetupModal('all_seq')">
-        <div class="topic-icon">🌟</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tAll">All in Sequence</div>
       </div>
 
       <div class="btn-tactile btn-random" onclick="openPracticeSetupModal('random')">
-        <div class="topic-icon">🎲</div>
+        <div class="topic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+            <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
         <div class="topic-title" id="tRandom">Random Mix</div>
       </div>
     </div>
@@ -276,8 +326,10 @@
         </span>
       </a>
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
-        <div class="coin-badge-header" id="coinBadgeDev" onclick="openCoinGuideModal()" title="Math Coins & Rewards Guide">
-          🪙 <span id="coinCountDev">0</span> <span class="coin-info-icon">ℹ️</span>
+        <div class="coin-badge-header" id="coinBadgeDev" onclick="openCoinGuideModal()" title="Math Stars & Rewards Guide">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#facc15" stroke="#ca8a04" stroke-width="1.2" class="badge-star-icon" style="vertical-align: -3px; margin-right: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span id="coinCountDev">0</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" class="badge-info-icon" style="vertical-align: -2px; margin-left: 3px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
         </div>
         <button class="player-header-badge" onclick="openSettingsModal()">
           <span class="badge-name" id="badgeNameDev">Eli</span>
@@ -372,10 +424,13 @@
       </div>
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
         <div class="score-badge-header" id="scoreBadgePractice" title="Stars Earned This Round">
-          ⭐ <span id="lblLiveScoreText">Stars:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#facc15" stroke="#ca8a04" stroke-width="1.2" class="badge-star-icon" style="vertical-align: -3px; margin-right: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span id="lblLiveScoreText">Stars:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
         </div>
         <div class="coin-badge-header" id="coinBadgePractice" onclick="openCoinGuideModal()" title="Banked Math Stars (Total Balance)">
-          ⭐ <span id="coinCountPractice">0</span> <span class="coin-info-icon">ℹ️</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#facc15" stroke="#ca8a04" stroke-width="1.2" class="badge-star-icon" style="vertical-align: -3px; margin-right: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span id="coinCountPractice">0</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" class="badge-info-icon" style="vertical-align: -2px; margin-left: 3px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
         </div>
         <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
           <span class="badge-name" id="badgeNamePractice">Eli</span>
@@ -696,8 +751,11 @@
       <div class="setting-row">
         <div class="setting-row-header">
           <div class="setting-label" id="lblPencilCaseSetting">The Pencil Case</div>
-          <a href="pencil_case.html" class="tool-btn" style="text-decoration:none; padding:0 14px; width:auto; gap:6px; background:var(--theme-subtle); border-color:var(--theme-accent); color:var(--theme-accent); font-weight:900;" title="Visit The Pencil Case Shop">
-            <span>🎒</span>
+          <a href="pencil_case.html" class="tool-btn" style="text-decoration:none; padding:0 14px; width:auto; gap:8px; background:var(--theme-subtle); border-color:var(--theme-accent); color:var(--theme-accent); font-weight:900;" title="Visit The Pencil Case Shop">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/>
+              <path d="M9 4v4m6-4v4M4 12h16"/>
+            </svg>
             <span id="lblOpenPencilCase">Open Shop →</span>
           </a>
         </div>
@@ -721,11 +779,11 @@
     </div>
   </div>
 
-  <!-- MODAL: PRACTICE SETUP & DIFFICULTY CONFIGURATION -->
+  <!-- MODAL: QUIZ SETUP & DIFFICULTY CONFIGURATION -->
   <div class="modal-overlay" id="practiceSetupModal" onclick="handleOverlayClick(event)">
     <div class="settings-modal-card" id="practiceSetupModalCard" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <div class="modal-title" id="setupModalTitle">Practice Setup</div>
+        <div class="modal-title" id="setupModalTitle">Quiz Setup</div>
         <button type="button" class="modal-close" onclick="closePracticeSetupModal()">✕</button>
       </div>
 
@@ -743,17 +801,27 @@
       <!-- 2. Difficulty Level -->
       <div class="setting-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
         <div class="setting-label" id="lblSetupDifficulty">Difficulty Level</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
-          <button type="button" class="tool-btn diff-pill-btn" data-diff="easy" onclick="setSetupDifficulty('easy')">
-            <span style="font-size:1.1rem;">🌱</span>
+        <div class="diff-btn-grid">
+          <button type="button" class="diff-pill-btn" data-diff="easy" onclick="setSetupDifficulty('easy')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 20h10"/>
+              <path d="M10 20c0-4 1-6 2-10 1 4 2 6 2 10"/>
+              <path d="M12 10a5 5 0 0 0 5-5c-3 0-5 2-5 5z"/>
+              <path d="M12 13a4 4 0 0 1-4-4c2.5 0 4 1.5 4 4z"/>
+            </svg>
             <span>Easy</span>
           </button>
-          <button type="button" class="tool-btn diff-pill-btn active" data-diff="medium" onclick="setSetupDifficulty('medium')">
-            <span style="font-size:1.1rem;">⚡</span>
+          <button type="button" class="diff-pill-btn active" data-diff="medium" onclick="setSetupDifficulty('medium')">
+            <svg viewBox="0 0 24 24" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
             <span>Medium</span>
           </button>
-          <button type="button" class="tool-btn diff-pill-btn" data-diff="hard" onclick="setSetupDifficulty('hard')">
-            <span style="font-size:1.1rem;">🔥</span>
+          <button type="button" class="diff-pill-btn" data-diff="hard" onclick="setSetupDifficulty('hard')">
+            <svg viewBox="0 0 24 24" fill="#ea580c" stroke="#c2410c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 14.5A4.5 4.5 0 0 0 13 19c3 0 5-2.5 5-5.5 0-3-2-5-3.5-6.5-.5 2-1.5 3-2.5 3-1.5 0-2-1.5-2-3 0-1.5 1-3 2-4-3 1-5.5 4-5.5 8z"/>
+              <path d="M12 17c1 0 1.5-1 1.5-2 0-1-.5-1.5-1.5-2-1 0-1.5 1-1.5 2 0 1 .5 2 1.5 2z" fill="#fef08a"/>
+            </svg>
             <span>Hard</span>
           </button>
         </div>
@@ -761,7 +829,11 @@
 
       <!-- 3. Star Earnings Prompt Forecast -->
       <div class="setup-reward-forecast-banner" id="setupRewardForecast">
-        <span class="forecast-icon">⭐</span>
+        <span class="forecast-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="#facc15" stroke="#ca8a04" stroke-width="1.2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </span>
         <div class="forecast-text">
           <strong>Reward Potential:</strong><br/>
           <span id="forecastStarDetail">Earn <strong>8 ⭐</strong> per question (up to <strong>80 ⭐</strong> + bonus)!</span>
@@ -771,7 +843,7 @@
       <!-- Action Footer -->
       <div class="modal-action-footer">
         <button type="button" class="modal-btn-cancel" onclick="closePracticeSetupModal()">Cancel</button>
-        <button type="button" class="modal-btn-save" onclick="confirmStartPractice()" id="btnStartPracticeConfirm">Start Practice 🚀</button>
+        <button type="button" class="modal-btn-save" onclick="confirmStartPractice()" id="btnStartPracticeConfirm">Start Quiz ➔</button>
       </div>
     </div>
   </div>
