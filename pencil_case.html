@@ -3,131 +3,146 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MathPad Junior — The Pencil Case (Reward Shop & Catalog)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MathPad Junior — The Pencil Case</title>
+  <link rel="icon" type="image/svg+xml" href="./media/logo/mathpad_favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#8b5cf6" />
+
+  <!-- Google Fonts: Fredoka & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Application Stylesheets -->
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/workbook.css" />
+  <link rel="stylesheet" href="./css/canvas.css" />
+
   <style>
-    :root {
-      --bg-page: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-subtle: #e2e8f0;
-      --theme-accent: #a855f7;
-      --theme-subtle: #fdf4ff;
-      --color-coin: #eab308;
-      --color-coin-bg: #fffbeb;
-      --color-coin-border: #fde68a;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
     body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+      background-color: var(--bg-main, #f8fafc);
+      color: var(--text-dark, #0f172a);
+      height: auto;
       min-height: 100vh;
-    }
-
-    .shop-container {
-      width: 100%;
-      max-width: 980px;
-      background: var(--card-bg);
-      border-radius: 24px;
-      border: 2px solid var(--border-subtle);
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
-      padding: 24px 28px;
+      overflow-y: auto;
+      padding: 0;
+      margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 20px;
     }
 
-    /* Top Bar: Title & Balance */
-    .shop-header {
+    .shop-wrapper {
+      flex: 1;
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 16px 20px 40px 20px;
       display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-sizing: border-box;
+    }
+
+    /* Hero Banner Card */
+    .shop-hero-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-light, #e2e8f0);
+      border-radius: 24px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border-subtle);
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
       flex-wrap: wrap;
-      gap: 12px;
     }
 
-    .shop-title-block {
+    .shop-hero-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 18px;
     }
 
     .shop-avatar-icon {
-      font-size: 2.2rem;
-      background: var(--theme-subtle);
-      border: 2px solid #f0abfc;
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
+      background: var(--theme-subtle, #fdf4ff);
+      border: 2px solid var(--theme-border, #f0abfc);
+      width: 72px;
+      height: 60px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 12px rgba(168, 85, 247, 0.12);
+      flex-shrink: 0;
     }
 
-    .shop-title-block h1 {
+    .shop-hero-text h1 {
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 900;
-      color: #0f172a;
-      letter-spacing: -0.5px;
+      color: var(--text-dark, #0f172a);
       line-height: 1.1;
+      letter-spacing: -0.5px;
     }
 
-    .shop-title-block p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .shop-hero-text p {
+      font-size: 0.88rem;
       font-weight: 700;
+      color: #64748b;
+      margin-top: 4px;
     }
 
-    .wallet-badge {
-      background: var(--color-coin-bg);
-      border: 2px solid var(--color-coin-border);
-      padding: 8px 18px;
-      border-radius: 20px;
+    .shop-hero-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-weight: 900;
-      color: #b45309;
-      font-size: 1.25rem;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
-      user-select: none;
+      gap: 12px;
     }
 
-    /* Category Tab Navigation */
-    .category-nav {
+    .back-to-app-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1.5px solid var(--border-light, #e2e8f0);
+      border-radius: 14px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .back-to-app-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      transform: translateY(-1px);
+    }
+
+    /* Segmented Category Navigation */
+    .shop-nav {
       display: flex;
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .shop-nav::-webkit-scrollbar {
+      display: none;
     }
 
     .cat-tab-btn {
-      background: #f8fafc;
-      border: 1.5px solid var(--border-subtle);
-      padding: 10px 16px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-light, #e2e8f0);
       border-radius: 14px;
-      font-size: 0.92rem;
+      padding: 10px 16px;
       font-weight: 800;
-      color: var(--text-muted);
+      font-size: 0.86rem;
+      color: #64748b;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -138,114 +153,111 @@
     }
 
     .cat-tab-btn:hover {
-      background: #f1f5f9;
-      color: #334155;
+      background: #f8fafc;
+      color: #0f172a;
     }
 
     .cat-tab-btn.active {
-      background: var(--theme-accent);
+      background: var(--theme-accent, #a855f7);
       color: #ffffff;
-      border-color: var(--theme-accent);
+      border-color: var(--theme-accent, #a855f7);
       box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
     }
 
     /* Items Grid */
     .shop-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
     }
 
     .item-card {
       background: #ffffff;
-      border: 2px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 16px;
+      border: 2px solid var(--border-light, #e2e8f0);
+      border-radius: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       position: relative;
       transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
 
     .item-card:hover {
       transform: translateY(-2px);
       border-color: #cbd5e1;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     }
 
     .item-card.is-equipped {
-      border-color: var(--theme-accent);
-      background: #faf5ff;
+      border-color: var(--theme-accent, #a855f7);
+      background: var(--theme-subtle, #fdf4ff);
     }
 
     .preview-box {
-      height: 105px;
-      border-radius: 12px;
+      width: 100%;
+      height: 100px;
+      border-radius: 14px;
       background: #f8fafc;
-      border: 1.5px dashed var(--border-subtle);
+      border: 1.5px solid var(--border-light, #e2e8f0);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      padding: 8px;
-      user-select: none;
     }
 
     .item-meta h3 {
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 2px;
+      color: var(--text-dark, #0f172a);
+      margin-bottom: 4px;
     }
 
     .item-meta p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.35;
-      font-weight: 700;
-    }
-
-    .item-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #64748b;
+      line-height: 1.4;
     }
 
     .action-btn {
-      flex: 1;
-      padding: 10px 14px;
+      width: 100%;
+      padding: 10px;
       border-radius: 12px;
-      border: none;
-      font-size: 0.9rem;
-      font-weight: 900;
+      font-weight: 800;
+      font-size: 0.86rem;
       cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-family: inherit;
-      transition: all 0.12s ease;
     }
 
     .action-btn.buy {
-      background: #f59e0b;
+      background: #059669;
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
     }
 
     .action-btn.buy:hover {
-      background: #d97706;
-      transform: translateY(-1px);
+      background: #047857;
     }
 
     .action-btn.equip {
-      background: var(--theme-accent);
+      background: var(--theme-accent, #a855f7);
       color: #ffffff;
+      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.25);
+    }
+
+    .action-btn.equip:hover {
+      filter: brightness(0.92);
     }
 
     .action-btn.equipped {
@@ -257,7 +269,7 @@
     .action-btn.locked {
       background: #f1f5f9;
       color: #94a3b8;
-      border: 1.5px solid var(--border-subtle);
+      border: 1.5px solid var(--border-light, #e2e8f0);
       cursor: not-allowed;
       font-size: 0.8rem;
     }
@@ -266,42 +278,62 @@
     .data-viewer-card {
       background: #0f172a;
       color: #f8fafc;
-      border-radius: 16px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 20px;
       font-family: monospace;
       font-size: 0.85rem;
       overflow-x: auto;
-      max-height: 480px;
+      max-height: 520px;
       line-height: 1.5;
-    }
-
-    /* Mini interactive scratchpad on preview */
-    .try-scratchpad {
-      width: 100%;
-      height: 100%;
-      cursor: crosshair;
-      touch-action: none;
-    }
-
-    .scratch-hint {
-      position: absolute;
-      bottom: 4px;
-      font-size: 0.68rem;
-      color: #94a3b8;
-      font-weight: 800;
-      pointer-events: none;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="shop-container">
+  <!-- Top App Navigation Bar -->
+  <header class="page-header" style="background:#ffffff; border-bottom:1.5px solid var(--border-light); padding:10px 20px; display:flex; justify-content:space-between; align-items:center;">
+    <div class="header-left">
+      <a href="index.html#home" class="navbar-brand" title="Return to MathPad Junior">
+        <!-- 4-Square Math Matrix -->
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="brand-matrix-svg">
+          <rect x="2" y="2" width="11" height="11" rx="3" fill="#f97316" />
+          <path d="M7.5 5v5M5 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+          <rect x="15" y="2" width="11" height="11" rx="3" fill="#06b6d4" />
+          <path d="M18 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+          <rect x="2" y="15" width="11" height="11" rx="3" fill="#8b5cf6" />
+          <path d="M5.5 18.5l4 4M9.5 18.5l-4 4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+          <rect x="15" y="15" width="11" height="11" rx="3" fill="#22c55e" />
+          <path d="M18 20.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+          <circle cx="20.5" cy="18" r="1" fill="#ffffff" />
+          <circle cx="20.5" cy="23" r="1" fill="#ffffff" />
+        </svg>
 
-    <!-- Top Header & Wallet -->
-    <header class="shop-header">
-      <div class="shop-title-block">
+        <span class="brand-title-3">
+          MathPad <span class="brand-junior">Junior</span>
+          <span class="version-tag">v0.16</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="header-right" style="display:flex; align-items:center; gap:10px;">
+      <div class="coin-badge-header" id="walletBalance" title="Banked Math Stars">
+        ⭐ <span id="userCoins">0</span>
+      </div>
+      <div class="player-header-badge" style="cursor:default;" title="Player Profile">
+        <span class="badge-name" id="badgeName">Eli</span>
+        <span class="badge-avatar" id="badgeAvatar">🦄</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="shop-wrapper">
+
+    <!-- Hero Card Banner -->
+    <div class="shop-hero-card">
+      <div class="shop-hero-left">
         <div class="shop-avatar-icon">
+          <!-- The Peek-a-Boo Pouch Vector Illustration -->
           <svg viewBox="0 0 160 120" width="56" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Peeking Stationery Tools -->
             <!-- Ruler (Purple) -->
@@ -337,20 +369,21 @@
             <circle cx="30" cy="64" r="2" fill="#ffffff" />
           </svg>
         </div>
-        <div>
+        <div class="shop-hero-text">
           <h1>The Pencil Case</h1>
-          <p>MathPad Junior — Reward Shop & Equipment Catalog</p>
+          <p>Reward Shop & Equipment Customization</p>
         </div>
       </div>
 
-      <div class="wallet-badge" id="walletBalance" title="Your Math Stars Balance">
-        <span>⭐</span>
-        <span id="userCoins">340</span>
+      <div class="shop-hero-actions">
+        <a href="index.html#home" class="back-to-app-btn">
+          <span>← Back to MathPad</span>
+        </a>
       </div>
-    </header>
+    </div>
 
     <!-- Category Tabs -->
-    <nav class="category-nav" id="categoryNav">
+    <nav class="shop-nav" id="categoryNav">
       <button class="cat-tab-btn active" onclick="switchCategory('inks')">🖊️ Magic Inks</button>
       <button class="cat-tab-btn" onclick="switchCategory('papers')">📐 Paper Textures</button>
       <button class="cat-tab-btn" onclick="switchCategory('deskMats')">🖼️ Palm Rest Mats</button>
@@ -359,31 +392,41 @@
       <button class="cat-tab-btn" onclick="switchCategory('json')" style="margin-left:auto;">📋 Data Reference</button>
     </nav>
 
-    <!-- Items Grid Container -->
-    <div class="shop-grid" id="itemsGrid"></div>
+    <!-- Main Content Container -->
+    <main id="shopMain">
+      <!-- Items Grid -->
+      <div class="shop-grid" id="itemsGrid"></div>
 
-    <!-- JSON Data Reference Block -->
-    <div id="jsonDataContainer" style="display:none;">
-      <h3 style="font-family:'Fredoka',cursive; font-size:1.15rem; margin-bottom:8px;">📦 Module Source: <code>js/data/pencilCaseData.js</code></h3>
-      <pre class="data-viewer-card" id="jsonViewer"></pre>
-    </div>
+      <!-- JSON Data Reference Viewer -->
+      <div id="jsonDataContainer" style="display:none;">
+        <div class="data-viewer-card">
+          <pre id="jsonViewer"></pre>
+        </div>
+      </div>
+    </main>
 
   </div>
 
+  <!-- Master Data & Shop Controller Script -->
   <script type="module">
     import { pencilCaseCatalog } from './js/data/pencilCaseData.js';
+    import { studentProgress } from './js/data/studentProgress.js';
 
-    // Simulated student inventory state
+    // Apply stored theme styles
+    studentProgress.applyStoredStyles();
+
+    // Sync user state with actual localStorage studentProgress
     const userState = {
-      coins: 340,
-      streak: 4,
+      coins: studentProgress.coins || 0,
+      streak: 5,
       perfectQuizzes: 2,
-      ownedItems: ['ink_lilac', 'paper_blank', 'paper_squares', 'paper_dots', 'mat_slate'],
+      ownedItems: JSON.parse(localStorage.getItem('elismark_owned_items') || '["ink_lilac", "ink_red", "ink_green", "ink_blue", "ink_black", "paper_blank", "paper_squares", "paper_dots", "paper_lines"]'),
       equippedItems: {
-        inks: 'ink_lilac',
-        papers: 'paper_squares',
-        deskMats: 'mat_slate',
-        accessories: null
+        inks: localStorage.getItem('elismark_active_ink') || 'ink_lilac',
+        papers: studentProgress.userPaper || 'paper-blank',
+        deskMats: localStorage.getItem('elismark_active_mat') || 'mat_default',
+        accessories: localStorage.getItem('elismark_active_acc') || 'acc_none',
+        stickers: 'stk_star'
       }
     };
 
@@ -392,6 +435,12 @@
     function renderWallet() {
       const el = document.getElementById('userCoins');
       if (el) el.innerText = userState.coins;
+
+      const nameEl = document.getElementById('badgeName');
+      if (nameEl) nameEl.innerText = studentProgress.playerName || 'Eli';
+
+      const avatarEl = document.getElementById('badgeAvatar');
+      if (avatarEl) avatarEl.innerText = studentProgress.userAvatar || '🦄';
     }
 
     function switchCategory(catId) {
@@ -494,7 +543,12 @@
     window.buyItem = function(catId, itemId, price) {
       if (userState.coins >= price) {
         userState.coins -= price;
+        studentProgress.coins = userState.coins;
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('elismark_coins', userState.coins.toString());
+        }
         userState.ownedItems.push(itemId);
+        localStorage.setItem('elismark_owned_items', JSON.stringify(userState.ownedItems));
         userState.equippedItems[catId] = itemId;
         renderWallet();
         renderCategoryItems(catId);
@@ -505,6 +559,10 @@
 
     window.equipItem = function(catId, itemId) {
       userState.equippedItems[catId] = itemId;
+      if (catId === 'papers') {
+        studentProgress.setPaper(itemId);
+      }
+      localStorage.setItem(`elismark_active_${catId}`, itemId);
       renderCategoryItems(catId);
     };
 
