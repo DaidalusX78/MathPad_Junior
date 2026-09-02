@@ -1,0 +1,14 @@
+{
+  "appId": "com.marcbailey.mathpadjunior",
+  "appName": "MathPad Junior",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "backgroundColor": "#f8fafc"
+  }
+}

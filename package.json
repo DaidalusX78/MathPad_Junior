@@ -6,7 +6,10 @@
   "main": "js/main.js",
   "scripts": {
     "start": "npx serve .",
-    "dev": "npx serve ."
+    "dev": "npx serve .",
+    "sync": "node ./scripts/stage-www.js && node ./node_modules/@capacitor/cli/bin/capacitor sync",
+    "open": "node ./node_modules/@capacitor/cli/bin/capacitor open android",
+    "build:apk": "npm run sync && cd android && gradlew.bat assembleDebug"
   },
   "keywords": [
     "math",
@@ -18,5 +21,10 @@
     "education"
   ],
   "author": "Marc Bailey",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/cli": "^8.5.1",
+    "@capacitor/core": "^8.5.1"
+  }
 }

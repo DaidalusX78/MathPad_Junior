@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MathPad Junior</string>
+    <string name="title_activity_main">MathPad Junior</string>
+    <string name="package_name">com.marcbailey.mathpadjunior</string>
+    <string name="custom_url_scheme">com.marcbailey.mathpadjunior</string>
+</resources>

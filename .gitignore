@@ -4,3 +4,14 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+android/.idea/
+
+# Dependencies & staging
+node_modules/
+www/
+
+# Android build outputs & caches
+android/app/build/
+android/.gradle/
+android/build/
+android/local.properties
