@@ -16,7 +16,8 @@
   justify-content: flex-start;
   margin-bottom: 8px;
   position: relative;
-  z-index: 20;
+  z-index: 35;
+  flex-shrink: 0;
 }
 
 .tool-group {
