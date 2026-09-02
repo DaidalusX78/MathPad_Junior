@@ -14,9 +14,9 @@ export const MILESTONES_CONFIG = [
   { id: 'count_10', title: 'Double Digits', icon: '🔟', desc: 'Answer 10 total questions correctly', stars: 25 },
   { id: 'count_50', title: 'Half Century', icon: '🎖️', desc: 'Answer 50 total questions correctly', stars: 50 },
   { id: 'count_100', title: 'Math Century', icon: '💯', desc: 'Answer 100 total questions correctly', stars: 100 },
-  { id: 'score_8', title: 'Great Effort', icon: '🌟', desc: 'Score 8 or more in a single quiz round', stars: 25 },
-  { id: 'score_9', title: 'High Flyer', icon: '🚀', desc: 'Score 9 or more in a single quiz round', stars: 35 },
-  { id: 'score_10', title: 'Perfection', icon: '👑', desc: 'Score a perfect 10/10 in a quiz round', stars: 50 },
+  { id: 'score_80', title: 'Great Effort (80%)', icon: '🌟', desc: 'Score 80% or higher in a quiz round', stars: 25 },
+  { id: 'score_90', title: 'High Flyer (90%)', icon: '🚀', desc: 'Score 90% or higher in a quiz round', stars: 35 },
+  { id: 'score_100', title: 'Perfection (100%)', icon: '👑', desc: 'Score a perfect 100% in a quiz round', stars: 50 },
   { id: 'streak_3', title: 'On Fire', icon: '🔥', desc: 'Practice for 3 days in a row', stars: 30 },
   { id: 'streak_7', title: 'Weekly Champion', icon: '🏆', desc: 'Practice for 7 days in a row', stars: 75 }
 ];
@@ -93,7 +93,11 @@ export class StudentProgress {
   loadMilestones() {
     if (typeof localStorage === 'undefined') return {};
     try {
-      return JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MILESTONES)) || {};
+      const data = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MILESTONES)) || {};
+      if (data.score_8 && !data.score_80) data.score_80 = data.score_8;
+      if (data.score_9 && !data.score_90) data.score_90 = data.score_9;
+      if (data.score_10 && !data.score_100) data.score_100 = data.score_10;
+      return data;
     } catch {
       return {};
     }
@@ -293,18 +297,21 @@ export class StudentProgress {
     }
     this.saveStats();
 
-    // Check score milestones
-    if (score >= 8) {
-      const m = this.unlockMilestone('score_8');
-      if (m) unlocked.push(m);
+    const total = totalQuestions || 10;
+    const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+
+    // Check percentage milestones (80%, 90%, 100%)
+    if (pct >= 80) {
+      const m80 = this.unlockMilestone('score_80');
+      if (m80) unlocked.push(m80);
     }
-    if (score >= 9) {
-      const m = this.unlockMilestone('score_9');
-      if (m) unlocked.push(m);
+    if (pct >= 90) {
+      const m90 = this.unlockMilestone('score_90');
+      if (m90) unlocked.push(m90);
     }
-    if (score >= 10 || (totalQuestions > 0 && score === totalQuestions)) {
-      const m = this.unlockMilestone('score_10');
-      if (m) unlocked.push(m);
+    if (pct >= 100) {
+      const m100 = this.unlockMilestone('score_100');
+      if (m100) unlocked.push(m100);
     }
 
     // Refresh streak checks

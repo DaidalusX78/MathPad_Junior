@@ -509,24 +509,29 @@ export class PracticePage {
     this.pageManager.showScreen('screenGrade');
 
     const score = Object.keys(this.sessionScores).length;
+    const questionsAsked = (this.sessionFormat === 'breaktime')
+      ? Math.max(this.currentIndex + 1, score, 1)
+      : (this.totalQuestions || 10);
+    const percentage = Math.round((score / questionsAsked) * 100);
+
     const scoreValElem = document.getElementById('gradeScoreVal');
     const scoreSubtitleElem = document.getElementById('lblGradeScoreSubtitle');
 
-    if (this.sessionFormat === 'breaktime') {
-      if (scoreValElem) scoreValElem.innerText = `${score} Solved!`;
-      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Speed Sprint in 60s';
-    } else if (this.sessionFormat === 'detention') {
-      if (scoreValElem) scoreValElem.innerText = `${score} / ${this.totalQuestions}`;
-      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Mistakes Corrected';
-    } else {
-      if (scoreValElem) scoreValElem.innerText = `${score} / ${this.totalQuestions}`;
-      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Questions Correct';
+    if (scoreValElem) {
+      scoreValElem.innerText = `${percentage}%`;
     }
 
-    // Bonus for high scores
-    const effectiveTotal = (this.sessionFormat === 'breaktime') ? Math.max(score, 5) : (this.totalQuestions || 10);
-    const ratio = score / effectiveTotal;
-    const roundBonus = Math.round((ratio === 1.0) ? (effectiveTotal * 3) : (ratio >= 0.8 ? (effectiveTotal * 1.5) : 0));
+    if (this.sessionFormat === 'breaktime') {
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = `${score} of ${questionsAsked} Questions Correct (${score} in 60s)`;
+    } else if (this.sessionFormat === 'detention') {
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = `${score} of ${questionsAsked} Mistakes Corrected`;
+    } else {
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = `${score} of ${questionsAsked} Questions Correct`;
+    }
+
+    // Bonus for high scores based on percentage
+    const ratio = percentage / 100;
+    const roundBonus = Math.round((ratio >= 1.0) ? (questionsAsked * 3) : (ratio >= 0.9 ? (questionsAsked * 2) : (ratio >= 0.8 ? (questionsAsked * 1.5) : 0)));
     const totalStarsEarned = (this.sessionCoinsEarned || 0) + roundBonus;
     studentProgress.addStars(totalStarsEarned);
 
@@ -539,7 +544,7 @@ export class PracticePage {
     this.triggerFlyingCoinAnimation(totalStarsEarned, 'scoreBadgePractice', 'coinBadgePractice');
 
     // Record quiz completion for stats & score milestones
-    const quizMilestones = studentProgress.recordQuizCompletion(score, this.totalQuestions);
+    const quizMilestones = studentProgress.recordQuizCompletion(score, questionsAsked);
     if (quizMilestones && quizMilestones.length > 0) {
       setTimeout(() => {
         quizMilestones.forEach((b) => this.showToast(`🏅 Milestone: ${b.title} (+${b.stars} ⭐)!`, 'correct'));
@@ -549,24 +554,24 @@ export class PracticePage {
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];
     let icon = '🌱';
-    let summary = `You scored ${score} out of ${this.totalQuestions}! Keep up the amazing work!`;
+    let summary = `You achieved ${percentage}% (${score} of ${questionsAsked} correct)! Keep up the amazing work!`;
 
     if (this.sessionFormat === 'breaktime') {
       icon = '🏃💨';
-      title = (score >= 8) ? '⚡ Breaktime Champion!' : '🏃 Great Speed Sprint!';
-      summary = `You answered ${score} questions in 60 seconds with double speed stars banked!`;
+      title = (percentage >= 90) ? '⚡ Breaktime Champion!' : '🏃 Great Speed Sprint!';
+      summary = `Speed Sprint Complete! You scored ${percentage}% (${score} correct in 60s) with double speed stars banked!`;
       audioManager.playSound('bell');
     } else if (this.sessionFormat === 'detention') {
-      icon = '🛡️';
-      title = '🎉 Detention Cleared!';
-      summary = 'Outstanding resilience! You conquered your tricky questions and cleared your error record!';
+      icon = (percentage === 100) ? '👑' : '🛡️';
+      title = (percentage === 100) ? '🎉 Clean Record • 100% Cleared!' : '🛡️ Detention Over • Record Cleared!';
+      summary = `Outstanding resilience! You conquered ${percentage}% of your mistakes and cleared your record!`;
       audioManager.playSound('success');
     } else {
-      if (ratio >= 0.8) {
+      if (percentage >= 90) {
         title = t.gradeTitles[2];
-        icon = '🌟';
+        icon = (percentage === 100) ? '👑' : '🌟';
         audioManager.playSound('success');
-      } else if (ratio >= 0.5) {
+      } else if (percentage >= 50) {
         title = t.gradeTitles[1];
         icon = '👏';
       }

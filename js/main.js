@@ -129,6 +129,8 @@ class App {
     window.selectPaper = (paper, el) => this.coverPage.selectPaper(paper);
     window.setWelcomeLang = (lang) => this.coverPage.setWelcomeLang(lang);
     window.saveProfileAndProceed = () => this.coverPage.proceedToHome();
+    window.practicePage = this.practicePage;
+    window.pageManager = this.pageManager;
 
     window.openStandardHomeScreen = () => {
       this.pageManager.showScreen('screenHome');

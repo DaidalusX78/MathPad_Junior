@@ -15,8 +15,7 @@ Accessibility:
 
 Extras
 1) Hidden dev mode on question page
-2) [x] Add an area to explain the project and add Created by Marc Bailey (Implemented in Settings 'About' tab).
-3) [x] Option A: "The School Day" — Daily Session Modes (Class Lessons, Breaktime Dash, Detention Mistake Buster).
+2) Creation of specifically designed vector graphics to replace the current temp icons.
 
 
 
