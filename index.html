@@ -757,7 +757,10 @@
           <span>⚙️ Settings</span>
         </button>
         <button type="button" class="modal-tab-btn" id="tabBtnShop" onclick="switchSettingsSection('shop')" role="tab">
-          <span>🎒 The Pencil Case</span>
+          <span>🎒 Pencil Case</span>
+        </button>
+        <button type="button" class="modal-tab-btn" id="tabBtnAbout" onclick="switchSettingsSection('about')" role="tab">
+          <span>ℹ️ About</span>
         </button>
       </div>
 
@@ -825,7 +828,7 @@
               style="width: auto; padding: 0 14px; gap: 8px; background: var(--theme-subtle); border-color: var(--theme-accent); color: var(--theme-accent); font-weight: 800;"
               title="View Math Stats & Milestones">
               <span>🏆</span>
-              <span id="lblViewStats">Math Awards & Stats →</span>
+              <span id="lblViewStats">Awards & Stats</span>
             </button>
           </div>
         </div>
@@ -949,6 +952,70 @@
             <span>🎒</span>
             <span>Open The Pencil Case Shop →</span>
           </a>
+        </div>
+      </div>
+
+      <!-- TAB 4: ABOUT MATHPAD JUNIOR -->
+      <div class="modal-tab-section" id="secAbout" style="display: none;">
+        <div class="about-card-body">
+          <div class="about-hero-header">
+            <div class="about-logo-badge">
+              <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
+                <rect x="2" y="2" width="11" height="11" rx="3" fill="#f97316" />
+                <path d="M7.5 5v5M5 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                <rect x="15" y="2" width="11" height="11" rx="3" fill="#06b6d4" />
+                <path d="M18 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                <rect x="2" y="15" width="11" height="11" rx="3" fill="#8b5cf6" />
+                <path d="M5.5 18.5l4 4M9.5 18.5l-4 4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+                <rect x="15" y="15" width="11" height="11" rx="3" fill="#22c55e" />
+                <path d="M18 20.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="20.5" cy="18" r="1" fill="#ffffff" />
+                <circle cx="20.5" cy="23" r="1" fill="#ffffff" />
+              </svg>
+            </div>
+            <div>
+              <div class="about-app-title">MathPad <span class="brand-junior">Junior</span> <span class="version-tag">v0.19</span></div>
+              <div class="about-app-sub">Interactive Stylus Workbook for Kids</div>
+            </div>
+          </div>
+
+          <div class="about-desc-box">
+            <p><strong>MathPad Junior</strong> is a tactile digital math workbook designed for children and touchscreen tablets. It blends natural stylus handwriting recognition with an engaging gamified curriculum.</p>
+          </div>
+
+          <div class="about-features-list">
+            <div class="about-feature-item">
+              <span class="about-feature-icon">✏️</span>
+              <div>
+                <strong>Stylus & Tactile Input</strong>
+                <span>Natural handwriting recognition, palm rest guard, and tactile keypad option.</span>
+              </div>
+            </div>
+            <div class="about-feature-item">
+              <span class="about-feature-icon">🎒</span>
+              <div>
+                <strong>The Pencil Case Shop</strong>
+                <span>Earn Math Stars to unlock equipped inks, custom desk mats, and paper textures.</span>
+              </div>
+            </div>
+            <div class="about-feature-item">
+              <span class="about-feature-icon">🌐</span>
+              <div>
+                <strong>Bilingual & Offline</strong>
+                <span>Full English 🇬🇧 and Spanish 🇪🇸 support, 100% private with offline PWA capability.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Creator Signature Card -->
+          <div class="about-creator-card">
+            <div class="about-creator-avatar">👨‍💻</div>
+            <div class="about-creator-info">
+              <div class="about-creator-badge">Creator & Lead Designer</div>
+              <div class="about-creator-name">Created by Marc Bailey</div>
+              <div class="about-creator-tagline">Crafted with passion for playful learning & tactile mathematical discovery.</div>
+            </div>
+          </div>
         </div>
       </div>
 

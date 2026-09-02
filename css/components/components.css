@@ -904,16 +904,16 @@
   flex: 1;
   border: none;
   background: transparent;
-  padding: 8px 10px;
+  padding: 8px 6px;
   border-radius: 12px;
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 800;
   color: #64748b;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   transition: all 0.15s ease;
   font-family: inherit;
   white-space: nowrap;
@@ -971,6 +971,149 @@
   align-items: center;
   gap: 6px;
   box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15);
+}
+
+/* ------------------- About Section & Creator Card ------------------- */
+.about-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 0 6px 0;
+}
+
+.about-hero-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1.5px solid var(--border-light);
+  border-radius: 16px;
+  padding: 10px 14px;
+}
+
+.about-logo-badge {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.about-app-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  font-family: 'Fredoka', cursive, sans-serif;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.about-app-sub {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.about-desc-box {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  padding: 9px 12px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #334155;
+}
+
+.about-desc-box p {
+  margin: 0;
+}
+
+.about-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 7px 10px;
+}
+
+.about-feature-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.about-feature-item strong {
+  display: block;
+  font-size: 0.8rem;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.about-feature-item span {
+  font-size: 0.74rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.about-creator-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+  border: 1.5px solid #f0abfc;
+  border-radius: 16px;
+  padding: 10px 14px;
+  margin-top: 2px;
+}
+
+.about-creator-avatar {
+  font-size: 1.6rem;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.15);
+  flex-shrink: 0;
+}
+
+.about-creator-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.about-creator-badge {
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #9333ea;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.about-creator-name {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #581c87;
+  font-family: 'Fredoka', cursive, sans-serif;
+}
+
+.about-creator-tagline {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #7e22ce;
+  line-height: 1.3;
 }
 
 /* ------------------- Stats & Milestones Modal ------------------- */

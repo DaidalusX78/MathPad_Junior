@@ -15,4 +15,5 @@ Accessibility:
 
 Extras
 1) Hidden dev mode on question page
-2) Add an area to explain the project and the add Created by Marc Bailey
+2) [x] Add an area to explain the project and add Created by Marc Bailey (Implemented in Settings 'About' tab).
+3) Explore/organise play format & time structures into school-themed categories (Classes, Week, Term, Holidays, Year, lunch time, break time, after school, detention etc).

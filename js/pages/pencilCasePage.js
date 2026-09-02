@@ -237,7 +237,7 @@ export class PencilCasePage {
   }
 
   switchSettingsSection(section) {
-    const tabs = ['profile', 'settings', 'shop'];
+    const tabs = ['profile', 'settings', 'shop', 'about'];
     tabs.forEach((tab) => {
       const isMatch = tab === section;
       const btn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
