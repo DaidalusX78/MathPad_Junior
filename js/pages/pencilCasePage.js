@@ -174,7 +174,7 @@ export class PencilCasePage {
     } else if (catId === 'deskMats') {
       studentProgress.setPalmMat(itemId);
     } else if (catId === 'inks') {
-      localStorage.setItem('elismark_active_ink', itemId);
+      studentProgress.setInk(itemId);
     }
 
     localStorage.setItem(`elismark_active_${catId}`, itemId);

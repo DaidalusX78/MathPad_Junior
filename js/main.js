@@ -28,8 +28,9 @@ class App {
     this.coverPage.init();
     this.pageManager.updateAllStaticText();
 
-    // Initial paper texture
+    // Initial paper texture & ink
     this.coverPage.selectPaper(studentProgress.userPaper);
+    this.canvasEngine.setColor(studentProgress.getEquippedInkHex());
 
     // Initial screen check
     if (studentProgress.playerName) {
@@ -37,6 +38,8 @@ class App {
     } else {
       this.pageManager.showScreen('screenWelcome');
     }
+
+    this.initSplashScreen();
 
     // Check URL parameters for PWA app shortcuts (e.g. ?mode=tables or ?mode=random)
     const urlParams = new URLSearchParams(window.location.search);
@@ -79,6 +82,43 @@ class App {
           });
       });
     }
+  }
+
+  initSplashScreen() {
+    const splash = document.getElementById('splash-screen');
+    if (!splash) return;
+
+    // Fast bypass if user has already seen splash screen in this session or has a hash/query
+    const hasSeenSplash = sessionStorage.getItem('mathpad_splash_seen');
+    const hasHash = !!window.location.hash;
+
+    if (hasSeenSplash || hasHash) {
+      splash.style.display = 'none';
+      return;
+    }
+
+    sessionStorage.setItem('mathpad_splash_seen', 'true');
+    const bar = document.getElementById('splashProgressBar');
+    const status = document.getElementById('splashStatusText');
+
+    setTimeout(() => {
+      if (bar) bar.style.width = '45%';
+      if (status) status.textContent = 'Setting up stylus canvas...';
+    }, 200);
+
+    setTimeout(() => {
+      if (bar) bar.style.width = '90%';
+      if (status) status.textContent = 'Restoring math progress...';
+    }, 500);
+
+    setTimeout(() => {
+      if (bar) bar.style.width = '100%';
+      if (status) status.textContent = 'Ready!';
+      splash.classList.add('splash-screen-hide');
+      setTimeout(() => {
+        splash.style.display = 'none';
+      }, 450);
+    }, 850);
   }
 
   bindWindowGlobals() {

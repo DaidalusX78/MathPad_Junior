@@ -1,10 +1,10 @@
 Issues:
-1) [x] Pencil Case settings menu accessible via top-right ⚙️ button and clickable player profile badge, embedding full Settings and Stats modals.
-2) [x] Raised .equipped-ribbon z-index to 20 with absolute positioning so it sits prominently on top of preview-box.
-3) [x] Populated Paper Textures & Palm Rest Mats Catalogues with realistic rendered preview artwork, added real CSS textures (paper-chalkboard, paper-galaxy, paper-parchment) and Palm Rest skins (mat_slate, mat_woodcraft, mat_space, mat_neon_cyber) wired to studentProgress and active workbook surfaces.
-4) [x] Fully integrated pencil_case.html: extracted embedded CSS into css/pencil_case.css and embedded JS into js/pages/pencilCasePage.js.
+1) Pencil Case i cannot access the settings menu
+2) pencil case - "equipped-ribbon" raise z-index as currently behind the other items eg "preview-box"
+3) Paper Textures Catalogue - These are placeholders i guess, best way to populate this section? Also Palm Rest Mats Catalogue as well.
+4) once the above 3 are complete can you fully integrate the pencil_case.html into the project as it still has embedded css and js
 
-execute version-tag v0.18 completed
+execute "version-tag"v0.18
 
 
 
@@ -35,3 +35,4 @@ Accessibility:
 Extras
 1) Hidden dev mode on question page
 2) check designs against android m3 requirements.
+3) [x] strip out any unwanted files from the project (deleted obsolete code & moved prototypes to archive/)

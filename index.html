@@ -36,6 +36,58 @@
 
 <body class="paper-blank">
 
+  <!-- NATIVE SPLASH SCREEN OVERLAY -->
+  <div id="splash-screen">
+    <div class="grid-overlay"></div>
+    <div class="splash-center">
+      <div class="hero-logo-box">
+        <!-- 4-Square Arithmetic Vector Matrix -->
+        <svg viewBox="0 0 100 100" width="100" height="100" fill="none">
+          <rect x="2" y="2" width="44" height="44" rx="12" fill="#f97316" />
+          <path d="M24 13v22M13 24h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+          <rect x="54" y="2" width="44" height="44" rx="12" fill="#06b6d4" />
+          <path d="M65 24h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+          <rect x="2" y="54" width="44" height="44" rx="12" fill="#8b5cf6" />
+          <path d="M16 68l16 16M32 68l-16 16" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+          <rect x="54" y="54" width="44" height="44" rx="12" fill="#22c55e" />
+          <path d="M65 76h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+          <circle cx="76" cy="67" r="3.5" fill="#ffffff" />
+          <circle cx="76" cy="85" r="3.5" fill="#ffffff" />
+        </svg>
+
+        <!-- Floating Stylus Tool -->
+        <svg class="floating-stylus" viewBox="0 0 48 48" fill="none">
+          <defs>
+            <linearGradient id="stylusGradSplash" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="35%" stop-color="#34d399" />
+              <stop offset="70%" stop-color="#fbbf24" />
+              <stop offset="100%" stop-color="#f87171" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(24, 24) rotate(45) translate(-24, -24)">
+            <polygon points="20,10 28,10 24,0" fill="#fef08a" />
+            <rect x="20" y="10" width="8" height="28" rx="2" fill="url(#stylusGradSplash)" />
+            <rect x="20" y="38" width="8" height="4" rx="1" fill="#e2e8f0" />
+          </g>
+        </svg>
+      </div>
+
+      <h1 class="brand-title">
+        MathPad
+        <span class="junior-pill">Junior</span>
+      </h1>
+      <p class="brand-tagline">Interactive Stylus Workbook for Kids</p>
+    </div>
+
+    <div class="splash-footer">
+      <div class="pencil-loader">
+        <div class="pencil-progress" id="splashProgressBar"></div>
+      </div>
+      <span class="status-caption" id="splashStatusText">Opening workbook...</span>
+    </div>
+  </div>
+
   <!-- SCREEN 0: WELCOME & INITIAL SETUP -->
   <div class="screen active" id="screenWelcome">
     <div class="welcome-card">

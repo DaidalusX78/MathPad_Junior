@@ -37,6 +37,7 @@ export class StudentProgress {
       COINS: 'elismark_coins',
       PALM_HEIGHT: 'elismark_palm_height',
       PALM_MAT: 'elismark_palm_mat',
+      INK: 'elismark_active_ink',
       STATS: 'elismark_stats',
       MILESTONES: 'elismark_milestones',
       LIFETIME_STARS: 'elismark_lifetime_stars',
@@ -54,6 +55,7 @@ export class StudentProgress {
     this.userFont = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.FONT) || 'Fredoka') : 'Fredoka';
     this.userPaper = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.PAPER) || 'paper-blank') : 'paper-blank';
     this.userPalmMat = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.PALM_MAT) || 'mat_slate') : 'mat_slate';
+    this.userInk = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.INK) || 'ink_lilac') : 'ink_lilac';
     this.soundFxEnabled = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.SOUND) !== 'false') : true;
     this.inputMode = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.INPUT_MODE) || 'draw') : 'draw';
     this.coins = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.COINS) || '0', 10) : 0;
@@ -379,6 +381,24 @@ export class StudentProgress {
       localStorage.setItem(this.STORAGE_KEYS.PALM_MAT, matId);
     }
     this.applyPalmMatStyle();
+  }
+
+  setInk(inkId) {
+    this.userInk = inkId;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.INK, inkId);
+    }
+  }
+
+  getEquippedInkHex() {
+    const INK_MAP = {
+      ink_lilac: '#b57edc',
+      ink_red: '#dc2626',
+      ink_green: '#16a34a',
+      ink_blue: '#2563eb',
+      ink_black: '#0f172a'
+    };
+    return INK_MAP[this.userInk] || '#b57edc';
   }
 
   applyPalmMatStyle() {

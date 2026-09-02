@@ -64,6 +64,8 @@ export class PracticePage {
       palmShield.classList.add(mat);
     }
 
+    this.canvasEngine.setColor(studentProgress.getEquippedInkHex());
+
     setTimeout(() => {
       this.canvasEngine.resize();
       this.canvasEngine.ctx.clearRect(0, 0, this.canvasEngine.canvas.width, this.canvasEngine.canvas.height);
