@@ -12,7 +12,25 @@ export class PageManager {
   }
 
   getI18n() {
-    return this.curriculaData.i18n[studentProgress.currentLang] || this.curriculaData.i18n.en;
+    const lang = (this.draftSettings && this.draftSettings.lang) || studentProgress.currentLang || 'en';
+    return this.curriculaData.i18n[lang] || this.curriculaData.i18n.en;
+  }
+
+  updatePaperDisplay(isFullBackgroundPreview = false) {
+    const paperClasses = ['paper-squares', 'paper-dots', 'paper-lines', 'paper-blank'];
+    paperClasses.forEach((cls) => document.body.classList.remove(cls));
+
+    const activePaper = (this.draftSettings && isFullBackgroundPreview) ? this.draftSettings.paper : studentProgress.userPaper;
+
+    document.body.classList.remove(...paperClasses);
+    if (isFullBackgroundPreview) {
+      document.body.classList.add(activePaper);
+    }
+
+    const canvasContainer = document.getElementById('canvasContainer');
+    if (canvasContainer) {
+      canvasContainer.className = `canvas-container ${activePaper}`;
+    }
   }
 
   showScreen(screenId) {
@@ -22,52 +40,171 @@ export class PageManager {
       target.classList.add('active');
       this.currentScreen = screenId;
     }
+    this.updatePaperDisplay(screenId === 'screenWelcome');
   }
 
   updateLanguage(lang) {
     studentProgress.setLang(lang);
     this.updateAllStaticText();
+    if (this.practicePage) {
+      this.practicePage.updateI18n();
+    }
     audioManager.playSound('click');
   }
 
   openSettingsModal() {
+    this.draftSettings = {
+      playerName: studentProgress.playerName || 'Eli',
+      avatar: studentProgress.userAvatar || '🦄',
+      themeAccent: studentProgress.userThemeAccent || '#a855f7',
+      themeSubtle: studentProgress.userThemeSubtle || '#fdf4ff',
+      themeBorder: studentProgress.userThemeBorder || '#f0abfc',
+      paper: studentProgress.userPaper || 'paper-blank',
+      lang: studentProgress.currentLang || 'en',
+      sound: studentProgress.soundFxEnabled
+    };
+
     const nameInput = document.getElementById('modalPlayerNameInput');
-    if (nameInput) nameInput.value = studentProgress.playerName || 'Eli';
+    if (nameInput) nameInput.value = this.draftSettings.playerName;
 
-    // Sync avatar highlights
-    document.querySelectorAll('#settingsModal .avatar-btn').forEach((b) => {
-      b.classList.toggle('active', b.innerText.trim() === studentProgress.userAvatar);
-    });
-
-    // Sync theme swatch highlights
-    document.querySelectorAll('#settingsModal .theme-swatch').forEach((s) => {
-      const bg = s.style.backgroundColor || s.getAttribute('style') || '';
-      s.classList.toggle('active', bg.includes(studentProgress.userThemeAccent));
-    });
-
-    // Sync paper button highlights
-    document.querySelectorAll('#settingsModal .paper-btn').forEach((b) => {
-      b.classList.toggle('active', b.getAttribute('onclick')?.includes(studentProgress.userPaper));
-    });
-
-    // Sync flags
-    document.getElementById('flagEN')?.classList.toggle('active', studentProgress.currentLang === 'en');
-    document.getElementById('flagES')?.classList.toggle('active', studentProgress.currentLang === 'es');
-
-    // Status indicators
-    const t = this.getI18n();
-    document.getElementById('soundModalBtn')?.classList.toggle('active', studentProgress.soundFxEnabled);
-    const soundStatus = document.getElementById('lblSoundStatus');
-    if (soundStatus) {
-      soundStatus.innerText = studentProgress.soundFxEnabled ? t.soundOn : t.soundOff;
-    }
+    this.syncDraftHighlights();
+    this.updatePaperDisplay(true);
 
     document.getElementById('settingsModal')?.classList.add('active');
     audioManager.playSound('click');
   }
 
+  syncDraftHighlights() {
+    if (!this.draftSettings) return;
+
+    // Sync avatar highlights
+    document.querySelectorAll('#settingsModal .avatar-btn').forEach((b) => {
+      const av = b.dataset.avatar || b.innerText.trim();
+      b.classList.toggle('active', av === this.draftSettings.avatar);
+    });
+
+    // Sync theme swatch highlights
+    document.querySelectorAll('#settingsModal .theme-swatch').forEach((s) => {
+      const accent = s.dataset.accent || '';
+      s.classList.toggle('active', accent.toLowerCase() === this.draftSettings.themeAccent.toLowerCase());
+    });
+
+    // Sync paper button highlights
+    document.querySelectorAll('#settingsModal .paper-btn').forEach((b) => {
+      const paper = b.dataset.paper || '';
+      b.classList.toggle('active', paper === this.draftSettings.paper);
+    });
+
+    // Sync flags
+    document.getElementById('flagEN')?.classList.toggle('active', this.draftSettings.lang === 'en');
+    document.getElementById('flagES')?.classList.toggle('active', this.draftSettings.lang === 'es');
+
+    // Status indicators
+    const t = this.getI18n();
+    document.getElementById('soundModalBtn')?.classList.toggle('active', this.draftSettings.sound);
+    const soundStatus = document.getElementById('lblSoundStatus');
+    if (soundStatus) {
+      soundStatus.innerText = this.draftSettings.sound ? t.soundOn : t.soundOff;
+    }
+  }
+
+  stagePlayerName(val) {
+    if (this.draftSettings) {
+      this.draftSettings.playerName = val.trim() || 'Eli';
+    }
+  }
+
+  stageAvatar(avatar) {
+    if (!this.draftSettings) return;
+    this.draftSettings.avatar = avatar;
+    this.syncDraftHighlights();
+    audioManager.playSound('click');
+  }
+
+  stageTheme(accent, subtle, border) {
+    if (!this.draftSettings) return;
+    this.draftSettings.themeAccent = accent;
+    this.draftSettings.themeSubtle = subtle;
+    this.draftSettings.themeBorder = border;
+
+    document.documentElement.style.setProperty('--theme-accent', accent);
+    document.documentElement.style.setProperty('--theme-subtle', subtle);
+    document.documentElement.style.setProperty('--theme-border', border);
+
+    this.syncDraftHighlights();
+    audioManager.playSound('click');
+  }
+
+  stagePaper(paperClass) {
+    if (!this.draftSettings) return;
+    this.draftSettings.paper = paperClass;
+    this.syncDraftHighlights();
+    this.updatePaperDisplay(true);
+    audioManager.playSound('click');
+  }
+
+  stageLanguage(lang) {
+    if (!this.draftSettings) return;
+    this.draftSettings.lang = lang;
+    this.syncDraftHighlights();
+    this.updateAllStaticText();
+    audioManager.playSound('click');
+  }
+
+  stagePalmToggle() {
+    this.practicePage?.togglePalmShield();
+  }
+
+  stageSoundToggle() {
+    if (!this.draftSettings) return;
+    this.draftSettings.sound = !this.draftSettings.sound;
+    this.syncDraftHighlights();
+    audioManager.playSound('click');
+  }
+
+  saveSettingsModal() {
+    if (this.draftSettings) {
+      studentProgress.setPlayerName(this.draftSettings.playerName);
+      studentProgress.setAvatar(this.draftSettings.avatar);
+      studentProgress.setTheme(this.draftSettings.themeAccent, this.draftSettings.themeSubtle, this.draftSettings.themeBorder);
+      studentProgress.setPaper(this.draftSettings.paper);
+      studentProgress.setLang(this.draftSettings.lang);
+      if (studentProgress.soundFxEnabled !== this.draftSettings.sound) {
+        studentProgress.toggleSound();
+      }
+    }
+
+    this.draftSettings = null;
+    this.updateAllStaticText();
+    this.closeSettingsModal();
+    audioManager.playSound('success');
+  }
+
+  cancelSettingsModal() {
+    studentProgress.applyStoredStyles();
+    this.draftSettings = null;
+    this.updateAllStaticText();
+    this.closeSettingsModal();
+  }
+
   closeSettingsModal() {
     document.getElementById('settingsModal')?.classList.remove('active');
+    this.updatePaperDisplay(this.currentScreen === 'screenWelcome');
+  }
+
+  openCoinGuideModal() {
+    const modal = document.getElementById('coinGuideModal');
+    if (modal) {
+      modal.classList.add('active');
+      audioManager.playSound('click');
+    }
+  }
+
+  closeCoinGuideModal() {
+    const modal = document.getElementById('coinGuideModal');
+    if (modal) {
+      modal.classList.remove('active');
+    }
   }
 
   updateAllStaticText() {
@@ -79,7 +216,6 @@ export class PageManager {
       if (el) el.innerText = text;
     };
 
-    setElemText('welTitle', t.welcome);
     setElemText('welByline', t.byline || 'Interactive Stylus Workbook for Kids');
     setElemText('lblPlayerName', t.playerName);
     setElemText('lblMascot', t.mascot);
@@ -93,6 +229,10 @@ export class PageManager {
     setElemText('btnPaperLines', t.paperLines);
     setElemText('btnPaperBlank', t.paperBlank);
 
+    // Flags in Welcome
+    document.getElementById('welFlagEN')?.classList.toggle('active', studentProgress.currentLang === 'en');
+    document.getElementById('welFlagES')?.classList.toggle('active', studentProgress.currentLang === 'es');
+
     // Home Screen
     setElemText('tTables', t.categories.tables);
     setElemText('tMult', t.categories.mult);
@@ -101,7 +241,7 @@ export class PageManager {
     setElemText('tSub', t.categories.sub);
     setElemText('tWord', t.categories.word);
     setElemText('tGeo', t.categories.geo);
-    setElemText('tAllSeq', t.categories.all_seq);
+    setElemText('tAll', t.categories.all_seq);
     setElemText('tRandom', t.categories.random);
 
     setElemText('cTables', t.countLabel);
@@ -111,7 +251,7 @@ export class PageManager {
     setElemText('cSub', t.countLabel);
     setElemText('cWord', t.countLabel);
     setElemText('cGeo', t.countLabel);
-    setElemText('cAllSeq', t.countLabel);
+    setElemText('cAll', t.countLabel);
     setElemText('cRandom', t.countLabel);
 
     // Header Badges
@@ -122,6 +262,8 @@ export class PageManager {
     });
 
     // Practice UI
+    setElemText('lblModeDraw', t.modeDraw || 'Draw');
+    setElemText('lblModeKeypad', t.modeKeypad || 'Keypad');
     setElemText('lblCheckHandwriting', t.checkAnswer);
     setElemText('lblWritten', t.written);
     setElemText('lblPen', t.pen);
@@ -147,8 +289,6 @@ export class PageManager {
     setElemText('lblLangSetting', t.langSetting);
     setElemText('lblPalmSetting', t.palmSetting);
     setElemText('lblSoundSetting', t.soundSetting);
-    setElemText('lblImportSetting', t.customSetting);
-    setElemText('lblUploadBtn', t.loadSheet);
     setElemText('lblPlayerSwitch', t.profileSetting);
     setElemText('lblLogout', t.changePlayer);
     setElemText('lblModalPaper', t.modalPaper);
@@ -156,7 +296,14 @@ export class PageManager {
     setElemText('modalBtnPaperDots', t.paperDots);
     setElemText('modalBtnPaperLines', t.paperLines);
     setElemText('modalBtnPaperBlank', t.paperBlank);
+    setElemText('btnCancelSettings', t.cancel || 'Cancel');
+    setElemText('btnSaveSettings', t.saveChanges || 'Save Changes');
     setElemText('btnGradeHome', t.homeMenu);
     setElemText('btnGradeRetry', t.playAnother);
+
+    const coins = studentProgress.coins || 0;
+    ['coinCountHome', 'coinCountDev', 'coinCountPractice', 'palmCoinCount'].forEach((id) => {
+      setElemText(id, coins.toString());
+    });
   }
 }

@@ -1,133 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
     <!-- Background Gradient -->
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#60b2fc"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
+    <linearGradient id="appBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
     </linearGradient>
-
-    <!-- Tablet Body Gradient -->
-    <linearGradient id="tabletGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2d4975"/>
-      <stop offset="100%" stop-color="#192a47"/>
-    </linearGradient>
-
-    <!-- Stylus Rainbow Gradient -->
-    <linearGradient id="stylusRainbow" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="35%" stop-color="#34d399"/>
-      <stop offset="70%" stop-color="#fbbf24"/>
-      <stop offset="100%" stop-color="#f87171"/>
-    </linearGradient>
-
-    <!-- Stylus Tip Glow -->
-    <radialGradient id="tipGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="50%" stop-color="#fef08a" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#eab308" stop-opacity="0"/>
-    </radialGradient>
 
     <!-- Drop Shadow Filter -->
-    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.25"/>
-    </filter>
-
     <filter id="softShadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.18"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.14"/>
     </filter>
-
-    <!-- Math Grid Pattern -->
-    <pattern id="mathGrid" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#e0f2fe" stroke-width="1.5"/>
-    </pattern>
   </defs>
 
-  <!-- 1. App Icon Base / Background Tile -->
-  <rect id="app-base" width="512" height="512" rx="108" fill="url(#bgGrad)"/>
+  <!-- 1. App Icon Base Tile -->
+  <rect width="512" height="512" rx="112" fill="url(#appBgGrad)" stroke="#e2e8f0" stroke-width="4"/>
 
-  <!-- 2. Main Tablet Body -->
-  <g id="tablet-group" filter="url(#shadow)">
-    <rect id="tablet-shell" x="96" y="112" width="320" height="200" rx="20" fill="url(#tabletGrad)"/>
-    <!-- Tablet Screen Bezel Inner Accent -->
-    <rect x="100" y="116" width="312" height="192" rx="16" fill="none" stroke="#476999" stroke-width="2"/>
-    <!-- Camera/Sensor Dot -->
-    <circle cx="406" cy="212" r="3.5" fill="#38bdf8" opacity="0.8"/>
-  </g>
-
-  <!-- 3. Math Workbook / Paper Pad Layer -->
-  <g id="paper-sheet" filter="url(#softShadow)">
-    <!-- Main Sheet Surface -->
-    <rect id="sheet-body" x="124" y="124" width="260" height="176" rx="10" fill="#ffffff"/>
-    
-    <!-- Grid Pattern Fill -->
-    <rect id="sheet-grid" x="144" y="124" width="240" height="176" rx="10" fill="url(#mathGrid)"/>
-
-    <!-- Notebook Left Spiral / Rolled Spine -->
-    <g id="notebook-spine">
-      <!-- Spine Base / Under-roll -->
-      <rect x="116" y="124" width="28" height="176" rx="6" fill="#cbd5e1"/>
-      <rect x="118" y="124" width="24" height="176" rx="5" fill="#f1f5f9"/>
-      <!-- Spine Highlight Lip -->
-      <path d="M 142 124 C 136 124, 136 300, 142 300" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
-    </g>
-  </g>
-
-  <!-- 4. Math Numbers & Arithmetic Symbols -->
-  <g id="math-symbols">
-    <!-- Top Row: Numbers (1 2 3) -->
-    <g id="row-numbers" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="46">
-      <text x="172" y="196" fill="#f97316" text-anchor="middle">1</text>
-      <text x="242" y="196" fill="#eab308" text-anchor="middle">2</text>
-      <text x="312" y="196" fill="#22c55e" text-anchor="middle">3</text>
-    </g>
-
-    <!-- Bottom Row: Operators (+ − ÷) -->
-    <g id="row-operators">
-      <!-- Plus (+) -->
-      <g id="op-plus" fill="#f97316">
-        <rect x="164" y="234" width="16" height="32" rx="4"/>
-        <rect x="156" y="242" width="32" height="16" rx="4"/>
-      </g>
-
-      <!-- Minus (−) -->
-      <g id="op-minus" fill="#06b6d4">
-        <rect x="226" y="242" width="32" height="16" rx="4"/>
-      </g>
-
-      <!-- Division (÷) -->
-      <g id="op-divide" fill="#d946ef">
-        <circle cx="312" cy="236" r="5.5"/>
-        <rect x="296" y="246" width="32" height="10" rx="3"/>
-        <circle cx="312" cy="266" r="5.5"/>
-      </g>
-    </g>
-  </g>
-
-  <!-- 5. Stylus / Smart Pen -->
-  <!-- Rotated 45 degrees over the top right corner -->
-  <g id="stylus-group" transform="translate(350, 80) rotate(45)" filter="url(#softShadow)">
-    <!-- Stylus Glow -->
-    <circle cx="20" cy="-6" r="28" fill="url(#tipGlow)"/>
-
-    <!-- Stylus Nib / Active Tip -->
-    <polygon points="12,10 28,10 20,-8" fill="#ffffff"/>
-    <polygon points="16,0 24,0 20,-8" fill="#fef08a"/>
-
-    <!-- Stylus Rainbow Body -->
-    <rect x="10" y="10" width="20" height="96" rx="6" fill="url(#stylusRainbow)"/>
-
-    <!-- Stylus Grip & Accent Band -->
-    <rect x="10" y="22" width="20" height="6" fill="#ffffff" opacity="0.6"/>
-    <!-- Button Capsule -->
-    <rect x="17" y="44" width="6" height="18" rx="3" fill="#ffffff" opacity="0.8"/>
-
-    <!-- Stylus Top Cap / Eraser Head -->
-    <rect x="10" y="96" width="20" height="16" rx="4" fill="#e2e8f0"/>
-  </g>
-
-  <!-- 6. In-App Typography Lockup -->
-  <g id="brand-text" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Nunito', sans-serif" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#softShadow)">
-    <text x="256" y="388" font-size="48" letter-spacing="-0.5">MathPad</text>
-    <text x="256" y="444" font-size="44" letter-spacing="-0.5">Junior</text>
+  <!-- 2. 4-Square Math Matrix -->
+  <g transform="translate(68, 68) scale(13.4)" filter="url(#softShadow)">
+    <!-- + -->
+    <rect x="2" y="2" width="11" height="11" rx="3" fill="#f97316" />
+    <path d="M7.5 5v5M5 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    <!-- - -->
+    <rect x="15" y="2" width="11" height="11" rx="3" fill="#06b6d4" />
+    <path d="M18 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    <!-- x -->
+    <rect x="2" y="15" width="11" height="11" rx="3" fill="#8b5cf6" />
+    <path d="M5.5 18.5l4 4M9.5 18.5l-4 4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+    <!-- ÷ -->
+    <rect x="15" y="15" width="11" height="11" rx="3" fill="#22c55e" />
+    <path d="M18 20.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    <circle cx="20.5" cy="18" r="1" fill="#ffffff" />
+    <circle cx="20.5" cy="23" r="1" fill="#ffffff" />
   </g>
 </svg>

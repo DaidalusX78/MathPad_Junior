@@ -30,11 +30,9 @@
   font-size: 1.85rem;
   font-weight: 900;
   font-family: 'Fredoka', cursive, sans-serif;
-  background: linear-gradient(135deg, var(--theme-accent), #ec4899);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--theme-accent);
   letter-spacing: -0.01em;
+  transition: color 0.2s ease;
 }
 
 .welcome-byline {
@@ -46,10 +44,16 @@
   letter-spacing: 0.02em;
 }
 
-.welcome-brand-logo {
-  width: 64px;
-  height: 64px;
+.welcome-brand-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
+}
+
+.welcome-matrix-svg {
+  width: 58px;
+  height: 58px;
   display: block;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
 }
@@ -273,18 +277,10 @@ main {
   transform: scale(0.97);
 }
 
-.action-stack-btn.show-btn {
-  background: #ffffff;
-  border-color: var(--border-light);
-  color: #475569;
-}
-
-.action-stack-btn.show-btn.revealed {
-  background: #ecfdf5;
-  border-color: #10b981;
-  color: #047857;
-  font-weight: 900;
-  font-size: 1.1rem;
+.action-stack-btn.guide-btn {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
 }
 
 .action-stack-btn.check-btn {
@@ -294,40 +290,15 @@ main {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Footer with Navigation Controls */
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 2px;
-  margin-bottom: 4px;
-  flex-shrink: 0;
+.action-stack-btn.next-btn {
+  background: #059669;
+  color: #ffffff;
+  border-color: #047857;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
 }
 
-.footer-btn {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  color: #334155;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 0.86rem;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.footer-btn.center-home {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  color: #0f172a;
-  font-weight: 900;
-  padding: 8px 24px;
-}
-
-.footer-btn.primary {
-  background: var(--theme-accent);
-  color: white;
-  border-color: var(--theme-accent);
+.action-stack-btn.next-btn:hover {
+  background: #047857;
 }
 
 /* ------------------- SCREEN 3: SCORE & GRADE SCREEN (/10) ------------------- */

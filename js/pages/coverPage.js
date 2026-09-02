@@ -67,11 +67,9 @@ export class CoverPage {
 
   selectPaper(paperClass) {
     studentProgress.setPaper(paperClass);
-    document.body.className = paperClass;
-    const canvasContainer = document.getElementById('canvasContainer');
-    if (canvasContainer) {
-      canvasContainer.className = `canvas-container ${paperClass}`;
-    }
+    const isModalOpen = document.getElementById('settingsModal')?.classList.contains('active');
+    const isWelcome = this.pageManager.currentScreen === 'screenWelcome';
+    this.pageManager.updatePaperDisplay(isModalOpen || isWelcome);
     this.syncWelcomeUI();
     audioManager.playSound('click');
   }

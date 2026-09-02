@@ -17,6 +17,10 @@ class App {
     this.canvasEngine = new CanvasEngine('paintCanvas', 'canvasContainer');
     this.coverPage = new CoverPage(this.pageManager);
     this.practicePage = new PracticePage(this.pageManager, this.canvasEngine);
+    this.pageManager.practicePage = this.practicePage;
+
+    // Bind window globals immediately so inline onclick handlers never fail
+    this.bindWindowGlobals();
   }
 
   init() {
@@ -59,7 +63,6 @@ class App {
       }
     });
 
-    this.bindWindowGlobals();
     this.registerServiceWorker();
   }
 
@@ -103,13 +106,40 @@ class App {
 
     window.openSettingsModal = () => this.pageManager.openSettingsModal();
     window.closeSettingsModal = () => this.pageManager.closeSettingsModal();
+    window.saveSettingsModal = () => this.pageManager.saveSettingsModal();
+    window.cancelSettingsModal = () => this.pageManager.cancelSettingsModal();
+    window.stagePlayerName = (v) => this.pageManager.stagePlayerName(v);
+    window.stageAvatar = (av, el) => this.pageManager.stageAvatar(av);
+    window.stageTheme = (acc, sub, bor, el) => this.pageManager.stageTheme(acc, sub, bor);
+    window.stagePaper = (p, el) => this.pageManager.stagePaper(p);
+    window.stageLanguage = (l) => this.pageManager.stageLanguage(l);
+    window.stagePalmToggle = () => this.pageManager.stagePalmToggle();
+    window.stageSoundToggle = () => this.pageManager.stageSoundToggle();
+
+    window.openCoinGuideModal = () => this.pageManager.openCoinGuideModal();
+    window.closeCoinGuideModal = () => this.pageManager.closeCoinGuideModal();
+
+    window.openStepGuide = () => this.practicePage.openStepGuide();
+    window.closeStepGuide = () => this.practicePage.stepGuideModal.close();
+    window.nextStepGuide = () => this.practicePage.stepGuideModal.nextStep();
+    window.prevStepGuide = () => this.practicePage.stepGuideModal.prevStep();
+    window.readStepGuideAloud = () => this.practicePage.stepGuideModal.readAloud();
+
     window.handleOverlayClick = (e) => {
       if (e.target.id === 'settingsModal') {
-        this.pageManager.closeSettingsModal();
+        this.pageManager.cancelSettingsModal();
+      } else if (e.target.id === 'stepGuideModal') {
+        this.practicePage.stepGuideModal.close();
+      } else if (e.target.id === 'coinGuideModal') {
+        this.pageManager.closeCoinGuideModal();
       }
     };
 
-    window.changeLanguage = (lang) => this.pageManager.updateLanguage(lang);
+    window.changeLanguage = (lang) => {
+      this.pageManager.updateLanguage(lang);
+      this.practicePage.updateI18n();
+    };
+    window.setInputMode = (mode) => this.practicePage.setInputMode(mode);
     window.toggleSoundFx = () => {
       const enabled = studentProgress.toggleSound();
       const t = this.pageManager.getI18n();
@@ -128,11 +158,11 @@ class App {
     window.startPractice = (mode) => this.practicePage.startPractice(mode);
     window.nextQuestion = () => this.practicePage.nextQuestion();
     window.prevQuestion = () => this.practicePage.prevQuestion();
-    window.toggleAnswer = () => this.practicePage.toggleAnswer();
     window.recognizeHandwriting = () => this.practicePage.recognizeHandwriting();
     window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode);
 
     window.setTool = (tool) => this.canvasEngine.setTool(tool);
+    window.setColor = (val) => this.canvasEngine.setColor(val);
     window.setColorFromDropdown = (val) => this.canvasEngine.setColor(val);
     window.setStrokeSize = (size) => this.canvasEngine.setStrokeSize(size);
     window.undoCanvas = () => {
@@ -144,37 +174,17 @@ class App {
       this.canvasEngine.clear();
       this.practicePage.saveCurrentCanvas();
     };
-
-    window.handleFileUpload = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const content = event.target.result;
-          let list = [];
-          if (file.name.endsWith('.json')) {
-            list = JSON.parse(content);
-          }
-          if (list.length > 0) {
-            this.pageManager.curriculaData.questions = list;
-            this.pageManager.closeSettingsModal();
-            this.practicePage.startPractice('all_seq');
-          }
-        } catch (err) {
-          console.error('File parsing error:', err);
-        }
-      };
-      reader.readAsText(file);
-    };
   }
 }
 
-// Bootstrap on DOM Ready
+// Bootstrap immediately and on DOM Ready
 if (typeof window !== 'undefined') {
-  window.addEventListener('DOMContentLoaded', () => {
-    const app = new App();
+  const app = new App();
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', () => {
+      app.init();
+    });
+  } else {
     app.init();
-  });
+  }
 }

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Launcher Base Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow for App Launcher -->
+    <filter id="iconShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base Tile -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+
+  <!-- Matrix Mark (Centered inside 512 canvas) -->
+  <g transform="translate(108, 108)" filter="url(#iconShadow)">
+    <!-- Plus Box -->
+    <rect x="0" y="0" width="138" height="138" rx="36" fill="#f97316"/>
+    <path d="M69 36v66M36 69h66" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+
+    <!-- Minus Box -->
+    <rect x="158" y="0" width="138" height="138" rx="36" fill="#06b6d4"/>
+    <path d="M194 69h66" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+
+    <!-- Multiply Box -->
+    <rect x="0" y="158" width="138" height="138" rx="36" fill="#8b5cf6"/>
+    <path d="M42 200l54 54M96 200l-54 54" stroke="#ffffff" stroke-width="17" stroke-linecap="round"/>
+
+    <!-- Divide Box -->
+    <rect x="158" y="158" width="138" height="138" rx="36" fill="#22c55e"/>
+    <path d="M194 227h66" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="227" cy="198" r="11" fill="#ffffff"/>
+    <circle cx="227" cy="256" r="11" fill="#ffffff"/>
+  </g>
+</svg>

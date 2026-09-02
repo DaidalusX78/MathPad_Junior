@@ -1,0 +1,50 @@
+Issues:
+1) [x] q-count-label - removed as question type is already displayed in q-type-label
+2) [x] Score moved to header-right (score-badge-header on left of coin-badge-header)
+3) [x] Palm rest area cleaned into comfortable desk mat (see gamification suggestions for desk mat skins / sticker collage!)
+4) [x] palmDragHandle - added bidirectional adjustment (vertical height + horizontal slide away from writing hand) with animated indicator pill
+5) [x] lblWritten - updated text to "Read:" (EN) and "Leído:" (ES)
+6) [x] toolbar - vector icon buttons only; custom color swatches with active indicator line (removed text & lblInk)
+7) [x] strokeSize - vector line/circle representation in active ink color
+8) [x] Flying coin animation - animated coin flies to header badge with joyful bounce and score tally on correct answers
+9) [x] Spanish flag in settings - real-time live preview translation
+10) [x] lblModalPlayerName and modalPlayerNameInput - styled with matching sleek input styles
+
+execute v0.14 completed
+
+
+
+Gamification ideas:
+1) [x] Math Coins economy: Earn coins for every correct answer (+5 to +10 coins based on difficulty).
+2) Math Coins Economy: need to add a section explaining how it works, how to earn and how much, and what you can spend them on. 
+3) Next up: Spend coins in shop to unlock special pen colors, avatar mascot accessories, and custom theme presets!
+4) Sticker Book & Trophy Showcase: Collect stickers and badges for streak milestones.
+5) Earn x amount for loggin in daily, and bonus coins for streaks of 3, 7, 14, 30 days. Bonus for completing X number of problems. 
+
+
+execute v0.13
+
+
+Features and Updates Roadmap:
+1) [x] Procedural Question Generation: Dynamic algorithmic generators for unlimited variations across categories (Times Tables, Multi-digit Division, Column Addition/Subtraction with borrowing/carrying guides).
+2) [x] Text-to-Speech (Read Aloud 🔊): Native Web Speech API integration to read math problems and word problems aloud in English 🇬🇧 or Spanish 🇪🇸.
+3) Star Rewards & Sticker Book: Trophy/sticker book modal where students unlock reward badges, track daily practice streaks, and celebrate milestones.
+4) [x] On-Screen Numerical Keypad: Child-friendly keypad fallback for devices without styluses or touchscreens.
+5) [x] Intelligent Step-by-Step Error Diagnosis & Guidance: Analyze written calculations on the canvas (e.g., column subtraction borrowing, partial multiplication, long division stages) to detect the exact step where an error occurred and guide the child through correction.
+6) Handwriting / OCR Recognition Polish: Visual confidence indicator in the Target Answer Box and multi-digit stroke grouping.
+7) Complete PWA Offline Audit: Verify full offline asset caching in ServiceWorker (sw.js) for offline airplane and classroom use.
+
+
+Accessibility:
+1) Assistive Switch & Full Keyboard Navigation: Full switch access compatibility (Tab, Space, Enter, Arrow keys) with prominent, high-contrast :focus-visible indicators for motor control difficulties.
+2) Large Touch & Click Targets: Generously sized buttons (64px+) with ample spacing to prevent accidental taps for kids with tremors or fine-motor challenges.
+3) Low-Vision & High-Contrast Mode: Scalable fonts, high-contrast numerical styling, and clear visual differentiation for sight-impaired learners.
+4) Screen Reader & Multi-Sensory Audio (aria-live): Dynamic spoken announcements for problem changes, keypad inputs, and answer evaluations ("Correct!", "Try again").
+5) Input Flexibility Toggle: Quick switch between ✏️ Draw Mode and 🔢 Keypad Mode so students can choose the input method best suited to their physical abilities.
+6) Text-to-Speech (Read Aloud 🔊): Native Web Speech API integration to read math problems and word problems aloud in English 🇬🇧 or Spanish 🇪🇸.
+7) Handwriting & OCR Recognition Polish
+
+
+Extras
+1) Hidden dev mode on question page
+2) check designs against android m3 requirements.

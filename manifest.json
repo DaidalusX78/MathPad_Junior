@@ -11,13 +11,13 @@
   "categories": ["education", "games", "kids"],
   "icons": [
     {
-      "src": "./media/logo/mathpad_junior_logo_designs.svg",
+      "src": "./media/logo/android_app_logo.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "./media/logo/mathpad_junior_logo_designs.svg",
+      "src": "./media/logo/android_app_logo.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "maskable"
@@ -30,14 +30,14 @@
       "short_name": "Tables",
       "description": "Practice Times Tables",
       "url": "./index.html?mode=tables",
-      "icons": [{ "src": "./media/logo/mathpad_junior_logo_designs.svg", "sizes": "96x96" }]
+      "icons": [{ "src": "./media/logo/android_app_logo.svg", "sizes": "96x96" }]
     },
     {
       "name": "Random Mix",
       "short_name": "Random",
       "description": "Start a Random 10-Question Mix",
       "url": "./index.html?mode=random",
-      "icons": [{ "src": "./media/logo/mathpad_junior_logo_designs.svg", "sizes": "96x96" }]
+      "icons": [{ "src": "./media/logo/android_app_logo.svg", "sizes": "96x96" }]
     }
   ]
 }

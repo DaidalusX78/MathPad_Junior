@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MathPad Junior - Navbar Logo Concepts</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .demo-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .demo-info {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .demo-info h3 {
+            font-size: 1rem;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .demo-info p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        /* Mock Navbar Shells (Standard 52px height) */
+        .mock-navbar {
+            height: 52px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-light {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-dark {
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .mock-nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mock-pill {
+            height: 28px;
+            padding: 0 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(148, 163, 184, 0.2);
+            color: inherit;
+            border: none;
+        }
+
+        /* Common Brand Link Container */
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Concept 1: The App Tile & Pill Badge */
+        .brand-title-1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-jr {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-light .badge-jr {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .nav-dark .badge-jr {
+            background: #0369a1;
+            color: #e0f2fe;
+        }
+
+        /* Concept 2: Pure Stylus & Modern Dot */
+        .brand-title-2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-sub {
+            font-weight: 500;
+            opacity: 0.75;
+            margin-left: 4px;
+        }
+
+        /* Concept 3: Compact Wordmark with Embedded Pencil */
+        .brand-title-3 {
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+            display: inline-flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================================== -->
+    <!-- Concept 1: App Tile Mark + Pill Badge      -->
+    <!-- ========================================== -->
+    <div class="demo-card">
+        <div class="demo-info">
+            <h3>1. App Tile Mark + Pill Badge (Recommended)</h3>
+            <p>Clean app-tile icon with an arithmetic cross, accompanied by clear typography and a junior badge.</p>
+        </div>
+
+        <!-- Light Header -->
+        <header class="mock-navbar nav-light" style="color: #0f172a;">
+            <a href="#home" class="navbar-brand">
+                <!-- 32x32 App Tile SVG -->
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <defs>
+                        <linearGradient id="rainbow1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="50%" stop-color="#34d399" />
+                            <stop offset="100%" stop-color="#fbbf24" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="32" height="32" rx="8" fill="#2563eb" />
+                    <!-- Grid hint -->
+                    <path d="M6 16h20M16 6v20" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5" />
+                    <!-- Stylus pencil angled -->
+                    <g transform="translate(16, 16) rotate(45) translate(-16, -16)">
+                        <polygon points="14,8 18,8 16,3" fill="#ffffff" />
+                        <rect x="14" y="8" width="4" height="15" rx="1" fill="url(#rainbow1)" />
+                        <rect x="14" y="23" width="4" height="2" fill="#cbd5e1" />
+                    </g>
+                </svg>
+
+                <span class="brand-title-1">
+                    MathPad
+                    <span class="badge-jr">Jr</span>
+                </span>
+            </a>
+
+            <div class="mock-nav-actions">
+                <div class="mock-pill">Sheet #04</div>
+                <div class="mock-pill">Score: 8/10</div>
+            </div>
+        </header>
+
+        <!-- Dark Header -->
+        <header class="mock-navbar nav-dark" style="color: #f8fafc;">
+            <a href="#home" class="navbar-brand">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="#3b82f6" />
+                    <path d="M6 16h20M16 6v20" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" />
+                    <g transform="translate(16, 16) rotate(45) translate(-16, -16)">
+                        <polygon points="14,8 18,8 16,3" fill="#ffffff" />
+                        <rect x="14" y="8" width="4" height="15" rx="1" fill="#facc15" />
+                        <rect x="14" y="23" width="4" height="2" fill="#e2e8f0" />
+                    </g>
+                </svg>
+
+                <span class="brand-title-1">
+                    MathPad
+                    <span class="badge-jr">Jr</span>
+                </span>
+            </a>
+
+            <div class="mock-nav-actions">
+                <div class="mock-pill" style="color: #94a3b8;">Sheet #04</div>
+            </div>
+        </header>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Concept 2: The "Active Stylus" Minimalist   -->
+    <!-- ========================================== -->
+    <div class="demo-card">
+        <div class="demo-info">
+            <h3>2. The "Active Stylus" Minimalist</h3>
+            <p>Omits the tile shape entirely. Uses a prominent rainbow stylus nib directly aligned with the wordmark.
+            </p>
+        </div>
+
+        <header class="mock-navbar nav-light" style="color: #0f172a;">
+            <a href="#home" class="navbar-brand">
+                <!-- Pure Stylus Nib SVG -->
+                <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                    <defs>
+                        <linearGradient id="stylusGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="33%" stop-color="#34d399" />
+                            <stop offset="66%" stop-color="#fbbf24" />
+                            <stop offset="100%" stop-color="#f87171" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(12, 14) rotate(35) translate(-12, -14)">
+                        <polygon points="8,9 16,9 12,2" fill="#f59e0b" />
+                        <rect x="8" y="9" width="8" height="17" rx="2" fill="url(#stylusGrad)" />
+                        <rect x="8" y="26" width="8" height="2" rx="1" fill="#64748b" />
+                    </g>
+                </svg>
+
+                <span class="brand-title-2">
+                    MathPad<span style="color: #f59e0b;">.</span><span class="brand-sub">Junior</span>
+                </span>
+            </a>
+
+            <div class="mock-nav-actions">
+                <div class="mock-pill">Tools</div>
+            </div>
+        </header>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Concept 3: Arithmetic Square Icon          -->
+    <!-- ========================================== -->
+    <div class="demo-card">
+        <div class="demo-info">
+            <h3>3. Arithmetic Symbol Matrix</h3>
+            <p>Uses a multi-color math grid mark (+, −, ×, ÷), emphasizing operations and calculations.</p>
+        </div>
+
+        <header class="mock-navbar nav-light" style="color: #0f172a;">
+            <a href="#home" class="navbar-brand">
+                <!-- 4-Square Math Matrix -->
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <!-- + -->
+                    <rect x="2" y="2" width="11" height="11" rx="3" fill="#f97316" />
+                    <path d="M7.5 5v5M5 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                    <!-- - -->
+                    <rect x="15" y="2" width="11" height="11" rx="3" fill="#06b6d4" />
+                    <path d="M18 7.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                    <!-- x -->
+                    <rect x="2" y="15" width="11" height="11" rx="3" fill="#8b5cf6" />
+                    <path d="M5.5 18.5l4 4M9.5 18.5l-4 4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+                    <!-- ÷ -->
+                    <rect x="15" y="15" width="11" height="11" rx="3" fill="#22c55e" />
+                    <path d="M18 20.5h5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+                    <circle cx="20.5" cy="18" r="1" fill="#ffffff" />
+                    <circle cx="20.5" cy="23" r="1" fill="#ffffff" />
+                </svg>
+
+                <span class="brand-title-3">
+                    MathPad <span
+                        style="font-weight: 500; font-size: 0.95rem; margin-left: 4px; color: #2563eb;">Junior</span>
+                </span>
+            </a>
+
+            <div class="mock-nav-actions">
+                <div class="mock-pill">Page 1</div>
+            </div>
+        </header>
+    </div>
+
+</body>
+
+</html>

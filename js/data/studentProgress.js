@@ -13,7 +13,10 @@ export class StudentProgress {
       THEME_BORDER: 'elismark_theme_border',
       FONT: 'elismark_font',
       PAPER: 'elismark_paper',
-      SOUND: 'elismark_sound'
+      SOUND: 'elismark_sound',
+      INPUT_MODE: 'elismark_input_mode',
+      COINS: 'elismark_coins',
+      PALM_HEIGHT: 'elismark_palm_height'
     };
 
     const hasStorage = typeof localStorage !== 'undefined';
@@ -26,6 +29,9 @@ export class StudentProgress {
     this.userFont = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.FONT) || 'Fredoka') : 'Fredoka';
     this.userPaper = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.PAPER) || 'paper-blank') : 'paper-blank';
     this.soundFxEnabled = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.SOUND) !== 'false') : true;
+    this.inputMode = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.INPUT_MODE) || 'draw') : 'draw';
+    this.coins = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.COINS) || '0', 10) : 0;
+    this.palmHeight = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.PALM_HEIGHT) || '140', 10) : 140;
   }
 
   setPlayerName(name) {
@@ -84,12 +90,34 @@ export class StudentProgress {
     }
   }
 
+  setInputMode(mode) {
+    this.inputMode = mode;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.INPUT_MODE, mode);
+    }
+  }
+
   toggleSound() {
     this.soundFxEnabled = !this.soundFxEnabled;
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(this.STORAGE_KEYS.SOUND, this.soundFxEnabled);
     }
     return this.soundFxEnabled;
+  }
+
+  addCoins(amount) {
+    this.coins = Math.max(0, (this.coins || 0) + amount);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.COINS, this.coins.toString());
+    }
+    return this.coins;
+  }
+
+  setPalmHeight(height) {
+    this.palmHeight = Math.max(80, Math.min(380, height));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.PALM_HEIGHT, this.palmHeight.toString());
+    }
   }
 
   logout() {

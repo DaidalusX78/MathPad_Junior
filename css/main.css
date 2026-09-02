@@ -2,6 +2,11 @@
    MathPad Junior - Main Design System & CSS Entry Point
    ========================================================================== */
 
+@import url('./base.css');
+@import url('./components/components.css');
+@import url('./workbook.css');
+@import url('./canvas.css');
+
 :root {
   --bg-main: #f8fafc;
   --card-bg: #ffffff;
@@ -31,7 +36,3 @@
   --app-font: 'Fredoka', system-ui, -apple-system, sans-serif;
 }
 
-@import url('./base.css');
-@import url('./components/components.css');
-@import url('./workbook.css');
-@import url('./canvas.css');

@@ -4,6 +4,7 @@
 
 import { historyManager } from './historyManager.js';
 import { audioManager } from './audioManager.js';
+import { studentProgress } from '../data/studentProgress.js';
 
 export class CanvasEngine {
   constructor(canvasId, containerId) {
@@ -112,14 +113,84 @@ export class CanvasEngine {
       }
     });
 
-    // Palm Rest shield touch protection
+    // Palm Rest shield touch protection & draggable resizing
     const palmShield = document.getElementById('palmShield');
+    const dragHandle = document.getElementById('palmDragHandle');
+
     if (palmShield) {
-      ['pointerdown', 'pointermove', 'pointerup', 'touchstart', 'touchmove', 'touchend'].forEach((evt) => {
-        palmShield.addEventListener(evt, (e) => {
-          e.stopPropagation();
-        }, { passive: false });
+      if (studentProgress.palmHeight) {
+        palmShield.style.height = `${studentProgress.palmHeight}px`;
+      }
+
+      palmShield.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('#palmDragHandle')) return;
+        e.stopPropagation();
       });
+
+      const hintPill = document.getElementById('palmHintPill');
+      if (hintPill) {
+        setTimeout(() => {
+          hintPill.style.opacity = '0';
+          setTimeout(() => { if (hintPill) hintPill.style.display = 'none'; }, 400);
+        }, 5500);
+      }
+
+      if (dragHandle) {
+        let isDragging = false;
+        let startY = 0;
+        let startHeight = 140;
+        let startX = 0;
+        let startLeft = 0;
+
+        const dismissHint = () => {
+          const hint = document.getElementById('palmHintPill');
+          if (hint) {
+            hint.style.opacity = '0';
+            setTimeout(() => { if (hint) hint.style.display = 'none'; }, 300);
+          }
+        };
+
+        dragHandle.addEventListener('pointerdown', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          dismissHint();
+          isDragging = true;
+          startY = e.clientY;
+          startX = e.clientX;
+          startHeight = parseInt(palmShield.style.height || '140', 10);
+          startLeft = dragHandle.offsetLeft;
+          dragHandle.setPointerCapture(e.pointerId);
+        });
+
+        dragHandle.addEventListener('pointermove', (e) => {
+          if (!isDragging) return;
+          e.stopPropagation();
+          e.preventDefault();
+
+          // Vertical height resize
+          const deltaY = startY - e.clientY;
+          const newHeight = Math.max(80, Math.min(340, startHeight + deltaY));
+          palmShield.style.height = `${newHeight}px`;
+          studentProgress.setPalmHeight(newHeight);
+
+          // Horizontal slide repositioning
+          const deltaX = e.clientX - startX;
+          const containerWidth = palmShield.offsetWidth || window.innerWidth;
+          const newLeft = Math.max(70, Math.min(containerWidth - 70, startLeft + deltaX));
+          const leftPct = (newLeft / containerWidth) * 100;
+          dragHandle.style.left = `${leftPct}%`;
+        });
+
+        const stopDrag = (e) => {
+          if (isDragging) {
+            isDragging = false;
+            try { dragHandle.releasePointerCapture(e.pointerId); } catch (err) {}
+          }
+        };
+
+        dragHandle.addEventListener('pointerup', stopDrag);
+        dragHandle.addEventListener('pointercancel', stopDrag);
+      }
     }
   }
 
@@ -148,11 +219,28 @@ export class CanvasEngine {
 
   setColor(color) {
     this.currentColor = color;
+    document.documentElement.style.setProperty('--active-ink-color', color);
+
+    document.querySelectorAll('.color-swatch-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.color === color);
+    });
+
+    const line = document.getElementById('colorIndicatorLine');
+    if (line) line.style.backgroundColor = color;
+
     this.setTool('pen');
   }
 
   setStrokeSize(size) {
-    this.currentStrokeWidth = parseFloat(size);
+    const numSize = parseFloat(size);
+    this.currentStrokeWidth = numSize;
+
+    document.querySelectorAll('.stroke-btn').forEach((btn) => {
+      btn.classList.toggle('active', parseFloat(btn.dataset.size) === numSize);
+    });
+
+    this.setTool('pen');
+    audioManager.playSound('click');
   }
 
   clear() {

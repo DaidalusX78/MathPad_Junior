@@ -35,20 +35,74 @@
   line-height: 1;
 }
 
-/* ------------------- Interactive Logo ------------------- */
-.interactive-logo {
-  font-size: 1.9rem;
+/* ------------------- Interactive Logo & Navbar Brand ------------------- */
+.navbar-brand,
+.nav-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s ease;
+}
+
+.navbar-brand:active,
+.nav-brand-link:active {
+  transform: scale(0.96);
+}
+
+.brand-matrix-svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.brand-title-3 {
+  font-size: 1.25rem;
   font-weight: 900;
   font-family: 'Fredoka', cursive, sans-serif;
-  background: linear-gradient(135deg, var(--theme-accent), #ec4899 70%, #f59e0b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.brand-junior {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--theme-accent);
+  transition: color 0.2s ease;
+}
+
+.version-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--theme-subtle);
+  color: var(--theme-accent);
+  border: 1.5px solid var(--theme-border);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-left: 4px;
+  transition: all 0.2s ease;
+}
+
+.interactive-logo {
+  font-size: 1.22rem;
+  font-weight: 900;
+  font-family: 'Fredoka', cursive, sans-serif;
+  color: var(--text-dark);
   letter-spacing: -0.01em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   border-radius: 16px;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 
 .interactive-logo:active {
@@ -152,19 +206,27 @@
 /* ------------------- Flag Toggles ------------------- */
 .welcome-flags {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
 }
 
 .welcome-flag-btn,
 .flag-btn {
-  font-size: 1.45rem;
-  padding: 6px 14px;
-  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 14px;
   border: 2px solid var(--border-light);
   background: #ffffff;
   cursor: pointer;
   transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.welcome-flag-btn:active,
+.flag-btn:active {
+  transform: scale(0.95);
 }
 
 .welcome-flag-btn.active,
@@ -172,6 +234,16 @@
   border-color: var(--theme-accent);
   background: var(--theme-subtle);
   transform: scale(1.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.flag-icon {
+  width: 34px;
+  height: 22px;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
 /* ------------------- Inputs & Action Buttons ------------------- */
@@ -231,8 +303,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(4px);
+  background: transparent;
   display: none;
   align-items: center;
   justify-content: center;
@@ -244,14 +315,14 @@
   display: flex;
 }
 
-.modal-card {
+.settings-modal-card {
   background: #ffffff;
-  border-radius: 20px;
-  border: 1.5px solid var(--border-light);
-  padding: 22px;
+  border-radius: 24px;
+  border: 2px solid var(--border-light);
+  padding: 22px 24px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -295,12 +366,284 @@
 }
 
 .setting-label {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  color: #334155;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .flag-toggle {
   display: flex;
   gap: 6px;
+}
+
+/* ------------------- Header Badges (Score & Coins) ------------------- */
+.score-badge-header {
+  background: #fdf4ff;
+  border: 2px solid #f0abfc;
+  color: #7e22ce;
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 1rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.12);
+  font-family: 'Fredoka', cursive, sans-serif;
+  user-select: none;
+}
+
+.coin-badge-header {
+  background: #fffbeb;
+  border: 2px solid #fde68a;
+  color: #b45309;
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15);
+  font-family: 'Fredoka', cursive, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.coin-badge-header:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.22);
+}
+
+.coin-badge-header:active {
+  transform: scale(0.97);
+}
+
+.coin-info-icon {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+/* ------------------- Palm Rest Hint Pill ------------------- */
+.palm-hint-pill {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 5px 14px;
+  border-radius: 14px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  animation: hintBounce 1.8s infinite ease-in-out;
+  transition: opacity 0.4s ease;
+  z-index: 25;
+}
+
+.palm-hint-pill::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0 5px;
+  border-style: solid;
+  border-color: #0f172a transparent transparent transparent;
+}
+
+@keyframes hintBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* ------------------- Coin Guide Modal ------------------- */
+.coin-guide-modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 2px solid var(--border-light);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  width: 92%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalPop 0.2s ease forwards;
+}
+
+.coin-guide-hero {
+  text-align: center;
+  padding: 10px 0 6px 0;
+}
+
+.coin-hero-icon {
+  font-size: 2.8rem;
+  margin-bottom: 4px;
+  animation: spinSlow 6s infinite linear;
+}
+
+.coin-hero-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0;
+}
+
+.coin-hero-sub {
+  font-size: 0.88rem;
+  color: #64748b;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.coin-guide-section-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.coin-rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.coin-rule-card {
+  background: #f8fafc;
+  border: 1.5px solid var(--border-light);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.coin-rule-reward {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #b45309;
+}
+
+.coin-rule-desc {
+  font-size: 0.78rem;
+  color: #475569;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.coin-shop-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.coin-shop-preview-item {
+  background: #fffbeb;
+  border: 1.5px dashed #fde68a;
+  border-radius: 12px;
+  padding: 8px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.coin-shop-item-icon {
+  font-size: 1.4rem;
+}
+
+.coin-shop-item-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #92400e;
+}
+
+.coin-guide-close-btn {
+  background: var(--theme-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.12s ease;
+  margin-top: 6px;
+}
+
+.coin-guide-close-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ------------------- Settings Modal Action Footer ------------------- */
+.modal-action-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.modal-btn-cancel {
+  flex: 1;
+  background: #f8fafc;
+  border: 2px solid var(--border-light);
+  color: #64748b;
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s ease;
+}
+
+.modal-btn-cancel:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.modal-btn-save {
+  flex: 1.3;
+  background: var(--theme-accent);
+  border: 2px solid var(--theme-accent);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-size: 0.92rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.12s ease;
+}
+
+.modal-btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.14);
+}
+
+.modal-btn-cancel:active,
+.modal-btn-save:active {
+  transform: scale(0.97);
 }
