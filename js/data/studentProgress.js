@@ -113,6 +113,10 @@ export class StudentProgress {
     return this.coins;
   }
 
+  addStars(amount) {
+    return this.addCoins(amount);
+  }
+
   setPalmHeight(height) {
     this.palmHeight = Math.max(80, Math.min(380, height));
     if (typeof localStorage !== 'undefined') {

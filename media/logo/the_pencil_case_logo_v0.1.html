@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Pencil Case - Logo Concepts</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #0f172a;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .header-text {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .header-text h1 {
+            font-size: 1.75rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header-text p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 960px;
+        }
+
+        .concept-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .preview-box {
+            width: 100%;
+            height: 180px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .concept-meta {
+            width: 100%;
+            text-align: left;
+        }
+
+        .concept-meta h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .concept-meta p {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-text">
+        <h1>The Pencil Case — Logo Concepts</h1>
+        <p>Color-matched to your core palette (Orange, Cyan, Purple, Green, and Gold).</p>
+    </div>
+
+    <div class="concepts-grid">
+
+        <!-- ==================================================== -->
+        <!-- Concept 1: The Open Zipper Pouch (Rich & Playful)   -->
+        <!-- ==================================================== -->
+        <div class="concept-card">
+            <div class="preview-box">
+                <!-- SVG: Zipper Pouch Peeking Tools -->
+                <svg viewBox="0 0 160 120" width="160" height="120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Peeking Stationery Tools -->
+                    <!-- Ruler (Purple) -->
+                    <rect x="36" y="24" width="18" height="50" rx="3" fill="#8b5cf6" transform="rotate(-15 36 24)" />
+                    <line x1="42" y1="36" x2="48" y2="34" stroke="#ffffff" stroke-width="2" />
+                    <line x1="44" y1="44" x2="50" y2="42" stroke="#ffffff" stroke-width="2" />
+
+                    <!-- Green Stylus/Pen -->
+                    <rect x="74" y="16" width="14" height="60" rx="4" fill="#22c55e" />
+                    <polygon points="74,16 88,16 81,4" fill="#facc15" />
+                    <polygon points="78,8 84,8 81,4" fill="#0f172a" />
+
+                    <!-- Rainbow Pencil -->
+                    <defs>
+                        <linearGradient id="pouchRainbow" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#f97316" />
+                            <stop offset="50%" stop-color="#06b6d4" />
+                            <stop offset="100%" stop-color="#8b5cf6" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="102" y="22" width="14" height="54" rx="4" fill="url(#pouchRainbow)"
+                        transform="rotate(14 102 22)" />
+                    <polygon points="98,22 112,25 107,10" fill="#fef08a" />
+
+                    <!-- Pouch Body (Warm Canvas Slate/Blue) -->
+                    <rect x="16" y="52" width="128" height="56" rx="14" fill="#2563eb" />
+                    <!-- Front Pocket Trim -->
+                    <path d="M16 68 C40 76, 120 76, 144 68 L144 94 A14 14 0 0 1 130 108 L30 108 A14 14 0 0 1 16 94 Z"
+                        fill="#1d4ed8" />
+
+                    <!-- Golden Zipper Track -->
+                    <rect x="22" y="52" width="116" height="5" rx="2" fill="#fbbf24" />
+                    <!-- Zipper Pull Tag -->
+                    <rect x="26" y="54" width="8" height="14" rx="2" fill="#f59e0b" />
+                    <circle cx="30" cy="64" r="2" fill="#ffffff" />
+                </svg>
+            </div>
+            <div class="concept-meta">
+                <h3>1. The Peek-a-Boo Pouch</h3>
+                <p>A classic zippered cloth case with colorful stylus tips, rulers, and pencils peeking out. Excellent
+                    as a main banner mark for the shop window.</p>
+            </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- Concept 2: Geometric Tin Case (Clean & Modular)     -->
+        <!-- ==================================================== -->
+        <div class="concept-card">
+            <div class="preview-box">
+                <!-- SVG: Metal Tin Case Badge -->
+                <svg viewBox="0 0 160 120" width="160" height="120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Shadow -->
+                    <rect x="28" y="24" width="104" height="74" rx="16" fill="#cbd5e1" />
+
+                    <!-- Tin Box Body -->
+                    <rect x="26" y="20" width="108" height="72" rx="16" fill="#0f172a" />
+                    <rect x="30" y="24" width="100" height="64" rx="12" fill="#1e293b" />
+
+                    <!-- Embossed Stationery Slots Inside -->
+                    <!-- Slot 1: Pen (Orange) -->
+                    <rect x="42" y="32" width="12" height="48" rx="4" fill="#f97316" />
+                    <circle cx="48" cy="74" r="3" fill="#ffffff" opacity="0.8" />
+
+                    <!-- Slot 2: Stylus (Cyan) -->
+                    <rect x="62" y="32" width="12" height="48" rx="4" fill="#06b6d4" />
+                    <circle cx="68" cy="74" r="3" fill="#ffffff" opacity="0.8" />
+
+                    <!-- Slot 3: Highlighter (Purple) -->
+                    <rect x="82" y="32" width="14" height="48" rx="4" fill="#8b5cf6" />
+                    <rect x="84" y="34" width="10" height="8" rx="2" fill="#c084fc" />
+
+                    <!-- Slot 4: Divider Tool (Gold/Star) -->
+                    <rect x="104" y="32" width="12" height="48" rx="4" fill="#eab308" />
+                    <polygon points="110,40 112,45 117,45 113,48 115,53 110,50 105,53 107,48 103,45 108,45"
+                        fill="#ffffff" />
+
+                    <!-- Hinge Clasps -->
+                    <rect x="23" y="36" width="4" height="10" rx="1" fill="#64748b" />
+                    <rect x="23" y="66" width="4" height="10" rx="1" fill="#64748b" />
+                </svg>
+            </div>
+            <div class="concept-meta">
+                <h3>2. The Collector Tin</h3>
+                <p>A retro metal stationery tin with organized tool slots. Communicates inventory, unlocking slots, and
+                    collecting pens.</p>
+            </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- Concept 3: Compact Shop Button (Pill / Navbar Badge)-->
+        <!-- ==================================================== -->
+        <div class="concept-card">
+            <div class="preview-box">
+                <!-- SVG: Minimalist Compact Lockup (Ideal for Navbars / Buttons) -->
+                <svg viewBox="0 0 200 64" width="200" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Pill Container -->
+                    <rect x="4" y="4" width="192" height="56" rx="28" fill="#ffffff" stroke="#e2e8f0"
+                        stroke-width="2" />
+
+                    <!-- Left Icon: Stylized Pencil Case -->
+                    <g transform="translate(14, 12)">
+                        <!-- Mini Case Body -->
+                        <rect x="0" y="4" width="40" height="32" rx="8" fill="#2563eb" />
+                        <!-- Zipper line -->
+                        <line x1="6" y1="12" x2="34" y2="12" stroke="#fde047" stroke-width="2" stroke-dasharray="3 2" />
+                        <!-- Zipper pull -->
+                        <circle cx="10" cy="12" r="3" fill="#f59e0b" />
+                        <!-- Pencil tip popping out -->
+                        <polygon points="26,4 32,4 29,-5" fill="#f97316" />
+                        <polygon points="28,-2 30,-2 29,-5" fill="#0f172a" />
+                    </g>
+
+                    <!-- Wordmark -->
+                    <text x="64" y="30" font-size="13" font-weight="900" fill="#0f172a" letter-spacing="-0.2">THE PENCIL
+                        CASE</text>
+                    <text x="64" y="46" font-size="11" font-weight="700" fill="#eab308">REWARDS &bull; ⭐ 340</text>
+                </svg>
+            </div>
+            <div class="concept-meta">
+                <h3>3. Nav Button Lockup</h3>
+                <p>A horizontal pill combining the pencil case icon directly with the store name and active coin count.
+                    Perfect for the top navigation bar to open the store modal.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

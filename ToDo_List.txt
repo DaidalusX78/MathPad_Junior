@@ -1,17 +1,20 @@
 Issues:
-1) [x] Added text back to Draw & Keypad buttons only ("btnModeDraw" & "btnModeKeypad")
-2) [x] Removed color-indicator-line, updated active color swatch ring to dynamically match the active ink color
-3) [x] Doubled the size of targetAnswerBox (210px x 120px)
-4) [x] Checked and verified multiplication math & step breakdown generation; fixed question parsing to ensure 100% mathematical accuracy
-5) [x] Reduced lblAnswerBoxGuide watermark opacity to 0.35 so it doesn't overpower child handwriting
-6) [x] scoreBadgePractice updated to display round score count only; coins accumulated and awarded on round finish with celebratory flight; added question progress pill (1 / 10) in question meta header
+1) [x] Used ⭐ icon and "Stars" throughout instead of coins to remove any notion of monetary value or real world expenses
+2) [x] Replaced "shop-avatar-icon" with custom vector pencil case SVG illustration (zipper, ruler & pencil)
+3) [x] .q-text adjusted font-size: 1.2rem
+4) [x] .color-swatch-btn.active dynamic halo ring now matches each swatch button's exact active color
+5) [x] q-progress-pill styled with theme accent/subtle colors and fixed the total count logic (no more undefined)
+6) [x] action-stack-btn check-btn styled emerald green (#059669)
+7) [x] action-stack-btn next-btn styled with selected theme color (var(--theme-accent))
+8) [x] keypad-card / keypad-container z-index increased to 25 so it sits above the palm rest
+9) [x] Palm rest styled with warm desk mat gradient and leatherette border; positioned "↕️ Resize height • ↔️ Slide side" hint pill visibly with high contrast
+10) [x] Keypad mode now keeps the main "Check Answer" button visible and fully functional
 
-execute v0.15 completed
+execute v0.16 completed
 
 
 
 Gamification ideas:
-1) [x] Math Coins economy: Earn coins for every correct answer (+5 to +10 coins based on difficulty).
 2) Math Coins Economy: need to add a section explaining how it works, how to earn and how much, and what you can spend them on. 
 3) Next up: Spend coins in shop to unlock special pen colors, avatar mascot accessories, and custom theme presets!
 4) Sticker Book & Trophy Showcase: Collect stickers and badges for streak milestones.

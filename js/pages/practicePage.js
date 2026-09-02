@@ -125,10 +125,10 @@ export class PracticePage {
       btnKeypad.setAttribute('aria-checked', isKeypad.toString());
     }
 
-    // Toggle check handwriting button label if in keypad vs draw
+    // Keep check button visible in both keypad and draw modes
     const checkBtn = document.getElementById('checkHandwritingBtn');
     if (checkBtn) {
-      checkBtn.style.display = (mode === 'keypad') ? 'none' : 'block';
+      checkBtn.style.display = 'block';
     }
 
     // Toggle ink toolbar controls visibility
@@ -140,6 +140,15 @@ export class PracticePage {
 
     if (this.numKeypad) {
       this.numKeypad.setActive(mode === 'keypad');
+    }
+  }
+
+  checkAnswer() {
+    if (this.inputMode === 'keypad') {
+      const val = this.numKeypad ? this.numKeypad.getValue() : '';
+      this.submitKeypadAnswer(val);
+    } else {
+      this.recognizeHandwriting();
     }
   }
 
@@ -161,7 +170,7 @@ export class PracticePage {
       this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
       this.updateLiveScoreDisplay();
       audioManager.playSound('success');
-      this.showToast(`🎉 ${t.correctMsg} (+${coinReward} 🪙)`, 'correct');
+      this.showToast(`🎉 ${t.correctMsg} (+${coinReward} ⭐)`, 'correct');
 
       const guideBtn = document.getElementById('stepGuideBtn');
       if (guideBtn) guideBtn.style.display = 'none';
@@ -256,7 +265,7 @@ export class PracticePage {
           this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
-          this.showToast(`🎉 ${t.correctMsg} (+${coinReward} 🪙)`, 'correct');
+          this.showToast(`🎉 ${t.correctMsg} (+${coinReward} ⭐)`, 'correct');
 
           const guideBtn = document.getElementById('stepGuideBtn');
           if (guideBtn) guideBtn.style.display = 'none';
@@ -308,8 +317,8 @@ export class PracticePage {
     const endY = targetRect.top + targetRect.height / 2;
 
     const coin = document.createElement('div');
-    coin.className = 'flying-coin-reward';
-    coin.innerText = `🪙 +${amount}`;
+    coin.className = 'flying-star-reward';
+    coin.innerText = `⭐ +${amount}`;
     coin.style.left = `${startX}px`;
     coin.style.top = `${startY}px`;
     coin.style.transform = 'translate(-50%, -50%) scale(1.35)';
@@ -324,12 +333,13 @@ export class PracticePage {
 
     setTimeout(() => {
       coin.remove();
+      targetBadge.classList.remove('star-badge-bounce');
       targetBadge.classList.remove('coin-badge-bounce');
       void targetBadge.offsetWidth;
-      targetBadge.classList.add('coin-badge-bounce');
+      targetBadge.classList.add('star-badge-bounce');
       this.updateCoinDisplays();
       audioManager.playSound('click');
-      setTimeout(() => targetBadge.classList.remove('coin-badge-bounce'), 450);
+      setTimeout(() => targetBadge.classList.remove('star-badge-bounce'), 450);
     }, 650);
   }
 
@@ -368,15 +378,15 @@ export class PracticePage {
 
     // Bonus for high scores
     const roundBonus = (score === 10) ? 20 : (score >= 8 ? 10 : 0);
-    const coinsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
-    studentProgress.addCoins(coinsEarned);
+    const starsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
+    studentProgress.addStars(starsEarned);
 
     const coinsElem = document.getElementById('gradeCoinsAwarded');
     if (coinsElem) {
-      coinsElem.innerText = `+${coinsEarned} 🪙 Math Coins Earned!`;
+      coinsElem.innerText = `+${starsEarned} ⭐ Math Stars Earned!`;
     }
 
-    this.triggerFlyingCoinAnimation(coinsEarned);
+    this.triggerFlyingCoinAnimation(starsEarned);
 
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];

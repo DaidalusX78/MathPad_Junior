@@ -253,15 +253,17 @@ main {
 }
 
 .q-progress-pill {
-  background: #f1f5f9;
-  border: 1px solid var(--border-light);
-  color: #475569;
-  font-size: 0.74rem;
-  font-weight: 800;
-  padding: 2px 8px;
+  background: var(--theme-subtle, #fdf4ff);
+  border: 1.5px solid var(--theme-border, #f0abfc);
+  color: var(--theme-accent, #a855f7);
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 3px 10px;
   border-radius: 9999px;
   display: inline-flex;
   align-items: center;
+  box-shadow: 0 2px 5px rgba(168, 85, 247, 0.08);
+  letter-spacing: 0.02em;
 }
 
 .q-count-label {
@@ -269,10 +271,10 @@ main {
 }
 
 .q-text {
-  font-size: 2.1rem;
+  font-size: 1.2rem;
   font-weight: 900;
   color: var(--text-dark);
-  line-height: 1.2;
+  line-height: 1.35;
   letter-spacing: -0.01em;
   word-break: break-word;
 }
@@ -311,21 +313,25 @@ main {
 }
 
 .action-stack-btn.check-btn {
-  background: var(--theme-accent);
-  color: #ffffff;
-  border-color: var(--theme-accent);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.action-stack-btn.next-btn {
   background: #059669;
   color: #ffffff;
   border-color: #047857;
-  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+}
+
+.action-stack-btn.check-btn:hover {
+  background: #047857;
+}
+
+.action-stack-btn.next-btn {
+  background: var(--theme-accent, #a855f7);
+  color: #ffffff;
+  border-color: var(--theme-accent, #a855f7);
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.25);
 }
 
 .action-stack-btn.next-btn:hover {
-  background: #047857;
+  filter: brightness(0.92);
 }
 
 /* ------------------- SCREEN 3: SCORE & GRADE SCREEN (/10) ------------------- */

@@ -332,8 +332,8 @@
         </div>
       </div>
 
-      <div class="wallet-badge" id="walletBalance" title="Your Math Coins Balance">
-        <span>🪙</span>
+      <div class="wallet-badge" id="walletBalance" title="Your Math Stars Balance">
+        <span>⭐</span>
         <span id="userCoins">340</span>
       </div>
     </header>
@@ -460,7 +460,7 @@
         } else if (isLocked) {
           actionButtonHtml = `<button class="action-btn locked" disabled>${lockReason}</button>`;
         } else {
-          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price})">🪙 ${item.price} Coins</button>`;
+          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price})">⭐ ${item.price} Stars</button>`;
         }
 
         card.innerHTML = `
@@ -488,7 +488,7 @@
         renderWallet();
         renderCategoryItems(catId);
       } else {
-        alert("Not enough Math Coins! Practice more math problems to earn more 🪙!");
+        alert("Not enough Math Stars! Practice more math problems to earn more ⭐!");
       }
     };
 

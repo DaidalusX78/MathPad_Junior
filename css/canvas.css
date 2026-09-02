@@ -132,7 +132,26 @@
 
 .color-swatch-btn.active {
   transform: scale(1.25);
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px var(--active-swatch-ring, var(--theme-accent)), 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
+.color-swatch-btn[data-color="#b57edc"].active {
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #b57edc, 0 3px 8px rgba(181, 126, 220, 0.35);
+}
+
+.color-swatch-btn[data-color="#dc2626"].active {
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #dc2626, 0 3px 8px rgba(220, 38, 38, 0.35);
+}
+
+.color-swatch-btn[data-color="#16a34a"].active {
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #16a34a, 0 3px 8px rgba(22, 163, 74, 0.35);
+}
+
+.color-swatch-btn[data-color="#2563eb"].active {
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #2563eb, 0 3px 8px rgba(37, 99, 235, 0.35);
+}
+
+.color-swatch-btn[data-color="#0f172a"].active {
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #0f172a, 0 3px 8px rgba(15, 23, 42, 0.35);
 }
 
 /* ------------------- Stroke Size Vector Buttons ------------------- */
@@ -184,6 +203,8 @@
   border: 2px solid var(--border-light);
   touch-action: none;
   transition: background-image 0.2s ease;
+  min-height: 180px;
+  width: 100%;
 }
 
 .canvas-container.paper-squares {
@@ -216,6 +237,7 @@ canvas {
   touch-action: none;
   cursor: crosshair;
   z-index: 6;
+  display: block;
 }
 
 /* ------------------- Answer Box Overlay (Doubled Size & Opacity Watermark) ------------------- */
@@ -282,8 +304,9 @@ canvas {
   left: 0;
   right: 0;
   height: 140px;
-  background: linear-gradient(to top, rgba(241, 245, 249, 0.96) 0%, rgba(248, 250, 252, 0.82) 85%, transparent 100%);
-  border-top: 2.5px dashed #94a3b8;
+  background: linear-gradient(to top, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.92) 80%, rgba(241, 245, 249, 0.7) 100%);
+  border-top: 3px solid var(--theme-border, #cbd5e1);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
   pointer-events: auto;
   touch-action: none;
   z-index: 12;
@@ -296,47 +319,51 @@ canvas {
   left: 50%;
   transform: translateX(-50%);
   background: #ffffff;
-  border: 1.5px solid #cbd5e1;
+  border: 1.5px solid var(--theme-border, #cbd5e1);
   border-radius: 14px;
   padding: 5px 18px;
-  font-size: 0.76rem;
-  color: #475569;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-size: 0.78rem;
+  color: var(--text-dark, #0f172a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: move;
   touch-action: none;
   display: flex;
   align-items: center;
   gap: 6px;
   font-weight: 800;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .shield-drag-handle:active {
-  background: #f1f5f9;
+  background: var(--theme-subtle, #fdf4ff);
   border-color: var(--theme-accent);
   color: var(--theme-accent);
 }
 
 .palm-hint-pill {
   position: absolute;
-  bottom: calc(100% + 8px);
+  top: 42px;
   left: 50%;
   transform: translateX(-50%);
   background: #0f172a;
   color: #ffffff;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 5px 12px;
+  padding: 4px 12px;
   border-radius: 9999px;
   white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 15;
   animation: hintFloat 2s ease-in-out infinite alternate;
 }
 
 @keyframes hintFloat {
   0% { transform: translateX(-50%) translateY(0); }
-  100% { transform: translateX(-50%) translateY(-4px); }
+  100% { transform: translateX(-50%) translateY(-3px); }
 }
 
 /* ------------------- Feedback Toast ------------------- */
@@ -376,7 +403,8 @@ canvas {
   100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
-/* ------------------- Flying Coin Transport Animation ------------------- */
+/* ------------------- Flying Star Reward Animation ------------------- */
+.flying-star-reward,
 .flying-coin-reward {
   position: fixed;
   z-index: 9999;
@@ -393,7 +421,8 @@ canvas {
   will-change: transform, opacity;
 }
 
-.coin-badge-bounce {
+.coin-badge-bounce,
+.star-badge-bounce {
   animation: badgeBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

@@ -158,7 +158,8 @@ class App {
     window.startPractice = (mode) => this.practicePage.startPractice(mode);
     window.nextQuestion = () => this.practicePage.nextQuestion();
     window.prevQuestion = () => this.practicePage.prevQuestion();
-    window.recognizeHandwriting = () => this.practicePage.recognizeHandwriting();
+    window.recognizeHandwriting = () => this.practicePage.checkAnswer();
+    window.checkAnswer = () => this.practicePage.checkAnswer();
     window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode);
 
     window.setTool = (tool) => this.canvasEngine.setTool(tool);
