@@ -2,7 +2,7 @@
  * Page Navigation & Modal Coordinator
  */
 
-import { studentProgress } from '../data/studentProgress.js';
+import { studentProgress, MILESTONES_CONFIG } from '../data/studentProgress.js';
 import { audioManager } from '../core/audioManager.js';
 
 export class PageManager {
@@ -69,6 +69,7 @@ export class PageManager {
 
     this.syncDraftHighlights();
     this.updatePaperDisplay(true);
+    this.switchSettingsSection('profile');
 
     document.getElementById('settingsModal')?.classList.add('active');
     audioManager.playSound('click');
@@ -190,6 +191,76 @@ export class PageManager {
   closeSettingsModal() {
     document.getElementById('settingsModal')?.classList.remove('active');
     this.updatePaperDisplay(this.currentScreen === 'screenWelcome');
+  }
+
+  switchSettingsSection(section) {
+    const tabs = ['profile', 'settings', 'shop'];
+    tabs.forEach((tab) => {
+      const isMatch = tab === section;
+      const btn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      const sec = document.getElementById(`sec${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      if (btn) {
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      }
+      if (sec) sec.style.display = isMatch ? 'flex' : 'none';
+    });
+
+    const shopWallet = document.getElementById('shopTabStarsCount');
+    if (shopWallet) {
+      shopWallet.innerText = (studentProgress.coins || 0).toString();
+    }
+    audioManager.playSound('click');
+  }
+
+  openStatsModal() {
+    const stats = studentProgress.getStats();
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val;
+    };
+    set('statQuestionsAttempted', stats.totalAttempted);
+    set('statQuestionsCorrect', stats.totalCorrect);
+    set('statAccuracy', `${stats.accuracy}%`);
+    set('statBestScore', `${stats.bestScore}`);
+    set('statDaysPlayed', `${stats.totalDaysPlayed}`);
+    set('statBestStreak', `${stats.bestStreak} 🔥`);
+    set('statLifetimeStars', `${stats.lifetimeStars} ⭐`);
+
+    const container = document.getElementById('milestonesScrollList');
+    if (container) {
+      container.innerHTML = '';
+      let unlockedCount = 0;
+      MILESTONES_CONFIG.forEach((m) => {
+        const isUnlocked = !!(studentProgress.milestones && studentProgress.milestones[m.id]?.unlocked);
+        if (isUnlocked) unlockedCount++;
+        const card = document.createElement('div');
+        card.className = `milestone-badge-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+        card.innerHTML = `
+          <div class="milestone-badge-icon">${m.icon}</div>
+          <div class="milestone-badge-info">
+            <div class="milestone-badge-title">
+              <span>${m.title}</span>
+              ${isUnlocked ? '<span style="font-size:0.75rem; color:#16a34a;">✓</span>' : ''}
+            </div>
+            <div class="milestone-badge-desc">${m.desc}</div>
+          </div>
+          <div class="milestone-reward-pill">
+            ${isUnlocked ? `✅ +${m.stars} ⭐` : `🔒 +${m.stars} ⭐`}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      const countElem = document.getElementById('statMilestonesCount');
+      if (countElem) countElem.innerText = `${unlockedCount} / ${MILESTONES_CONFIG.length} Unlocked`;
+    }
+
+    document.getElementById('statsModal')?.classList.add('active');
+    audioManager.playSound('click');
+  }
+
+  closeStatsModal() {
+    document.getElementById('statsModal')?.classList.remove('active');
   }
 
   openCoinGuideModal() {

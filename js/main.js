@@ -108,6 +108,7 @@ class App {
     window.closeSettingsModal = () => this.pageManager.closeSettingsModal();
     window.saveSettingsModal = () => this.pageManager.saveSettingsModal();
     window.cancelSettingsModal = () => this.pageManager.cancelSettingsModal();
+    window.switchSettingsSection = (sec) => this.pageManager.switchSettingsSection(sec);
     window.stagePlayerName = (v) => this.pageManager.stagePlayerName(v);
     window.stageAvatar = (av, el) => this.pageManager.stageAvatar(av);
     window.stageTheme = (acc, sub, bor, el) => this.pageManager.stageTheme(acc, sub, bor);
@@ -115,6 +116,9 @@ class App {
     window.stageLanguage = (l) => this.pageManager.stageLanguage(l);
     window.stagePalmToggle = () => this.pageManager.stagePalmToggle();
     window.stageSoundToggle = () => this.pageManager.stageSoundToggle();
+
+    window.openStatsModal = () => this.pageManager.openStatsModal();
+    window.closeStatsModal = () => this.pageManager.closeStatsModal();
 
     window.openCoinGuideModal = () => this.pageManager.openCoinGuideModal();
     window.closeCoinGuideModal = () => this.pageManager.closeCoinGuideModal();
@@ -128,6 +132,8 @@ class App {
     window.handleOverlayClick = (e) => {
       if (e.target.id === 'settingsModal') {
         this.pageManager.cancelSettingsModal();
+      } else if (e.target.id === 'statsModal') {
+        this.pageManager.closeStatsModal();
       } else if (e.target.id === 'stepGuideModal') {
         this.practicePage.stepGuideModal.close();
       } else if (e.target.id === 'coinGuideModal') {

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MathPad Junior — Splash Screen</title>
+    <style>
+        :root {
+            --brand-blue: #2563eb;
+            --brand-blue-dark: #1d4ed8;
+            --text-white: #ffffff;
+            --accent-yellow: #fde047;
+
+            /* Operator colors */
+            --op-plus: #f97316;
+            --op-minus: #06b6d4;
+            --op-mult: #8b5cf6;
+            --op-div: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Simulation Frame for Tablet/Phone */
+        .device-stage {
+            width: 100vw;
+            height: 100vh;
+            max-width: 440px;
+            max-height: 880px;
+            position: relative;
+            background: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 8px solid #334155;
+        }
+
+        /* Target Splash Screen Layer */
+        #splash-screen {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 24px 48px;
+            z-index: 100;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s ease;
+        }
+
+        /* Subtle Workbook Grid Texture Overlay */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        /* Center Content Block */
+        .splash-center {
+            margin-top: auto;
+            margin-bottom: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        /* Animated Logo Mark Container */
+        .hero-logo-box {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            animation: floatGentle 3s ease-in-out infinite;
+        }
+
+        /* Stylus Floating Over The Top-Right Corner */
+        .floating-stylus {
+            position: absolute;
+            top: -14px;
+            right: -16px;
+            width: 48px;
+            height: 48px;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+            animation: stylusWiggle 3s ease-in-out infinite;
+        }
+
+        /* Brand Typography */
+        .brand-title {
+            color: var(--text-white);
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -0.8px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .junior-pill {
+            background: var(--accent-yellow);
+            color: #713f12;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        /* Bottom Loader Section */
+        .splash-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+        }
+
+        /* "Drawing" Progress Track */
+        .pencil-loader {
+            width: 160px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pencil-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #ffffff;
+            border-radius: 9999px;
+            transition: width 0.15s ease-out;
+            box-shadow: 0 0 8px #ffffff;
+        }
+
+        .status-caption {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* App Workspace Underlying Screen */
+        .app-screen-mock {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            padding: 24px;
+            text-align: center;
+            gap: 16px;
+        }
+
+        .replay-btn {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes floatGentle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes stylusWiggle {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(6deg) translateY(-2px);
+            }
+        }
+
+        /* Exit Class */
+        .splash-screen-hide {
+            opacity: 0 !important;
+            transform: scale(1.04) !important;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Simulated Device Canvas -->
+    <div class="device-stage">
+
+        <!-- SPLASH SCREEN OVERLAY -->
+        <div id="splash-screen">
+            <div class="grid-overlay"></div>
+
+            <div class="splash-center">
+                <!-- Logo Artwork -->
+                <div class="hero-logo-box">
+
+                    <!-- Arithmetic 4-Tile Matrix Mark -->
+                    <svg viewBox="0 0 100 100" width="120" height="120" fill="none">
+                        <!-- Orange Plus -->
+                        <rect x="2" y="2" width="44" height="44" rx="12" fill="var(--op-plus)" />
+                        <path d="M24 13v22M13 24h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+
+                        <!-- Cyan Minus -->
+                        <rect x="54" y="2" width="44" height="44" rx="12" fill="var(--op-minus)" />
+                        <path d="M65 24h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+
+                        <!-- Purple Multiply -->
+                        <rect x="2" y="54" width="44" height="44" rx="12" fill="var(--op-mult)" />
+                        <path d="M16 68l16 16M32 68l-16 16" stroke="#ffffff" stroke-width="4.5"
+                            stroke-linecap="round" />
+
+                        <!-- Green Divide -->
+                        <rect x="54" y="54" width="44" height="44" rx="12" fill="var(--op-div)" />
+                        <path d="M65 76h22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+                        <circle cx="76" cy="67" r="3.5" fill="#ffffff" />
+                        <circle cx="76" cy="85" r="3.5" fill="#ffffff" />
+                    </svg>
+
+                    <!-- Floating Stylus Tool Overlay -->
+                    <svg class="floating-stylus" viewBox="0 0 48 48" fill="none">
+                        <defs>
+                            <linearGradient id="stylusGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="35%" stop-color="#34d399" />
+                                <stop offset="70%" stop-color="#fbbf24" />
+                                <stop offset="100%" stop-color="#f87171" />
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(24, 24) rotate(45) translate(-24, -24)">
+                            <!-- Tip -->
+                            <polygon points="20,10 28,10 24,0" fill="#fef08a" />
+                            <!-- Rainbow Shaft -->
+                            <rect x="20" y="10" width="8" height="28" rx="2" fill="url(#stylusGrad)" />
+                            <!-- Cap -->
+                            <rect x="20" y="38" width="8" height="4" rx="1" fill="#e2e8f0" />
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Typography -->
+                <h1 class="brand-title">
+                    MathPad
+                    <span class="junior-pill">Jr</span>
+                </h1>
+                <p class="brand-tagline">Interactive Handwriting & Practice</p>
+            </div>
+
+            <!-- Footer / Loading Track -->
+            <div class="splash-footer">
+                <div class="pencil-loader">
+                    <div class="pencil-progress" id="progressBar"></div>
+                </div>
+                <span class="status-caption" id="statusText">Opening your workbook...</span>
+            </div>
+        </div>
+
+        <!-- UNDERLYING APP CONTENT (Appears when splash fades) -->
+        <div class="app-screen-mock">
+            <div style="font-size: 3rem;">✏️ 📐</div>
+            <h2 style="font-weight: 800; color: #0f172a;">Workbook Ready!</h2>
+            <p style="color: #64748b; font-size: 0.9rem;">The app mounted smoothly without any abrupt visual pop.</p>
+            <button class="replay-btn" id="replayBtn">Replay Splash Screen</button>
+        </div>
+
+    </div>
+
+    <script>
+        const splash = document.getElementById("splash-screen");
+        const bar = document.getElementById("progressBar");
+        const status = document.getElementById("statusText");
+        const replayBtn = document.getElementById("replayBtn");
+
+        function runStartupSequence() {
+            // Reset state
+            splash.classList.remove("splash-screen-hide");
+            bar.style.width = "0%";
+            status.textContent = "Loading workbook...";
+
+            // Step 1: Canvas Context Init
+            setTimeout(() => {
+                bar.style.width = "40%";
+                status.textContent = "Setting up stylus canvas...";
+            }, 300);
+
+            // Step 2: Storage / Progress Load
+            setTimeout(() => {
+                bar.style.width = "85%";
+                status.textContent = "Restoring saved progress...";
+            }, 700);
+
+            // Step 3: Done & Smooth Fade-Out
+            setTimeout(() => {
+                bar.style.width = "100%";
+                status.textContent = "Ready!";
+            }, 1050);
+
+            setTimeout(() => {
+                splash.classList.add("splash-screen-hide");
+            }, 1300);
+        }
+
+        // Run automatically on first load
+        runStartupSequence();
+
+        // Replay on button tap
+        replayBtn.addEventListener("click", runStartupSequence);
+    </script>
+</body>
+
+</html>

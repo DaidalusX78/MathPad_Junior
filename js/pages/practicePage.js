@@ -281,6 +281,12 @@ export class PracticePage {
             this.sessionScores[this.currentIndex] = true;
             this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
             this.triggerFlyingCoinAnimation(starReward, 'targetAnswerBox', 'scoreBadgePractice');
+            const unlocked = studentProgress.recordQuestionAttempt(true, qItem.cat);
+            if (unlocked && unlocked.length > 0) {
+              setTimeout(() => {
+                unlocked.forEach((b) => this.showToast(`🏅 Milestone: ${b.title} (+${b.stars} ⭐)!`, 'correct'));
+              }, 1200);
+            }
           }
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
@@ -289,6 +295,7 @@ export class PracticePage {
           const guideBtn = document.getElementById('stepGuideBtn');
           if (guideBtn) guideBtn.style.display = 'none';
         } else {
+          studentProgress.recordQuestionAttempt(false, qItem.cat);
           audioManager.playSound('error');
           const lang = studentProgress.currentLang || 'en';
           const diagnosis = DiagnosisEngine.diagnose(topDetected, qItem, lang);
@@ -409,6 +416,14 @@ export class PracticePage {
 
     // Transfer stars from round score badge to main bank!
     this.triggerFlyingCoinAnimation(totalStarsEarned, 'scoreBadgePractice', 'coinBadgePractice');
+
+    // Record quiz completion for stats & score milestones
+    const quizMilestones = studentProgress.recordQuizCompletion(score, this.totalQuestions);
+    if (quizMilestones && quizMilestones.length > 0) {
+      setTimeout(() => {
+        quizMilestones.forEach((b) => this.showToast(`🏅 Milestone: ${b.title} (+${b.stars} ⭐)!`, 'correct'));
+      }, 1500);
+    }
 
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];

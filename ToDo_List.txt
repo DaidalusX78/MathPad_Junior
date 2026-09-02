@@ -1,16 +1,9 @@
 Issues:
-1) [x] Used ⭐ icon and "Stars" throughout instead of coins to remove any notion of monetary value or real world expenses
-2) [x] Replaced "shop-avatar-icon" with custom vector pencil case SVG illustration (zipper, ruler & pencil)
-3) [x] .q-text adjusted font-size: 1.2rem
-4) [x] .color-swatch-btn.active dynamic halo ring now matches each swatch button's exact active color
-5) [x] q-progress-pill styled with theme accent/subtle colors and fixed the total count logic (no more undefined)
-6) [x] action-stack-btn check-btn styled emerald green (#059669)
-7) [x] action-stack-btn next-btn styled with selected theme color (var(--theme-accent))
-8) [x] keypad-card / keypad-container z-index increased to 25 so it sits above the palm rest
-9) [x] Palm rest styled with warm desk mat gradient and leatherette border; positioned "↕️ Resize height • ↔️ Slide side" hint pill visibly with high contrast
-10) [x] Keypad mode now keeps the main "Check Answer" button visible and fully functional
+1) I would like to add a stats modal to include, total questions, total questions answered correctly, current percentage of questions answered correctly, best score, total days played, best daily streak, total stars earned,
+2) Area for milestones where you get awarded a badge for milestones e.g answered 1 st question correctly overall, answered 1st topic (addition, division etc) question correctly, answered 10 questions in total correctly, 1st 8/10, first 9/10, first 10/10 etc. each milestone you will also get awarded stars.
+3) "settings-modal-card" have the modal split up as its getting to big to display all the information now. Split with section for Profile (Player Name, Mascot, Colour Theme, Scratchpad, Statistics (or another name if you can think of one that better matches the theme as described above in point 2), Switch Profile), Settings (Language, Palm Rest Guard, Sound Effects), The Pencil Case.
 
-execute v0.16 completed
+execute v0.17
 
 
 
@@ -21,20 +14,11 @@ Gamification ideas:
 5) Earn x amount for loggin in daily, and bonus coins for streaks of 3, 7, 14, 30 days. Bonus for completing X number of problems. 
 6) Palm Rest area - Desk Mat Skins & Stickers: Allow students to spend their Math Coins in the shop to customize their palm rest (e.g., Galaxy Desk Mat, Wood Grain Craft Table, Neon Cyber Pad, Comic Strip Collage).
 Sticker Showcase: Let students drag and place reward stickers directly onto their palm rest mat like decorating a physical school pencil box or desk!
-7) [x] shop-avatar-icon on the pencil case page - Designed a custom vector pencil case SVG with zipper, pencil & ruler
 
-
-execute v0.13
 
 
 Features and Updates Roadmap:
-1) [x] Procedural Question Generation: Dynamic algorithmic generators for unlimited variations across categories (Times Tables, Multi-digit Division, Column Addition/Subtraction with borrowing/carrying guides).
-2) [x] Text-to-Speech (Read Aloud 🔊): Native Web Speech API integration to read math problems and word problems aloud in English 🇬🇧 or Spanish 🇪🇸.
-3) Star Rewards & Sticker Book: Trophy/sticker book modal where students unlock reward badges, track daily practice streaks, and celebrate milestones.
-4) [x] On-Screen Numerical Keypad: Child-friendly keypad fallback for devices without styluses or touchscreens.
-5) [x] Intelligent Step-by-Step Error Diagnosis & Guidance: Analyze written calculations on the canvas (e.g., column subtraction borrowing, partial multiplication, long division stages) to detect the exact step where an error occurred and guide the child through correction.
-6) Handwriting / OCR Recognition Polish: Visual confidence indicator in the Target Answer Box and multi-digit stroke grouping.
-7) Complete PWA Offline Audit: Verify full offline asset caching in ServiceWorker (sw.js) for offline airplane and classroom use.
+1) Star Rewards & Sticker Book: Trophy/sticker book modal where students unlock reward badges, track daily practice streaks, and celebrate milestones.
 
 
 Accessibility:

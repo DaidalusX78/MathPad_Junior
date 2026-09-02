@@ -3,7 +3,7 @@
  * Provides full offline support, caching app shell, styles, fonts, and assets.
  */
 
-const CACHE_NAME = 'mathpad-junior-v1.6.7';
+const CACHE_NAME = 'mathpad-junior-v0.17';
 
 const PRECACHE_ASSETS = [
   './',
