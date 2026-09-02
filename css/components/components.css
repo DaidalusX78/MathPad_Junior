@@ -1462,3 +1462,24 @@
   0%, 100% { box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15); }
   50% { box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); }
 }
+
+.setting-select {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.setting-select:focus {
+  border-color: var(--theme-accent, #a855f7);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}

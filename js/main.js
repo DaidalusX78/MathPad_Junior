@@ -288,6 +288,16 @@ class App {
       audioManager.playSound('click');
     };
 
+    window.setSetupTopic = (topic) => {
+      stagedPracticeMode = topic || 'tables';
+      const titleElem = document.getElementById('setupModalTitle');
+      if (titleElem) {
+        titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Quiz Setup`;
+      }
+      updateForecast();
+      audioManager.playSound('click');
+    };
+
     window.setGlobalSchoolPeriod = (period) => {
       stagedPeriod = period || 'lesson';
       document.querySelectorAll('.school-period-pill').forEach((pill) => {
@@ -300,19 +310,26 @@ class App {
       if (period === 'detention') {
         const mistakes = studentProgress.getMistakes();
         if (mistakes.length === 0) {
-          this.practicePage.showToast('🎉 Clean Record! No mistakes in detention. Try a Class Lesson!', 'correct');
+          this.practicePage.showToast('🎉 Clean Record! No mistakes in detention. Try a Pop Quiz!', 'correct');
         }
         window.openPracticeSetupModal('random');
+      } else if (period === 'breaktime') {
+        window.openPracticeSetupModal(stagedPracticeMode || 'random');
       } else {
-        audioManager.playSound('click');
+        // 'lesson'
+        window.openPracticeSetupModal(stagedPracticeMode || 'tables');
       }
     };
 
     window.openPracticeSetupModal = (mode) => {
-      stagedPracticeMode = mode || 'mult';
+      stagedPracticeMode = mode || stagedPracticeMode || 'mult';
       const titleElem = document.getElementById('setupModalTitle');
       if (titleElem) {
         titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Quiz Setup`;
+      }
+      const topicSelect = document.getElementById('setupTopicSelect');
+      if (topicSelect) {
+        topicSelect.value = stagedPracticeMode;
       }
       document.querySelectorAll('.school-period-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.period === stagedPeriod);

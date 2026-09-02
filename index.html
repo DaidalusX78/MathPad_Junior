@@ -1123,6 +1123,22 @@
         <button type="button" class="modal-close" onclick="closePracticeSetupModal()">✕</button>
       </div>
 
+      <!-- Math Topic Selection -->
+      <div class="setting-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div class="setting-label" id="lblSetupTopic">Math Subject / Topic</div>
+        <select class="setting-select" id="setupTopicSelect" onchange="setSetupTopic(this.value)">
+          <option value="tables">Times Tables</option>
+          <option value="mult">Multiplication</option>
+          <option value="div">Division</option>
+          <option value="add">Addition</option>
+          <option value="sub">Subtraction</option>
+          <option value="word">Word Problems</option>
+          <option value="geo">Geometry & Measure</option>
+          <option value="all_seq">All in Sequence</option>
+          <option value="random">Random Mix</option>
+        </select>
+      </div>
+
       <!-- 0. School Day Period Selection -->
       <div class="setting-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
         <div class="setting-label">School Day Period</div>
