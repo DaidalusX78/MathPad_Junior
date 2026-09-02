@@ -235,6 +235,11 @@ export class CanvasEngine {
     document.documentElement.style.setProperty('--active-ink-color', color);
     document.documentElement.style.setProperty('--active-swatch-ring', color);
 
+    const preview = document.getElementById('penActivePreview');
+    if (preview) {
+      preview.style.backgroundColor = color;
+    }
+
     document.querySelectorAll('.color-swatch-btn').forEach((btn) => {
       const isActive = btn.dataset.color === color;
       btn.classList.toggle('active', isActive);
@@ -251,6 +256,11 @@ export class CanvasEngine {
   setStrokeSize(size) {
     const numSize = parseFloat(size);
     this.currentStrokeWidth = numSize;
+
+    const label = document.getElementById('penSizePreviewLabel');
+    if (label) {
+      label.innerText = `${numSize}px`;
+    }
 
     document.querySelectorAll('.stroke-btn').forEach((btn) => {
       btn.classList.toggle('active', parseFloat(btn.dataset.size) === numSize);

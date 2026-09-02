@@ -165,12 +165,17 @@ export class PracticePage {
     const isMatch = MathValidator.checkCandidates([trimmed], qItem);
 
     if (isMatch) {
-      this.sessionScores[this.currentIndex] = true;
-      const coinReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
-      this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
+      const wasAlreadyScored = !!this.sessionScores[this.currentIndex];
+      const starReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
+      if (!wasAlreadyScored) {
+        this.sessionScores[this.currentIndex] = true;
+        this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
+        studentProgress.addStars(starReward);
+        this.triggerFlyingCoinAnimation(starReward);
+      }
       this.updateLiveScoreDisplay();
       audioManager.playSound('success');
-      this.showToast(`🎉 ${t.correctMsg} (+${coinReward} ⭐)`, 'correct');
+      this.showToast(`🎉 ${t.correctMsg} (+${starReward} ⭐)`, 'correct');
 
       const guideBtn = document.getElementById('stepGuideBtn');
       if (guideBtn) guideBtn.style.display = 'none';
@@ -260,12 +265,17 @@ export class PracticePage {
         const isMatch = MathValidator.checkCandidates(candidates, qItem);
 
         if (isMatch) {
-          this.sessionScores[this.currentIndex] = true;
-          const coinReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
-          this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
+          const wasAlreadyScored = !!this.sessionScores[this.currentIndex];
+          const starReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
+          if (!wasAlreadyScored) {
+            this.sessionScores[this.currentIndex] = true;
+            this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
+            studentProgress.addStars(starReward);
+            this.triggerFlyingCoinAnimation(starReward);
+          }
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
-          this.showToast(`🎉 ${t.correctMsg} (+${coinReward} ⭐)`, 'correct');
+          this.showToast(`🎉 ${t.correctMsg} (+${starReward} ⭐)`, 'correct');
 
           const guideBtn = document.getElementById('stepGuideBtn');
           if (guideBtn) guideBtn.style.display = 'none';
@@ -378,15 +388,16 @@ export class PracticePage {
 
     // Bonus for high scores
     const roundBonus = (score === 10) ? 20 : (score >= 8 ? 10 : 0);
-    const starsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
-    studentProgress.addStars(starsEarned);
+    if (roundBonus > 0) {
+      studentProgress.addStars(roundBonus);
+      this.triggerFlyingCoinAnimation(roundBonus);
+    }
+    const totalStarsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
 
     const coinsElem = document.getElementById('gradeCoinsAwarded');
     if (coinsElem) {
-      coinsElem.innerText = `+${starsEarned} ⭐ Math Stars Earned!`;
+      coinsElem.innerText = `+${totalStarsEarned} ⭐ Math Stars Earned!`;
     }
-
-    this.triggerFlyingCoinAnimation(starsEarned);
 
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];

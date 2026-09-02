@@ -162,10 +162,34 @@ class App {
     window.checkAnswer = () => this.practicePage.checkAnswer();
     window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode);
 
+    window.togglePenSettingsMenu = (e) => {
+      if (e) e.stopPropagation();
+      const popover = document.getElementById('penSettingsPopover');
+      if (popover) {
+        popover.classList.toggle('active');
+      }
+    };
+
+    document.addEventListener('pointerdown', (e) => {
+      const popover = document.getElementById('penSettingsPopover');
+      const btn = document.getElementById('penDropdownBtn');
+      if (popover && popover.classList.contains('active')) {
+        if (!popover.contains(e.target) && !btn?.contains(e.target)) {
+          popover.classList.remove('active');
+        }
+      }
+    });
+
     window.setTool = (tool) => this.canvasEngine.setTool(tool);
-    window.setColor = (val) => this.canvasEngine.setColor(val);
+    window.setColor = (val) => {
+      this.canvasEngine.setColor(val);
+      document.getElementById('penSettingsPopover')?.classList.remove('active');
+    };
     window.setColorFromDropdown = (val) => this.canvasEngine.setColor(val);
-    window.setStrokeSize = (size) => this.canvasEngine.setStrokeSize(size);
+    window.setStrokeSize = (size) => {
+      this.canvasEngine.setStrokeSize(size);
+      document.getElementById('penSettingsPopover')?.classList.remove('active');
+    };
     window.undoCanvas = () => {
       historyManager.undo(this.canvasEngine.canvas, this.canvasEngine.ctx, this.canvasEngine.inkStrokes, () => {
         this.practicePage.saveCurrentCanvas();

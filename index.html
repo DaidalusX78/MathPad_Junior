@@ -380,8 +380,8 @@
         </a>
       </div>
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
-        <div class="score-badge-header" id="scoreBadgePractice" title="Session Score">
-          ⭐ <span id="lblLiveScoreText">Score:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
+        <div class="score-badge-header" id="scoreBadgePractice" title="Round Correct Answers">
+          🎯 <span id="lblLiveScoreText">Score:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
         </div>
         <div class="coin-badge-header" id="coinBadgePractice" onclick="openCoinGuideModal()" title="Math Stars & Rewards Guide">
           ⭐ <span id="coinCountPractice">0</span> <span class="coin-info-icon">ℹ️</span>
@@ -478,37 +478,48 @@
             </button>
           </div>
 
-          <div class="tool-group drawing-tools" id="inkToolsGroup">
-            <div class="color-picker-container" title="Choose Ink Color">
-              <div class="color-swatch-row">
-                <button type="button" class="color-swatch-btn active" data-color="#b57edc" style="background:#b57edc;"
-                  onclick="setColor('#b57edc')" title="Lilac"></button>
-                <button type="button" class="color-swatch-btn" data-color="#dc2626" style="background:#dc2626;"
-                  onclick="setColor('#dc2626')" title="Red"></button>
-                <button type="button" class="color-swatch-btn" data-color="#16a34a" style="background:#16a34a;"
-                  onclick="setColor('#16a34a')" title="Green"></button>
-                <button type="button" class="color-swatch-btn" data-color="#2563eb" style="background:#2563eb;"
-                  onclick="setColor('#2563eb')" title="Blue"></button>
-                <button type="button" class="color-swatch-btn" data-color="#0f172a" style="background:#0f172a;"
-                  onclick="setColor('#0f172a')" title="Black"></button>
-              </div>
-            </div>
-          </div>
-
+          <!-- Compact Ink & Stroke Dropdown Menu -->
           <div class="tool-group drawing-tools" id="strokeToolsGroup">
-            <div class="stroke-btn-group" role="radiogroup" aria-label="Pen Thickness">
-              <button type="button" class="stroke-btn active" data-size="2.5" onclick="setStrokeSize(2.5)" title="Thin (2.5px)">
-                <div class="stroke-circle-preview" style="width:5px; height:5px;"></div>
+            <div class="pen-dropdown-container">
+              <button type="button" class="pen-dropdown-btn" id="penDropdownBtn" onclick="togglePenSettingsMenu(event)" title="Ink Color & Pen Thickness">
+                <span class="pen-active-preview" id="penActivePreview" style="background-color: #b57edc;"></span>
+                <span class="pen-size-preview-label" id="penSizePreviewLabel">2.5px</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
-              <button type="button" class="stroke-btn" data-size="4.5" onclick="setStrokeSize(4.5)" title="Medium (4.5px)">
-                <div class="stroke-circle-preview" style="width:9px; height:9px;"></div>
-              </button>
-              <button type="button" class="stroke-btn" data-size="8" onclick="setStrokeSize(8)" title="Thick (8px)">
-                <div class="stroke-circle-preview" style="width:14px; height:14px;"></div>
-              </button>
-              <button type="button" class="stroke-btn" data-size="16" onclick="setStrokeSize(16)" title="Marker (16px)">
-                <div class="stroke-circle-preview" style="width:20px; height:20px;"></div>
-              </button>
+
+              <div class="pen-settings-popover" id="penSettingsPopover" onclick="event.stopPropagation()">
+                <div class="popover-section-label">Ink Color</div>
+                <div class="color-swatch-row">
+                  <button type="button" class="color-swatch-btn active" data-color="#b57edc" style="background:#b57edc;"
+                    onclick="setColor('#b57edc')" title="Lilac"></button>
+                  <button type="button" class="color-swatch-btn" data-color="#dc2626" style="background:#dc2626;"
+                    onclick="setColor('#dc2626')" title="Red"></button>
+                  <button type="button" class="color-swatch-btn" data-color="#16a34a" style="background:#16a34a;"
+                    onclick="setColor('#16a34a')" title="Green"></button>
+                  <button type="button" class="color-swatch-btn" data-color="#2563eb" style="background:#2563eb;"
+                    onclick="setColor('#2563eb')" title="Blue"></button>
+                  <button type="button" class="color-swatch-btn" data-color="#0f172a" style="background:#0f172a;"
+                    onclick="setColor('#0f172a')" title="Black"></button>
+                </div>
+
+                <div class="popover-section-label" style="margin-top: 10px;">Pen Thickness</div>
+                <div class="stroke-btn-group" role="radiogroup" aria-label="Pen Thickness">
+                  <button type="button" class="stroke-btn active" data-size="2.5" onclick="setStrokeSize(2.5)" title="Thin (2.5px)">
+                    <div class="stroke-circle-preview" style="width:5px; height:5px;"></div>
+                  </button>
+                  <button type="button" class="stroke-btn" data-size="4.5" onclick="setStrokeSize(4.5)" title="Medium (4.5px)">
+                    <div class="stroke-circle-preview" style="width:9px; height:9px;"></div>
+                  </button>
+                  <button type="button" class="stroke-btn" data-size="8" onclick="setStrokeSize(8)" title="Thick (8px)">
+                    <div class="stroke-circle-preview" style="width:14px; height:14px;"></div>
+                  </button>
+                  <button type="button" class="stroke-btn" data-size="16" onclick="setStrokeSize(16)" title="Marker (16px)">
+                    <div class="stroke-circle-preview" style="width:20px; height:20px;"></div>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -535,7 +546,9 @@
           <div class="palm-shield" id="palmShield">
             <div class="shield-drag-handle" id="palmDragHandle" title="Drag up/down to resize • Slide left/right to move">
               <div class="palm-hint-pill" id="palmHintPill">↕️ Resize height • ↔️ Slide side</div>
-              <span>≡</span>
+              <div class="handle-grip-icon">
+                <span></span><span></span><span></span>
+              </div>
               <span id="shieldLabel">Palm Rest</span>
             </div>
           </div>

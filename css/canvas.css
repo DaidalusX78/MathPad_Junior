@@ -103,6 +103,82 @@
   stroke: #ffffff;
 }
 
+/* ------------------- Pen Settings Dropdown Menu ------------------- */
+.pen-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pen-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light, #e2e8f0);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.pen-dropdown-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.pen-active-preview {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 0 1px #94a3b8;
+  display: inline-block;
+}
+
+.pen-size-preview-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #475569;
+}
+
+.pen-settings-popover {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 50;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light, #e2e8f0);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-width: 190px;
+  animation: popoverFade 0.15s ease forwards;
+}
+
+.pen-settings-popover.active {
+  display: block;
+}
+
+@keyframes popoverFade {
+  0% { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.popover-section-label {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
 /* ------------------- Color Swatches & Dynamic Ring ------------------- */
 .color-picker-container {
   display: flex;
@@ -319,26 +395,42 @@ canvas {
   top: 8px;
   left: 50%;
   transform: translateX(-50%);
-  background: #ffffff;
-  border: 1.5px solid var(--theme-border, #cbd5e1);
-  border-radius: 14px;
-  padding: 5px 18px;
-  font-size: 0.78rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid var(--theme-accent, #a855f7);
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 0.8rem;
   color: var(--text-dark, #0f172a);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  cursor: move;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.15), 0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: grab;
   touch-action: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-weight: 800;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  gap: 8px;
+  font-weight: 900;
+  transition: all 0.15s ease;
 }
 
 .shield-drag-handle:active {
+  cursor: grabbing;
+  transform: translateX(-50%) scale(0.98);
   background: var(--theme-subtle, #fdf4ff);
-  border-color: var(--theme-accent);
-  color: var(--theme-accent);
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.25);
+}
+
+.handle-grip-icon {
+  display: inline-flex;
+  gap: 2.5px;
+  align-items: center;
+}
+
+.handle-grip-icon span {
+  width: 3.5px;
+  height: 12px;
+  background-color: var(--theme-accent, #a855f7);
+  border-radius: 9999px;
+  display: inline-block;
+  opacity: 0.85;
 }
 
 .palm-hint-pill {
