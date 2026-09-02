@@ -103,47 +103,51 @@
   stroke: #ffffff;
 }
 
-/* ------------------- Pen Settings Dropdown Menu ------------------- */
+/* ------------------- Split Pen Color & Pen Weight Dropdowns ------------------- */
 .pen-dropdown-container {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
 }
 
-.pen-dropdown-btn {
+.pen-dropdown-tool-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
+  color: #475569;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #ffffff;
-  border: 1.5px solid var(--border-light, #e2e8f0);
-  border-radius: 12px;
-  padding: 6px 10px;
-  font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #334155;
+  justify-content: center;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
+  padding: 0;
 }
 
-.pen-dropdown-btn:hover {
+.pen-dropdown-tool-btn:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
 }
 
-.pen-active-preview {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1.5px solid #ffffff;
-  box-shadow: 0 0 0 1px #94a3b8;
-  display: inline-block;
+.pen-dropdown-tool-btn:active {
+  transform: scale(0.95);
 }
 
-.pen-size-preview-label {
-  font-size: 0.76rem;
-  font-weight: 800;
-  color: #475569;
+.pen-active-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1.5px #cbd5e1;
+  display: inline-block;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.pen-active-stroke-dot {
+  display: inline-block;
+  border-radius: 50%;
+  background-color: var(--active-ink-color, var(--theme-accent));
+  transition: all 0.15s ease;
 }
 
 .pen-settings-popover {

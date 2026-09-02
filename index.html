@@ -380,10 +380,10 @@
         </a>
       </div>
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
-        <div class="score-badge-header" id="scoreBadgePractice" title="Round Correct Answers">
-          🎯 <span id="lblLiveScoreText">Score:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
+        <div class="score-badge-header" id="scoreBadgePractice" title="Stars Earned This Round">
+          ⭐ <span id="lblLiveScoreText">Stars:</span> <span id="liveScoreCount" style="margin-left:2px;">0</span>
         </div>
-        <div class="coin-badge-header" id="coinBadgePractice" onclick="openCoinGuideModal()" title="Math Stars & Rewards Guide">
+        <div class="coin-badge-header" id="coinBadgePractice" onclick="openCoinGuideModal()" title="Banked Math Stars (Total Balance)">
           ⭐ <span id="coinCountPractice">0</span> <span class="coin-info-icon">ℹ️</span>
         </div>
         <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
@@ -478,18 +478,15 @@
             </button>
           </div>
 
-          <!-- Compact Ink & Stroke Dropdown Menu -->
+          <!-- Split Pen Color & Pen Weight Dropdowns (Matching tool-btn Dimensions) -->
           <div class="tool-group drawing-tools" id="strokeToolsGroup">
+            <!-- 1. Ink Color Dropdown -->
             <div class="pen-dropdown-container">
-              <button type="button" class="pen-dropdown-btn" id="penDropdownBtn" onclick="togglePenSettingsMenu(event)" title="Ink Color & Pen Thickness">
-                <span class="pen-active-preview" id="penActivePreview" style="background-color: #b57edc;"></span>
-                <span class="pen-size-preview-label" id="penSizePreviewLabel">2.5px</span>
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
+              <button type="button" class="tool-btn pen-dropdown-tool-btn" id="inkColorDropdownBtn" onclick="toggleInkColorMenu(event)" title="Choose Ink Color">
+                <span class="pen-active-color-dot" id="penActivePreview" style="background-color: #b57edc;"></span>
               </button>
 
-              <div class="pen-settings-popover" id="penSettingsPopover" onclick="event.stopPropagation()">
+              <div class="pen-settings-popover" id="inkColorPopover" onclick="event.stopPropagation()">
                 <div class="popover-section-label">Ink Color</div>
                 <div class="color-swatch-row">
                   <button type="button" class="color-swatch-btn active" data-color="#b57edc" style="background:#b57edc;"
@@ -503,8 +500,17 @@
                   <button type="button" class="color-swatch-btn" data-color="#0f172a" style="background:#0f172a;"
                     onclick="setColor('#0f172a')" title="Black"></button>
                 </div>
+              </div>
+            </div>
 
-                <div class="popover-section-label" style="margin-top: 10px;">Pen Thickness</div>
+            <!-- 2. Pen Weight / Thickness Dropdown -->
+            <div class="pen-dropdown-container">
+              <button type="button" class="tool-btn pen-dropdown-tool-btn" id="strokeSizeDropdownBtn" onclick="toggleStrokeSizeMenu(event)" title="Pen Thickness">
+                <span class="pen-active-stroke-dot" id="penActiveStrokeDot" style="width: 7px; height: 7px; border-radius: 50%; background-color: var(--active-ink-color, #b57edc);"></span>
+              </button>
+
+              <div class="pen-settings-popover" id="strokeSizePopover" onclick="event.stopPropagation()">
+                <div class="popover-section-label">Pen Thickness</div>
                 <div class="stroke-btn-group" role="radiogroup" aria-label="Pen Thickness">
                   <button type="button" class="stroke-btn active" data-size="2.5" onclick="setStrokeSize(2.5)" title="Thin (2.5px)">
                     <div class="stroke-circle-preview" style="width:5px; height:5px;"></div>

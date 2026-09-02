@@ -240,6 +240,11 @@ export class CanvasEngine {
       preview.style.backgroundColor = color;
     }
 
+    const strokeDot = document.getElementById('penActiveStrokeDot');
+    if (strokeDot) {
+      strokeDot.style.backgroundColor = color;
+    }
+
     document.querySelectorAll('.color-swatch-btn').forEach((btn) => {
       const isActive = btn.dataset.color === color;
       btn.classList.toggle('active', isActive);
@@ -257,9 +262,11 @@ export class CanvasEngine {
     const numSize = parseFloat(size);
     this.currentStrokeWidth = numSize;
 
-    const label = document.getElementById('penSizePreviewLabel');
-    if (label) {
-      label.innerText = `${numSize}px`;
+    const strokeDot = document.getElementById('penActiveStrokeDot');
+    if (strokeDot) {
+      const dotPixel = numSize === 2.5 ? 5 : (numSize === 4.5 ? 9 : (numSize === 8 ? 14 : 20));
+      strokeDot.style.width = `${dotPixel}px`;
+      strokeDot.style.height = `${dotPixel}px`;
     }
 
     document.querySelectorAll('.stroke-btn').forEach((btn) => {

@@ -162,20 +162,37 @@ class App {
     window.checkAnswer = () => this.practicePage.checkAnswer();
     window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode);
 
-    window.togglePenSettingsMenu = (e) => {
+    window.toggleInkColorMenu = (e) => {
       if (e) e.stopPropagation();
-      const popover = document.getElementById('penSettingsPopover');
-      if (popover) {
-        popover.classList.toggle('active');
-      }
+      const popover = document.getElementById('inkColorPopover');
+      const other = document.getElementById('strokeSizePopover');
+      if (other) other.classList.remove('active');
+      if (popover) popover.classList.toggle('active');
+    };
+
+    window.toggleStrokeSizeMenu = (e) => {
+      if (e) e.stopPropagation();
+      const popover = document.getElementById('strokeSizePopover');
+      const other = document.getElementById('inkColorPopover');
+      if (other) other.classList.remove('active');
+      if (popover) popover.classList.toggle('active');
     };
 
     document.addEventListener('pointerdown', (e) => {
-      const popover = document.getElementById('penSettingsPopover');
-      const btn = document.getElementById('penDropdownBtn');
-      if (popover && popover.classList.contains('active')) {
-        if (!popover.contains(e.target) && !btn?.contains(e.target)) {
-          popover.classList.remove('active');
+      const inkPop = document.getElementById('inkColorPopover');
+      const strokePop = document.getElementById('strokeSizePopover');
+      const inkBtn = document.getElementById('inkColorDropdownBtn');
+      const strokeBtn = document.getElementById('strokeSizeDropdownBtn');
+
+      if (inkPop && inkPop.classList.contains('active')) {
+        if (!inkPop.contains(e.target) && !inkBtn?.contains(e.target)) {
+          inkPop.classList.remove('active');
+        }
+      }
+
+      if (strokePop && strokePop.classList.contains('active')) {
+        if (!strokePop.contains(e.target) && !strokeBtn?.contains(e.target)) {
+          strokePop.classList.remove('active');
         }
       }
     });
@@ -183,12 +200,12 @@ class App {
     window.setTool = (tool) => this.canvasEngine.setTool(tool);
     window.setColor = (val) => {
       this.canvasEngine.setColor(val);
-      document.getElementById('penSettingsPopover')?.classList.remove('active');
+      document.getElementById('inkColorPopover')?.classList.remove('active');
     };
     window.setColorFromDropdown = (val) => this.canvasEngine.setColor(val);
     window.setStrokeSize = (size) => {
       this.canvasEngine.setStrokeSize(size);
-      document.getElementById('penSettingsPopover')?.classList.remove('active');
+      document.getElementById('strokeSizePopover')?.classList.remove('active');
     };
     window.undoCanvas = () => {
       historyManager.undo(this.canvasEngine.canvas, this.canvasEngine.ctx, this.canvasEngine.inkStrokes, () => {

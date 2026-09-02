@@ -170,8 +170,7 @@ export class PracticePage {
       if (!wasAlreadyScored) {
         this.sessionScores[this.currentIndex] = true;
         this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
-        studentProgress.addStars(starReward);
-        this.triggerFlyingCoinAnimation(starReward);
+        this.triggerFlyingCoinAnimation(starReward, 'targetAnswerBox', 'scoreBadgePractice');
       }
       this.updateLiveScoreDisplay();
       audioManager.playSound('success');
@@ -270,8 +269,7 @@ export class PracticePage {
           if (!wasAlreadyScored) {
             this.sessionScores[this.currentIndex] = true;
             this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
-            studentProgress.addStars(starReward);
-            this.triggerFlyingCoinAnimation(starReward);
+            this.triggerFlyingCoinAnimation(starReward, 'targetAnswerBox', 'scoreBadgePractice');
           }
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
@@ -308,9 +306,9 @@ export class PracticePage {
     }
   }
 
-  triggerFlyingCoinAnimation(amount) {
-    const targetBadge = document.getElementById('coinBadgePractice') || document.getElementById('coinBadgeHome');
-    const sourceElem = document.getElementById('targetAnswerBox') || document.getElementById('paintCanvas');
+  triggerFlyingCoinAnimation(amount, sourceId = 'targetAnswerBox', targetId = 'coinBadgePractice') {
+    const targetBadge = document.getElementById(targetId) || document.getElementById('coinBadgePractice') || document.getElementById('coinBadgeHome');
+    const sourceElem = document.getElementById(sourceId) || document.getElementById('targetAnswerBox') || document.getElementById('paintCanvas');
 
     if (!targetBadge || !sourceElem) {
       this.updateCoinDisplays();
@@ -348,6 +346,7 @@ export class PracticePage {
       void targetBadge.offsetWidth;
       targetBadge.classList.add('star-badge-bounce');
       this.updateCoinDisplays();
+      this.updateLiveScoreDisplay();
       audioManager.playSound('click');
       setTimeout(() => targetBadge.classList.remove('star-badge-bounce'), 450);
     }, 650);
@@ -373,9 +372,9 @@ export class PracticePage {
   }
 
   updateLiveScoreDisplay() {
-    const score = Object.keys(this.sessionScores).length;
+    const roundStars = this.sessionCoinsEarned || 0;
     const elem = document.getElementById('liveScoreCount');
-    if (elem) elem.innerText = `${score}`;
+    if (elem) elem.innerText = `${roundStars}`;
     this.updateCoinDisplays();
   }
 
@@ -388,16 +387,16 @@ export class PracticePage {
 
     // Bonus for high scores
     const roundBonus = (score === 10) ? 20 : (score >= 8 ? 10 : 0);
-    if (roundBonus > 0) {
-      studentProgress.addStars(roundBonus);
-      this.triggerFlyingCoinAnimation(roundBonus);
-    }
-    const totalStarsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
+    const totalStarsEarned = (this.sessionCoinsEarned || 0) + roundBonus;
+    studentProgress.addStars(totalStarsEarned);
 
     const coinsElem = document.getElementById('gradeCoinsAwarded');
     if (coinsElem) {
-      coinsElem.innerText = `+${totalStarsEarned} ⭐ Math Stars Earned!`;
+      coinsElem.innerText = `+${totalStarsEarned} ⭐ Math Stars Banked!`;
     }
+
+    // Transfer stars from round score badge to main bank!
+    this.triggerFlyingCoinAnimation(totalStarsEarned, 'scoreBadgePractice', 'coinBadgePractice');
 
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];
