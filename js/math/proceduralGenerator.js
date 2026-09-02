@@ -474,9 +474,9 @@ export class ProceduralGenerator {
   }
 
   /**
-   * Generates a 10-question set tailored to the active mode
+   * Generates a question set tailored to the active mode, count, and difficulty
    */
-  static generateQuiz(mode, count = 10) {
+  static generateQuiz(mode, count = 10, difficulty = 'medium') {
     const list = [];
     const categories = ['tables', 'mult', 'div', 'add', 'sub', 'word', 'geo'];
 
@@ -484,18 +484,18 @@ export class ProceduralGenerator {
       // Balanced sequence across categories
       for (let i = 0; i < count; i++) {
         const cat = categories[i % categories.length];
-        list.push(this.generateQuestionByCategory(cat));
+        list.push(this.generateQuestionByCategory(cat, difficulty));
       }
     } else if (mode === 'random') {
       // Random mix of categories
       for (let i = 0; i < count; i++) {
         const cat = this.pick(categories);
-        list.push(this.generateQuestionByCategory(cat));
+        list.push(this.generateQuestionByCategory(cat, difficulty));
       }
     } else {
-      // 10 unique problems in selected category
+      // Questions in selected category
       for (let i = 0; i < count; i++) {
-        list.push(this.generateQuestionByCategory(mode));
+        list.push(this.generateQuestionByCategory(mode, difficulty));
       }
     }
 

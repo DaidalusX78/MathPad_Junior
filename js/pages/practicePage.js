@@ -34,8 +34,12 @@ export class PracticePage {
     this.stepGuideModal = new StepGuideModal(this.pageManager);
   }
 
-  startPractice(mode) {
+  startPractice(mode, totalQuestions = 10, difficulty = 'medium') {
     this.activeMode = mode;
+    this.totalQuestions = parseInt(totalQuestions, 10) || 10;
+    this.difficulty = difficulty || 'medium';
+    this.baseStarReward = (this.difficulty === 'easy') ? 5 : (this.difficulty === 'medium' ? 8 : 12);
+
     this.sessionScores = {};
     this.sessionCoinsEarned = 0;
     this.isAnswerRevealed = false;
@@ -46,8 +50,8 @@ export class PracticePage {
     this.canvasEngine.currentStroke = null;
     if (this.numKeypad) this.numKeypad.clear();
 
-    // Generate 10 fresh, unique procedural questions
-    this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, 10);
+    // Generate fresh procedural questions with chosen difficulty and count
+    this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, this.totalQuestions, this.difficulty);
 
     this.pageManager.showScreen('screenPractice');
     this.setInputMode(studentProgress.inputMode || 'draw', false);
@@ -166,7 +170,8 @@ export class PracticePage {
 
     if (isMatch) {
       const wasAlreadyScored = !!this.sessionScores[this.currentIndex];
-      const starReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
+      const isSpecialCat = (qItem.cat === 'word' || qItem.cat === 'geo');
+      const starReward = (this.baseStarReward || 8) + (isSpecialCat ? 4 : 0);
       if (!wasAlreadyScored) {
         this.sessionScores[this.currentIndex] = true;
         this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
@@ -265,7 +270,8 @@ export class PracticePage {
 
         if (isMatch) {
           const wasAlreadyScored = !!this.sessionScores[this.currentIndex];
-          const starReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
+          const isSpecialCat = (qItem.cat === 'word' || qItem.cat === 'geo');
+          const starReward = (this.baseStarReward || 8) + (isSpecialCat ? 4 : 0);
           if (!wasAlreadyScored) {
             this.sessionScores[this.currentIndex] = true;
             this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
@@ -383,10 +389,11 @@ export class PracticePage {
     this.pageManager.showScreen('screenGrade');
 
     const score = Object.keys(this.sessionScores).length;
-    document.getElementById('gradeScoreVal').innerText = score;
+    document.getElementById('gradeScoreVal').innerText = `${score} / ${this.totalQuestions}`;
 
     // Bonus for high scores
-    const roundBonus = (score === 10) ? 20 : (score >= 8 ? 10 : 0);
+    const ratio = score / (this.totalQuestions || 10);
+    const roundBonus = Math.round((ratio === 1.0) ? (this.totalQuestions * 3) : (ratio >= 0.8 ? (this.totalQuestions * 1.5) : 0));
     const totalStarsEarned = (this.sessionCoinsEarned || 0) + roundBonus;
     studentProgress.addStars(totalStarsEarned);
 
@@ -402,18 +409,18 @@ export class PracticePage {
     let title = t.gradeTitles[0];
     let icon = '🌱';
 
-    if (score >= 8) {
+    if (ratio >= 0.8) {
       title = t.gradeTitles[2];
       icon = '🌟';
       audioManager.playSound('success');
-    } else if (score >= 5) {
+    } else if (ratio >= 0.5) {
       title = t.gradeTitles[1];
       icon = '👏';
     }
 
     document.getElementById('gradeBadgeIcon').innerText = icon;
     document.getElementById('gradeTitle').innerText = title;
-    document.getElementById('gradeSummaryMsg').innerText = `You scored ${score} out of 10! Keep up the amazing work!`;
+    document.getElementById('gradeSummaryMsg').innerText = `You scored ${score} out of ${this.totalQuestions}! Keep up the amazing work!`;
   }
 
   togglePalmShield() {

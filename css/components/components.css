@@ -246,6 +246,41 @@
   flex-shrink: 0;
 }
 
+/* ------------------- Practice Setup Modal ------------------- */
+.setup-reward-forecast-banner {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1.5px solid #fde68a;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #92400e;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.setup-reward-forecast-banner .forecast-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.3));
+}
+
+.q-count-btn {
+  flex: 1;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.diff-pill-btn {
+  flex-direction: column;
+  height: auto;
+  padding: 10px 6px;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
 /* ------------------- Inputs & Action Buttons ------------------- */
 .input-group {
   display: flex;

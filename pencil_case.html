@@ -38,24 +38,24 @@
       width: 100%;
       max-width: 1040px;
       margin: 0 auto;
-      padding: 16px 20px 40px 20px;
+      padding: 16px 20px 48px 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 20px;
       box-sizing: border-box;
     }
 
     /* Hero Banner Card */
     .shop-hero-card {
       background: #ffffff;
-      border: 1.5px solid var(--border-light, #e2e8f0);
+      border: 2px solid var(--border-light, #e2e8f0);
       border-radius: 24px;
-      padding: 20px 24px;
+      padding: 22px 26px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
       flex-wrap: wrap;
     }
 
@@ -68,19 +68,19 @@
     .shop-avatar-icon {
       background: var(--theme-subtle, #fdf4ff);
       border: 2px solid var(--theme-border, #f0abfc);
-      width: 72px;
-      height: 60px;
+      width: 76px;
+      height: 64px;
       border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.12);
+      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.15);
       flex-shrink: 0;
     }
 
     .shop-hero-text h1 {
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.85rem;
       font-weight: 900;
       color: var(--text-dark, #0f172a);
       line-height: 1.1;
@@ -88,7 +88,7 @@
     }
 
     .shop-hero-text p {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: #64748b;
       margin-top: 4px;
@@ -100,68 +100,123 @@
       gap: 12px;
     }
 
+    /* Vibrant Back to MathPad Button */
     .back-to-app-btn {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1.5px solid var(--border-light, #e2e8f0);
-      border-radius: 14px;
-      padding: 10px 18px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      border: 2px solid #fdba74;
+      border-radius: 16px;
+      padding: 10px 20px;
       font-family: inherit;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .back-to-app-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
-      transform: translateY(-1px);
-    }
-
-    /* Segmented Category Navigation */
-    .shop-nav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-
-    .shop-nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    .cat-tab-btn {
-      background: #ffffff;
-      border: 1.5px solid var(--border-light, #e2e8f0);
-      border-radius: 14px;
-      padding: 10px 16px;
-      font-weight: 800;
-      font-size: 0.86rem;
-      color: #64748b;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-      font-family: inherit;
-    }
-
-    .cat-tab-btn:hover {
-      background: #f8fafc;
-      color: #0f172a;
-    }
-
-    .cat-tab-btn.active {
-      background: var(--theme-accent, #a855f7);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+      filter: brightness(1.05);
       color: #ffffff;
+    }
+
+    .back-to-app-btn:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    /* Selectable Square Category Tiles */
+    .category-squares-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .category-square-btn {
+      background: #ffffff;
+      border: 2px solid var(--border-light, #e2e8f0);
+      border-radius: 20px;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03);
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      user-select: none;
+    }
+
+    .category-square-btn:hover {
+      transform: translateY(-3px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .category-square-btn.active {
       border-color: var(--theme-accent, #a855f7);
-      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+      background: var(--theme-subtle, #fdf4ff);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.22);
+    }
+
+    .category-square-btn .cat-icon {
+      font-size: 2.1rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+    }
+
+    .category-square-btn .cat-label {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #1e293b;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .category-square-btn.active .cat-label {
+      color: var(--theme-accent, #a855f7);
+    }
+
+    .category-square-btn .cat-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .category-square-btn.active .cat-badge {
+      background: #ffffff;
+      color: var(--theme-accent, #a855f7);
+      box-shadow: 0 1px 4px rgba(168, 85, 247, 0.15);
+    }
+
+    /* Active Category Header */
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      margin-bottom: -4px;
+    }
+
+    .section-title {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     /* Items Grid */
@@ -174,32 +229,47 @@
     .item-card {
       background: #ffffff;
       border: 2px solid var(--border-light, #e2e8f0);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 14px;
       position: relative;
-      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .item-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       border-color: #cbd5e1;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
     }
 
     .item-card.is-equipped {
       border-color: var(--theme-accent, #a855f7);
       background: var(--theme-subtle, #fdf4ff);
+      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.12);
+    }
+
+    .equipped-ribbon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--theme-accent, #a855f7);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 3px 9px;
+      border-radius: 12px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(168, 85, 247, 0.3);
     }
 
     .preview-box {
       width: 100%;
-      height: 100px;
-      border-radius: 14px;
+      height: 105px;
+      border-radius: 16px;
       background: #f8fafc;
       border: 1.5px solid var(--border-light, #e2e8f0);
       display: flex;
@@ -226,10 +296,10 @@
 
     .action-btn {
       width: 100%;
-      padding: 10px;
-      border-radius: 12px;
+      padding: 11px;
+      border-radius: 14px;
       font-weight: 800;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       cursor: pointer;
       border: none;
       transition: all 0.15s ease;
@@ -243,21 +313,23 @@
     .action-btn.buy {
       background: #059669;
       color: #ffffff;
-      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.28);
     }
 
     .action-btn.buy:hover {
       background: #047857;
+      transform: translateY(-1px);
     }
 
     .action-btn.equip {
       background: var(--theme-accent, #a855f7);
       color: #ffffff;
-      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 3px 10px rgba(168, 85, 247, 0.28);
     }
 
     .action-btn.equip:hover {
       filter: brightness(0.92);
+      transform: translateY(-1px);
     }
 
     .action-btn.equipped {
@@ -278,13 +350,41 @@
     .data-viewer-card {
       background: #0f172a;
       color: #f8fafc;
-      border-radius: 18px;
-      padding: 20px;
+      border-radius: 20px;
+      padding: 22px;
       font-family: monospace;
       font-size: 0.85rem;
       overflow-x: auto;
-      max-height: 520px;
+      max-height: 540px;
       line-height: 1.5;
+      border: 2px solid #1e293b;
+    }
+
+    /* Toast */
+    .shop-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+
+    .shop-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
@@ -334,7 +434,7 @@
       <div class="shop-hero-left">
         <div class="shop-avatar-icon">
           <!-- The Peek-a-Boo Pouch Vector Illustration -->
-          <svg viewBox="0 0 160 120" width="56" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 160 120" width="60" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Peeking Stationery Tools -->
             <!-- Ruler (Purple) -->
             <rect x="36" y="24" width="18" height="50" rx="3" fill="#8b5cf6" transform="rotate(-15 36 24)" />
@@ -377,20 +477,55 @@
 
       <div class="shop-hero-actions">
         <a href="index.html#home" class="back-to-app-btn">
-          <span>← Back to MathPad</span>
+          <span>🎒</span>
+          <span>Back to MathPad</span>
         </a>
       </div>
     </div>
 
-    <!-- Category Tabs -->
-    <nav class="shop-nav" id="categoryNav">
-      <button class="cat-tab-btn active" onclick="switchCategory('inks')">🖊️ Magic Inks</button>
-      <button class="cat-tab-btn" onclick="switchCategory('papers')">📐 Paper Textures</button>
-      <button class="cat-tab-btn" onclick="switchCategory('deskMats')">🖼️ Palm Rest Mats</button>
-      <button class="cat-tab-btn" onclick="switchCategory('accessories')">👑 Mascot Gear</button>
-      <button class="cat-tab-btn" onclick="switchCategory('stickers')">⭐ Stickers</button>
-      <button class="cat-tab-btn" onclick="switchCategory('json')" style="margin-left:auto;">📋 Data Reference</button>
-    </nav>
+    <!-- Selectable Category Squares -->
+    <div class="category-squares-grid" id="categorySquares">
+      <div class="category-square-btn active" onclick="switchCategory('inks')">
+        <span class="cat-icon">🖊️</span>
+        <span class="cat-label">Magic Inks</span>
+        <span class="cat-badge" id="badgeCountInks">5 Items</span>
+      </div>
+
+      <div class="category-square-btn" onclick="switchCategory('papers')">
+        <span class="cat-icon">📐</span>
+        <span class="cat-label">Paper Styles</span>
+        <span class="cat-badge" id="badgeCountPapers">4 Items</span>
+      </div>
+
+      <div class="category-square-btn" onclick="switchCategory('deskMats')">
+        <span class="cat-icon">🖼️</span>
+        <span class="cat-label">Palm Mats</span>
+        <span class="cat-badge" id="badgeCountMats">4 Items</span>
+      </div>
+
+      <div class="category-square-btn" onclick="switchCategory('accessories')">
+        <span class="cat-icon">👑</span>
+        <span class="cat-label">Mascot Gear</span>
+        <span class="cat-badge" id="badgeCountGear">4 Items</span>
+      </div>
+
+      <div class="category-square-btn" onclick="switchCategory('stickers')">
+        <span class="cat-icon">⭐</span>
+        <span class="cat-label">Stickers</span>
+        <span class="cat-badge" id="badgeCountStickers">4 Items</span>
+      </div>
+
+      <div class="category-square-btn" onclick="switchCategory('json')">
+        <span class="cat-icon">📋</span>
+        <span class="cat-label">Data Info</span>
+        <span class="cat-badge">JSON</span>
+      </div>
+    </div>
+
+    <!-- Active Category Section Header -->
+    <div class="section-header-row">
+      <div class="section-title" id="activeCategoryTitle">🖊️ Magic Inks Catalog</div>
+    </div>
 
     <!-- Main Content Container -->
     <main id="shopMain">
@@ -406,6 +541,8 @@
     </main>
 
   </div>
+
+  <div class="shop-toast" id="shopToast">✓ Equipped!</div>
 
   <!-- Master Data & Shop Controller Script -->
   <script type="module">
@@ -430,7 +567,24 @@
       }
     };
 
+    const categoryMeta = {
+      inks: { title: '🖊️ Magic Inks Catalog', countId: 'badgeCountInks' },
+      papers: { title: '📐 Paper Textures Catalog', countId: 'badgeCountPapers' },
+      deskMats: { title: '🖼️ Palm Rest Mats Catalog', countId: 'badgeCountMats' },
+      accessories: { title: '👑 Mascot Gear Catalog', countId: 'badgeCountGear' },
+      stickers: { title: '⭐ Reward Stickers Catalog', countId: 'badgeCountStickers' },
+      json: { title: '📋 Catalog JSON Data Reference', countId: null }
+    };
+
     let activeCat = 'inks';
+
+    function showToast(msg) {
+      const toast = document.getElementById('shopToast');
+      if (!toast) return;
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
 
     function renderWallet() {
       const el = document.getElementById('userCoins');
@@ -445,17 +599,17 @@
 
     function switchCategory(catId) {
       activeCat = catId;
-      document.querySelectorAll('.cat-tab-btn').forEach(btn => {
-        const text = btn.innerText.toLowerCase();
-        btn.classList.toggle('active', 
-          (catId === 'inks' && text.includes('ink')) ||
-          (catId === 'papers' && text.includes('paper')) ||
-          (catId === 'deskMats' && text.includes('palm')) ||
-          (catId === 'accessories' && text.includes('gear')) ||
-          (catId === 'stickers' && text.includes('sticker')) ||
-          (catId === 'json' && text.includes('data'))
-        );
+      
+      const squares = document.querySelectorAll('.category-square-btn');
+      squares.forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        btn.classList.toggle('active', onclickAttr.includes(`'${catId}'`));
       });
+
+      const titleEl = document.getElementById('activeCategoryTitle');
+      if (titleEl && categoryMeta[catId]) {
+        titleEl.innerText = categoryMeta[catId].title;
+      }
 
       const grid = document.getElementById('itemsGrid');
       const jsonContainer = document.getElementById('jsonDataContainer');
@@ -505,25 +659,26 @@
         if (item.previewHtml) {
           previewHtml = item.previewHtml;
         } else if (catId === 'papers') {
-          previewHtml = `<div style="width:100%; height:100%; background-color:#ffffff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.1rem; color:#64748b;">${item.name}</div>`;
+          previewHtml = `<div style="width:100%; height:100%; background-color:#ffffff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.05rem; color:#64748b;">${item.name}</div>`;
         } else if (catId === 'deskMats') {
-          previewHtml = `<div style="width:100%; height:100%; border-radius:8px; background:${item.style}; display:flex; align-items:center; justify-content:center; color:#ffffff; font-weight:800; font-size:0.8rem;">Desk Mat Preview</div>`;
+          previewHtml = `<div style="width:100%; height:100%; border-radius:8px; background:${item.style}; display:flex; align-items:center; justify-content:center; color:#ffffff; font-weight:800; font-size:0.85rem; box-shadow:inset 0 0 10px rgba(0,0,0,0.15);">Palm Mat Preview</div>`;
         } else if (item.icon) {
-          previewHtml = `<span style="font-size: 2.8rem;">${item.icon}</span>`;
+          previewHtml = `<span style="font-size: 2.8rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));">${item.icon}</span>`;
         }
 
         let actionButtonHtml = '';
         if (isEquipped) {
           actionButtonHtml = `<button class="action-btn equipped">✓ Equipped</button>`;
         } else if (isOwned) {
-          actionButtonHtml = `<button class="action-btn equip" onclick="equipItem('${catId}', '${item.id}')">Equip</button>`;
+          actionButtonHtml = `<button class="action-btn equip" onclick="equipItem('${catId}', '${item.id}', '${item.name}')">Equip</button>`;
         } else if (isLocked) {
           actionButtonHtml = `<button class="action-btn locked" disabled>${lockReason}</button>`;
         } else {
-          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price})">⭐ ${item.price} Stars</button>`;
+          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price}, '${item.name}')">⭐ ${item.price} Stars</button>`;
         }
 
         card.innerHTML = `
+          ${isEquipped ? '<div class="equipped-ribbon">ACTIVE</div>' : ''}
           <div class="preview-box">
             ${previewHtml}
           </div>
@@ -540,7 +695,7 @@
       });
     }
 
-    window.buyItem = function(catId, itemId, price) {
+    window.buyItem = function(catId, itemId, price, itemName) {
       if (userState.coins >= price) {
         userState.coins -= price;
         studentProgress.coins = userState.coins;
@@ -552,18 +707,20 @@
         userState.equippedItems[catId] = itemId;
         renderWallet();
         renderCategoryItems(catId);
+        showToast(`🎉 Bought & equipped "${itemName}"!`);
       } else {
-        alert("Not enough Math Stars! Practice more math problems to earn more ⭐!");
+        alert(`Not enough Math Stars! You need ⭐ ${price} Stars to buy this item.`);
       }
     };
 
-    window.equipItem = function(catId, itemId) {
+    window.equipItem = function(catId, itemId, itemName) {
       userState.equippedItems[catId] = itemId;
       if (catId === 'papers') {
         studentProgress.setPaper(itemId);
       }
       localStorage.setItem(`elismark_active_${catId}`, itemId);
       renderCategoryItems(catId);
+      showToast(`✨ Equipped "${itemName}"!`);
     };
 
     // Initial render

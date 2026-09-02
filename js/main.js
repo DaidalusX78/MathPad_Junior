@@ -155,12 +155,80 @@ class App {
       this.pageManager.showScreen('screenWelcome');
     };
 
-    window.startPractice = (mode) => this.practicePage.startPractice(mode);
+    let stagedPracticeMode = 'mult';
+    let stagedQuestionCount = 10;
+    let stagedDifficulty = 'medium';
+
+    const topicTitles = {
+      tables: '🔢 Times Tables',
+      mult: '✖️ Multiplication',
+      div: '➗ Division',
+      add: '➕ Addition',
+      sub: '➖ Subtraction',
+      word: '📖 Word Problems',
+      geo: '📐 Geometry & Measure',
+      all_seq: '🌟 All in Sequence',
+      random: '🎲 Random Mix'
+    };
+
+    const updateForecast = () => {
+      const base = stagedDifficulty === 'easy' ? 5 : (stagedDifficulty === 'medium' ? 8 : 12);
+      const isSpecial = stagedPracticeMode === 'word' || stagedPracticeMode === 'geo';
+      const perQ = base + (isSpecial ? 4 : 0);
+      const maxBase = perQ * stagedQuestionCount;
+      const maxBonus = stagedQuestionCount * 3;
+      const forecastDetail = document.getElementById('forecastStarDetail');
+      if (forecastDetail) {
+        forecastDetail.innerHTML = `Earn <strong>${perQ} ⭐</strong> per question (up to <strong>${maxBase} ⭐</strong> + up to <strong>${maxBonus} ⭐</strong> bonus)!`;
+      }
+    };
+
+    window.openPracticeSetupModal = (mode) => {
+      stagedPracticeMode = mode || 'mult';
+      const titleElem = document.getElementById('setupModalTitle');
+      if (titleElem) {
+        titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Setup`;
+      }
+      updateForecast();
+      const modal = document.getElementById('practiceSetupModalBackdrop');
+      if (modal) modal.classList.add('active');
+      audioManager.playSound('click');
+    };
+
+    window.closePracticeSetupModal = () => {
+      const modal = document.getElementById('practiceSetupModalBackdrop');
+      if (modal) modal.classList.remove('active');
+    };
+
+    window.setSetupQuestionCount = (count) => {
+      stagedQuestionCount = parseInt(count, 10) || 10;
+      document.querySelectorAll('.q-count-btn').forEach((btn) => {
+        btn.classList.toggle('active', parseInt(btn.dataset.count, 10) === stagedQuestionCount);
+      });
+      updateForecast();
+      audioManager.playSound('click');
+    };
+
+    window.setSetupDifficulty = (diff) => {
+      stagedDifficulty = diff || 'medium';
+      document.querySelectorAll('.diff-pill-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.diff === stagedDifficulty);
+      });
+      updateForecast();
+      audioManager.playSound('click');
+    };
+
+    window.confirmStartPractice = () => {
+      window.closePracticeSetupModal();
+      this.practicePage.startPractice(stagedPracticeMode, stagedQuestionCount, stagedDifficulty);
+    };
+
+    window.startPractice = (mode, count, diff) => this.practicePage.startPractice(mode, count, diff);
     window.nextQuestion = () => this.practicePage.nextQuestion();
     window.prevQuestion = () => this.practicePage.prevQuestion();
     window.recognizeHandwriting = () => this.practicePage.checkAnswer();
     window.checkAnswer = () => this.practicePage.checkAnswer();
-    window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode);
+    window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode, this.practicePage.totalQuestions, this.practicePage.difficulty);
 
     window.toggleInkColorMenu = (e) => {
       if (e) e.stopPropagation();
