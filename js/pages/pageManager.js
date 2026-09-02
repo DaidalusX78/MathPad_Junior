@@ -17,7 +17,7 @@ export class PageManager {
   }
 
   updatePaperDisplay(isFullBackgroundPreview = false) {
-    const paperClasses = ['paper-squares', 'paper-dots', 'paper-lines', 'paper-blank'];
+    const paperClasses = ['paper-squares', 'paper-dots', 'paper-lines', 'paper-blank', 'paper-chalkboard', 'paper-galaxy', 'paper-parchment'];
     paperClasses.forEach((cls) => document.body.classList.remove(cls));
 
     const activePaper = (this.draftSettings && isFullBackgroundPreview) ? this.draftSettings.paper : studentProgress.userPaper;

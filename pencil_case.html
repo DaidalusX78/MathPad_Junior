@@ -5,394 +5,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>MathPad Junior — The Pencil Case</title>
-  <link rel="icon" type="image/svg+xml" href="./media/logo/mathpad_favicon.svg" />
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#8b5cf6" />
+
+  <!-- PWA & Favicon Config -->
+  <link rel="icon" type="image/svg+xml" href="./assets/icons/icon-192.svg" />
+  <meta name="theme-color" content="#2563eb" />
 
   <!-- Google Fonts: Fredoka & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet" />
 
   <!-- Application Stylesheets -->
   <link rel="stylesheet" href="./css/main.css" />
   <link rel="stylesheet" href="./css/base.css" />
-  <link rel="stylesheet" href="./css/workbook.css" />
-  <link rel="stylesheet" href="./css/canvas.css" />
-
-  <style>
-    body {
-      background-color: var(--bg-main, #f8fafc);
-      color: var(--text-dark, #0f172a);
-      height: auto;
-      min-height: 100vh;
-      overflow-y: auto;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .shop-wrapper {
-      flex: 1;
-      width: 100%;
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 16px 20px 48px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-sizing: border-box;
-    }
-
-    /* Hero Banner Card */
-    .shop-hero-card {
-      background: #ffffff;
-      border: 2px solid var(--border-light, #e2e8f0);
-      border-radius: 24px;
-      padding: 22px 26px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
-      flex-wrap: wrap;
-    }
-
-    .shop-hero-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .shop-avatar-icon {
-      background: var(--theme-subtle, #fdf4ff);
-      border: 2px solid var(--theme-border, #f0abfc);
-      width: 76px;
-      height: 64px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.15);
-      flex-shrink: 0;
-    }
-
-    .shop-hero-text h1 {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.85rem;
-      font-weight: 900;
-      color: var(--text-dark, #0f172a);
-      line-height: 1.1;
-      letter-spacing: -0.5px;
-    }
-
-    .shop-hero-text p {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #64748b;
-      margin-top: 4px;
-    }
-
-    .shop-hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Vibrant Back to MathPad Button */
-    .back-to-app-btn {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: #ffffff;
-      border: 2px solid #fdba74;
-      border-radius: 16px;
-      padding: 10px 20px;
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.92rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
-      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .back-to-app-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
-      filter: brightness(1.05);
-      color: #ffffff;
-    }
-
-    .back-to-app-btn:active {
-      transform: translateY(0) scale(0.97);
-    }
-
-    /* Selectable Square Category Tiles */
-    .category-squares-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .category-square-btn {
-      background: #ffffff;
-      border: 2px solid var(--border-light, #e2e8f0);
-      border-radius: 20px;
-      padding: 14px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03);
-      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      user-select: none;
-    }
-
-    .category-square-btn:hover {
-      transform: translateY(-3px);
-      border-color: #cbd5e1;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    }
-
-    .category-square-btn.active {
-      border-color: var(--theme-accent, #a855f7);
-      background: var(--theme-subtle, #fdf4ff);
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.22);
-    }
-
-    .category-square-btn .cat-icon {
-      font-size: 2.1rem;
-      line-height: 1;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
-    }
-
-    .category-square-btn .cat-label {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #1e293b;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .category-square-btn.active .cat-label {
-      color: var(--theme-accent, #a855f7);
-    }
-
-    .category-square-btn .cat-badge {
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #64748b;
-      background: #f1f5f9;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .category-square-btn.active .cat-badge {
-      background: #ffffff;
-      color: var(--theme-accent, #a855f7);
-      box-shadow: 0 1px 4px rgba(168, 85, 247, 0.15);
-    }
-
-    /* Active Category Header */
-    .section-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 4px;
-      margin-bottom: -4px;
-    }
-
-    .section-title {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Items Grid */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-
-    .item-card {
-      background: #ffffff;
-      border: 2px solid var(--border-light, #e2e8f0);
-      border-radius: 22px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
-      position: relative;
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-    }
-
-    .item-card:hover {
-      transform: translateY(-3px);
-      border-color: #cbd5e1;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-    }
-
-    .item-card.is-equipped {
-      border-color: var(--theme-accent, #a855f7);
-      background: var(--theme-subtle, #fdf4ff);
-      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.12);
-    }
-
-    .equipped-ribbon {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--theme-accent, #a855f7);
-      color: #ffffff;
-      font-size: 0.72rem;
-      font-weight: 900;
-      padding: 3px 9px;
-      border-radius: 12px;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 6px rgba(168, 85, 247, 0.3);
-    }
-
-    .preview-box {
-      width: 100%;
-      height: 105px;
-      border-radius: 16px;
-      background: #f8fafc;
-      border: 1.5px solid var(--border-light, #e2e8f0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .item-meta h3 {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text-dark, #0f172a);
-      margin-bottom: 4px;
-    }
-
-    .item-meta p {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #64748b;
-      line-height: 1.4;
-    }
-
-    .action-btn {
-      width: 100%;
-      padding: 11px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 0.88rem;
-      cursor: pointer;
-      border: none;
-      transition: all 0.15s ease;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .action-btn.buy {
-      background: #059669;
-      color: #ffffff;
-      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.28);
-    }
-
-    .action-btn.buy:hover {
-      background: #047857;
-      transform: translateY(-1px);
-    }
-
-    .action-btn.equip {
-      background: var(--theme-accent, #a855f7);
-      color: #ffffff;
-      box-shadow: 0 3px 10px rgba(168, 85, 247, 0.28);
-    }
-
-    .action-btn.equip:hover {
-      filter: brightness(0.92);
-      transform: translateY(-1px);
-    }
-
-    .action-btn.equipped {
-      background: #e2e8f0;
-      color: #475569;
-      cursor: default;
-    }
-
-    .action-btn.locked {
-      background: #f1f5f9;
-      color: #94a3b8;
-      border: 1.5px solid var(--border-light, #e2e8f0);
-      cursor: not-allowed;
-      font-size: 0.8rem;
-    }
-
-    /* JSON Data Reference View */
-    .data-viewer-card {
-      background: #0f172a;
-      color: #f8fafc;
-      border-radius: 20px;
-      padding: 22px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      overflow-x: auto;
-      max-height: 540px;
-      line-height: 1.5;
-      border: 2px solid #1e293b;
-    }
-
-    /* Toast */
-    .shop-toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #0f172a;
-      color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      z-index: 100;
-      opacity: 0;
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      pointer-events: none;
-    }
-
-    .shop-toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-  </style>
+  <link rel="stylesheet" href="./css/components/components.css" />
+  <link rel="stylesheet" href="./css/pencil_case.css" />
 </head>
 
 <body>
 
   <!-- Top App Navigation Bar -->
-  <header class="page-header" style="background:#ffffff; border-bottom:1.5px solid var(--border-light); padding:10px 20px; display:flex; justify-content:space-between; align-items:center;">
+  <header class="page-header"
+    style="background:#ffffff; border-bottom:1.5px solid var(--border-light); padding:10px 20px; display:flex; justify-content:space-between; align-items:center;">
     <div class="header-left">
       <a href="index.html#home" class="navbar-brand" title="Return to MathPad Junior">
         <!-- 4-Square Math Matrix -->
@@ -411,7 +47,7 @@
 
         <span class="brand-title-3">
           MathPad <span class="brand-junior">Junior</span>
-          <span class="version-tag">v0.16</span>
+          <span class="version-tag">v0.18</span>
         </span>
       </a>
     </div>
@@ -420,10 +56,13 @@
       <div class="coin-badge-header" id="walletBalance" title="Banked Math Stars">
         ⭐ <span id="userCoins">0</span>
       </div>
-      <div class="player-header-badge" style="cursor:default;" title="Player Profile">
+      <div class="player-header-badge" onclick="openSettingsModal()" style="cursor:pointer;" title="Player Profile • Tap to Edit">
         <span class="badge-name" id="badgeName">Eli</span>
         <span class="badge-avatar" id="badgeAvatar">🦄</span>
       </div>
+      <button type="button" class="settings-nav-btn" id="btnOpenSettings" onclick="openSettingsModal()" title="Settings & Preferences" style="width:38px; height:38px; border-radius:12px; border:1.5px solid var(--border-light); background:#ffffff; font-size:1.15rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); transition:all 0.15s ease;">
+        ⚙️
+      </button>
     </div>
   </header>
 
@@ -446,45 +85,55 @@
             <polygon points="74,16 88,16 81,4" fill="#facc15" />
             <polygon points="78,8 84,8 81,4" fill="#0f172a" />
 
-            <!-- Rainbow Pencil -->
+            <!-- Rainbow Pencil Peeking -->
             <defs>
-              <linearGradient id="pouchRainbow" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#f97316" />
-                <stop offset="50%" stop-color="#06b6d4" />
+              <linearGradient id="pouchRainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ef4444" />
+                <stop offset="35%" stop-color="#f59e0b" />
+                <stop offset="70%" stop-color="#10b981" />
                 <stop offset="100%" stop-color="#8b5cf6" />
               </linearGradient>
             </defs>
-            <rect x="102" y="22" width="14" height="54" rx="4" fill="url(#pouchRainbow)" transform="rotate(14 102 22)" />
+            <rect x="102" y="22" width="14" height="54" rx="4" fill="url(#pouchRainbow)"
+              transform="rotate(14 102 22)" />
             <polygon points="98,22 112,25 107,10" fill="#fef08a" />
 
             <!-- Pouch Body (Warm Canvas Slate/Blue) -->
-            <rect x="16" y="52" width="128" height="56" rx="14" fill="#2563eb" />
+            <path d="M12 60 C12 48, 22 42, 34 42 L126 42 C138 42, 148 48, 148 60 L144 98 C144 110, 134 118, 122 118 L38 118 C26 118, 16 110, 16 98 Z" fill="#2563eb" />
+
             <!-- Front Pocket Trim -->
-            <path d="M16 68 C40 76, 120 76, 144 68 L144 94 A14 14 0 0 1 130 108 L30 108 A14 14 0 0 1 16 94 Z" fill="#1d4ed8" />
+            <path d="M16 68 C40 76, 120 76, 144 68 L144 94 A14 14 0 0 1 130 108 L30 108 A14 14 0 0 1 16 94 Z"
+              fill="#1d4ed8" />
 
             <!-- Golden Zipper Track -->
             <rect x="22" y="52" width="116" height="5" rx="2" fill="#fbbf24" />
-            <!-- Zipper Pull Tag -->
-            <rect x="26" y="54" width="8" height="14" rx="2" fill="#f59e0b" />
-            <circle cx="30" cy="64" r="2" fill="#ffffff" />
+            <line x1="24" y1="54.5" x2="136" y2="54.5" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3 2" />
+
+            <!-- Zipper Pull Charm -->
+            <rect x="46" y="47" width="12" height="14" rx="3" fill="#facc15" />
+            <circle cx="52" cy="54" r="2.5" fill="#ca8a04" />
+            <path d="M52 61 L52 74 A5 5 0 0 1 47 79 A5 5 0 0 1 47 69 Z" fill="#eab308" />
           </svg>
         </div>
         <div class="shop-hero-text">
           <h1>The Pencil Case</h1>
-          <p>Reward Shop & Equipment Customization</p>
+          <p>Reward Shop & Equipment Customisation</p>
         </div>
       </div>
 
       <div class="shop-hero-actions">
-        <a href="index.html#home" class="back-to-app-btn">
-          <span>🎒</span>
+        <!-- Back to MathPad Junior Button -->
+        <a href="index.html#home" class="back-to-app-btn" id="backToAppBtn" title="Back to Workbook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
           <span>Back to MathPad</span>
         </a>
       </div>
     </div>
 
-    <!-- Selectable Category Squares -->
-    <div class="category-squares-grid" id="categorySquares">
+    <!-- Selectable Square Navigation Tiles -->
+    <div class="category-squares-grid">
       <div class="category-square-btn active" onclick="switchCategory('inks')">
         <span class="cat-icon">🖊️</span>
         <span class="cat-label">Magic Inks</span>
@@ -494,7 +143,7 @@
       <div class="category-square-btn" onclick="switchCategory('papers')">
         <span class="cat-icon">📐</span>
         <span class="cat-label">Paper Styles</span>
-        <span class="cat-badge" id="badgeCountPapers">4 Items</span>
+        <span class="cat-badge" id="badgeCountPapers">6 Items</span>
       </div>
 
       <div class="category-square-btn" onclick="switchCategory('deskMats')">
@@ -518,7 +167,7 @@
 
     <!-- Active Category Section Header -->
     <div class="section-header-row">
-      <div class="section-title" id="activeCategoryTitle">🖊️ Magic Inks Catalog</div>
+      <div class="section-title" id="activeCategoryTitle">🖊️ Magic Inks Catalogue</div>
     </div>
 
     <!-- Main Content Container -->
@@ -531,176 +180,234 @@
 
   <div class="shop-toast" id="shopToast">✓ Equipped!</div>
 
-  <!-- Master Data & Shop Controller Script -->
-  <script type="module">
-    import { pencilCaseCatalog } from './js/data/pencilCaseData.js';
-    import { studentProgress } from './js/data/studentProgress.js';
+  <!-- MODAL: SETTINGS & PROFILE (TABBED SPLIT) -->
+  <div class="modal-overlay" id="settingsModal" onclick="handleOverlayClick(event)">
+    <div class="settings-modal-card" id="settingsModalCard" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Settings & Profile</div>
+        <button type="button" class="modal-close" onclick="cancelSettingsModal()">✕</button>
+      </div>
 
-    // Apply stored theme styles
-    studentProgress.applyStoredStyles();
+      <!-- Segmented Tab Navigation Ribbon -->
+      <div class="modal-tab-nav" role="tablist">
+        <button type="button" class="modal-tab-btn active" id="tabBtnProfile" onclick="switchSettingsSection('profile')" role="tab">
+          <span>👤 Profile</span>
+        </button>
+        <button type="button" class="modal-tab-btn" id="tabBtnSettings" onclick="switchSettingsSection('settings')" role="tab">
+          <span>⚙️ Settings</span>
+        </button>
+        <button type="button" class="modal-tab-btn" id="tabBtnShop" onclick="switchSettingsSection('shop')" role="tab">
+          <span>🎒 The Pencil Case</span>
+        </button>
+      </div>
 
-    // Sync user state with actual localStorage studentProgress
-    const userState = {
-      coins: studentProgress.coins || 0,
-      streak: 5,
-      perfectQuizzes: 2,
-      ownedItems: JSON.parse(localStorage.getItem('elismark_owned_items') || '["ink_lilac", "ink_red", "ink_green", "ink_blue", "ink_black", "paper_blank", "paper_squares", "paper_dots", "paper_lines"]'),
-      equippedItems: {
-        inks: localStorage.getItem('elismark_active_ink') || 'ink_lilac',
-        papers: studentProgress.userPaper || 'paper-blank',
-        deskMats: localStorage.getItem('elismark_active_mat') || 'mat_default',
-        accessories: localStorage.getItem('elismark_active_acc') || 'acc_none',
-        stickers: 'stk_star'
-      }
-    };
+      <!-- TAB 1: PROFILE SECTION -->
+      <div class="modal-tab-section" id="secProfile">
+        <!-- 1. Player Name -->
+        <div class="setting-row">
+          <label class="setting-label" id="lblModalPlayerName">Player Name</label>
+          <input type="text" class="name-input" id="modalPlayerNameInput" maxlength="14" placeholder="Your Name"
+            oninput="stagePlayerName(this.value)">
+        </div>
 
-    const categoryMeta = {
-      inks: { title: '🖊️ Magic Inks Catalog', countId: 'badgeCountInks' },
-      papers: { title: '📐 Paper Textures Catalog', countId: 'badgeCountPapers' },
-      deskMats: { title: '🖼️ Palm Rest Mats Catalog', countId: 'badgeCountMats' },
-      accessories: { title: '👑 Mascot Gear Catalog', countId: 'badgeCountGear' },
-      stickers: { title: '⭐ Reward Stickers Catalog', countId: 'badgeCountStickers' }
-    };
-
-    let activeCat = 'inks';
-
-    function showToast(msg) {
-      const toast = document.getElementById('shopToast');
-      if (!toast) return;
-      toast.innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2200);
-    }
-
-    function renderWallet() {
-      const el = document.getElementById('userCoins');
-      if (el) el.innerText = userState.coins;
-
-      const nameEl = document.getElementById('badgeName');
-      if (nameEl) nameEl.innerText = studentProgress.playerName || 'Eli';
-
-      const avatarEl = document.getElementById('badgeAvatar');
-      if (avatarEl) avatarEl.innerText = studentProgress.userAvatar || '🦄';
-    }
-
-    function switchCategory(catId) {
-      activeCat = catId;
-      
-      const squares = document.querySelectorAll('.category-square-btn');
-      squares.forEach(btn => {
-        const onclickAttr = btn.getAttribute('onclick') || '';
-        btn.classList.toggle('active', onclickAttr.includes(`'${catId}'`));
-      });
-
-      const titleEl = document.getElementById('activeCategoryTitle');
-      if (titleEl && categoryMeta[catId]) {
-        titleEl.innerText = categoryMeta[catId].title;
-      }
-
-      renderCategoryItems(catId);
-    }
-
-    window.switchCategory = switchCategory;
-
-    function renderCategoryItems(catId) {
-      const grid = document.getElementById('itemsGrid');
-      grid.innerHTML = '';
-
-      const items = pencilCaseCatalog.items[catId] || [];
-
-      items.forEach(item => {
-        const card = document.createElement('div');
-        const isOwned = userState.ownedItems.includes(item.id) || item.unlockedByDefault;
-        const isEquipped = userState.equippedItems[catId] === item.id;
-        
-        let isLocked = false;
-        let lockReason = '';
-
-        if (item.unlockReq) {
-          if (item.unlockReq.type === 'streak' && userState.streak < item.unlockReq.value) {
-            isLocked = true;
-            lockReason = `🔒 ${item.unlockReq.label}`;
-          } else if (item.unlockReq.type === 'perfectQuiz' && userState.perfectQuizzes < item.unlockReq.value) {
-            isLocked = true;
-            lockReason = `🔒 ${item.unlockReq.label}`;
-          }
-        }
-
-        card.className = `item-card ${isEquipped ? 'is-equipped' : ''}`;
-
-        // Build preview display
-        let previewHtml = '';
-        if (item.previewHtml) {
-          previewHtml = item.previewHtml;
-        } else if (catId === 'papers') {
-          previewHtml = `<div style="width:100%; height:100%; background-color:#ffffff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.05rem; color:#64748b;">${item.name}</div>`;
-        } else if (catId === 'deskMats') {
-          previewHtml = `<div style="width:100%; height:100%; border-radius:8px; background:${item.style}; display:flex; align-items:center; justify-content:center; color:#ffffff; font-weight:800; font-size:0.85rem; box-shadow:inset 0 0 10px rgba(0,0,0,0.15);">Palm Mat Preview</div>`;
-        } else if (item.icon) {
-          previewHtml = `<span style="font-size: 2.8rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));">${item.icon}</span>`;
-        }
-
-        let actionButtonHtml = '';
-        if (isEquipped) {
-          actionButtonHtml = `<button class="action-btn equipped">✓ Equipped</button>`;
-        } else if (isOwned) {
-          actionButtonHtml = `<button class="action-btn equip" onclick="equipItem('${catId}', '${item.id}', '${item.name}')">Equip</button>`;
-        } else if (isLocked) {
-          actionButtonHtml = `<button class="action-btn locked" disabled>${lockReason}</button>`;
-        } else {
-          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price}, '${item.name}')">⭐ ${item.price} Stars</button>`;
-        }
-
-        card.innerHTML = `
-          ${isEquipped ? '<div class="equipped-ribbon">ACTIVE</div>' : ''}
-          <div class="preview-box">
-            ${previewHtml}
+        <!-- 2. Avatar Selection -->
+        <div class="setting-row">
+          <label class="setting-label" id="lblModalMascot">Mascot Avatar</label>
+          <div class="avatar-row">
+            <button type="button" class="avatar-btn" data-avatar="🦄" onclick="stageAvatar('🦄')">🦄</button>
+            <button type="button" class="avatar-btn" data-avatar="🐱" onclick="stageAvatar('🐱')">🐱</button>
+            <button type="button" class="avatar-btn" data-avatar="🦊" onclick="stageAvatar('🦊')">🦊</button>
+            <button type="button" class="avatar-btn" data-avatar="🐼" onclick="stageAvatar('🐼')">🐼</button>
+            <button type="button" class="avatar-btn" data-avatar="🚀" onclick="stageAvatar('🚀')">🚀</button>
+            <button type="button" class="avatar-btn" data-avatar="🎨" onclick="stageAvatar('🎨')">🎨</button>
           </div>
-          <div class="item-meta">
-            <h3>${item.name}</h3>
-            <p>${item.desc || ''}</p>
+        </div>
+
+        <!-- 3. Theme Color -->
+        <div class="setting-row">
+          <label class="setting-label" id="lblModalTheme">Colour Theme</label>
+          <div class="theme-swatch-row">
+            <div class="theme-swatch" data-accent="#a855f7" style="background: #a855f7;"
+              onclick="stageTheme('#a855f7', '#fdf4ff', '#f0abfc')"></div>
+            <div class="theme-swatch" data-accent="#0284c7" style="background: #0284c7;"
+              onclick="stageTheme('#0284c7', '#f0f9ff', '#bae6fd')"></div>
+            <div class="theme-swatch" data-accent="#059669" style="background: #059669;"
+              onclick="stageTheme('#059669', '#ecfdf5', '#a7f3d0')"></div>
+            <div class="theme-swatch" data-accent="#db2777" style="background: #db2777;"
+              onclick="stageTheme('#db2777', '#fdf2f8', '#fbcfe8')"></div>
+            <div class="theme-swatch" data-accent="#d97706" style="background: #d97706;"
+              onclick="stageTheme('#d97706', '#fffbeb', '#fde68a')"></div>
+            <div class="theme-swatch" data-accent="#0f172a" style="background: #0f172a;"
+              onclick="stageTheme('#0f172a', '#f8fafc', '#cbd5e1')"></div>
           </div>
-          <div class="item-actions">
-            ${actionButtonHtml}
+        </div>
+
+        <!-- 4. Paper Style Live Preview -->
+        <div class="setting-row">
+          <label class="setting-label" id="lblModalPaper">Scratchpad Paper</label>
+          <div class="paper-selector-grid">
+            <button type="button" class="paper-btn" data-paper="paper-blank" onclick="stagePaper('paper-blank')">Blank</button>
+            <button type="button" class="paper-btn" data-paper="paper-squares" onclick="stagePaper('paper-squares')">Squares</button>
+            <button type="button" class="paper-btn" data-paper="paper-dots" onclick="stagePaper('paper-dots')">Dots</button>
+            <button type="button" class="paper-btn" data-paper="paper-lines" onclick="stagePaper('paper-lines')">Lines</button>
           </div>
-        `;
+        </div>
 
-        grid.appendChild(card);
-      });
-    }
+        <!-- 5. Math Awards & Statistics -->
+        <div class="setting-row">
+          <div class="setting-row-header">
+            <div class="setting-label" id="lblStatsRow">Milestones & Statistics</div>
+            <button type="button" class="tool-btn" onclick="openStatsModal()" style="width: auto; padding: 0 14px; gap: 8px; background: var(--theme-subtle); border-color: var(--theme-accent); color: var(--theme-accent); font-weight: 800;" title="View Math Stats & Milestones">
+              <span>🏆</span>
+              <span id="lblViewStats">Math Awards & Stats →</span>
+            </button>
+          </div>
+        </div>
 
-    window.buyItem = function(catId, itemId, price, itemName) {
-      if (userState.coins >= price) {
-        userState.coins -= price;
-        studentProgress.coins = userState.coins;
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('elismark_coins', userState.coins.toString());
-        }
-        userState.ownedItems.push(itemId);
-        localStorage.setItem('elismark_owned_items', JSON.stringify(userState.ownedItems));
-        userState.equippedItems[catId] = itemId;
-        renderWallet();
-        renderCategoryItems(catId);
-        showToast(`🎉 Bought & equipped "${itemName}"!`);
-      } else {
-        alert(`Not enough Math Stars! You need ⭐ ${price} Stars to buy this item.`);
-      }
-    };
+        <!-- 6. Switch Player -->
+        <div class="setting-row" style="border-bottom: none;">
+          <div class="setting-row-header">
+            <div class="setting-label" id="lblPlayerSwitch">Switch Profile</div>
+            <button type="button" class="tool-btn" onclick="logoutPlayer()" style="color: #dc2626; border-color: #fca5a5;">
+              <span id="lblLogout">Change Player</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    window.equipItem = function(catId, itemId, itemName) {
-      userState.equippedItems[catId] = itemId;
-      if (catId === 'papers') {
-        studentProgress.setPaper(itemId);
-      }
-      localStorage.setItem(`elismark_active_${catId}`, itemId);
-      renderCategoryItems(catId);
-      showToast(`✨ Equipped "${itemName}"!`);
-    };
+      <!-- TAB 2: SETTINGS SECTION -->
+      <div class="modal-tab-section" id="secSettings" style="display: none;">
+        <!-- 1. Language Selector -->
+        <div class="setting-row">
+          <div class="setting-row-header">
+            <div class="setting-label" id="lblLangSetting">Language</div>
+            <div class="flag-toggle">
+              <button type="button" class="flag-btn" id="flagEN" onclick="stageLanguage('en')" title="UK English">
+                <svg class="flag-icon" viewBox="0 0 60 30" aria-hidden="true">
+                  <clipPath id="modal-uk-clip-pc">
+                    <rect width="60" height="30" rx="3" />
+                  </clipPath>
+                  <g clip-path="url(#modal-uk-clip-pc)">
+                    <path d="M0 0h60v30H0z" fill="#012169" />
+                    <path d="M0 0l60 30m0-30L0 30" stroke="#ffffff" stroke-width="6" />
+                    <path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" stroke-width="2" />
+                    <path d="M30 0v30M0 15h60" stroke="#ffffff" stroke-width="10" />
+                    <path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6" />
+                  </g>
+                </svg>
+              </button>
+              <button type="button" class="flag-btn" id="flagES" onclick="stageLanguage('es')" title="Español">
+                <svg class="flag-icon" viewBox="0 0 60 30" aria-hidden="true">
+                  <clipPath id="modal-es-clip-pc">
+                    <rect width="60" height="30" rx="3" />
+                  </clipPath>
+                  <g clip-path="url(#modal-es-clip-pc)">
+                    <rect width="60" height="7.5" fill="#AA151B" />
+                    <rect y="7.5" width="60" height="15" fill="#F1BF00" />
+                    <rect y="22.5" width="60" height="7.5" fill="#AA151B" />
+                    <g transform="translate(14, 7.5) scale(0.7)">
+                      <rect x="0" y="2" width="9" height="11" rx="2" fill="#AA151B" stroke="#800c11" stroke-width="0.5" />
+                      <rect x="1.5" y="3.5" width="6" height="8" rx="1" fill="#F1BF00" />
+                      <circle cx="4.5" cy="1" r="2" fill="#AA151B" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
 
-    // Initial render
-    renderWallet();
-    switchCategory('inks');
-  </script>
+        <!-- 2. Sound Effects Toggle -->
+        <div class="setting-row" style="border-bottom: none;">
+          <div class="setting-row-header">
+            <div class="setting-label" id="lblSoundSetting">Sound Effects</div>
+            <button type="button" class="tool-btn active" id="soundModalBtn" onclick="stageSoundToggle()">
+              <span id="lblSoundStatus">On</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: THE PENCIL CASE SHOP SECTION -->
+      <div class="modal-tab-section" id="secShop" style="display: none;">
+        <div class="shop-tab-showcase">
+          <div class="shop-showcase-title">You're in The Pencil Case!</div>
+          <div class="shop-showcase-desc">Choose from any category above to unlock and equip new stationery, papers, and mats.</div>
+          <div class="shop-showcase-wallet">
+            ⭐ <span>Current Stars Balance: <strong id="shopTabStarsCount">0</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer: Cancel & Save -->
+      <div class="modal-action-footer">
+        <button type="button" class="modal-btn-cancel" onclick="cancelSettingsModal()" id="btnCancelSettings">Cancel</button>
+        <button type="button" class="modal-btn-save" onclick="saveSettingsModal()" id="btnSaveSettings">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: MATH STATS & MILESTONES (AWARDS) -->
+  <div class="modal-overlay" id="statsModal" onclick="handleOverlayClick(event)">
+    <div class="settings-modal-card stats-modal-card" id="statsModalCard" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="statsModalTitle">Math Awards & Stats 🏆</div>
+        <button type="button" class="modal-close" onclick="closeStatsModal()">✕</button>
+      </div>
+
+      <!-- 6-KPI Stats Grid -->
+      <div class="stats-kpi-grid">
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statQuestionsAttempted">0</div>
+          <div class="stat-kpi-label">Total Questions</div>
+        </div>
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statQuestionsCorrect">0</div>
+          <div class="stat-kpi-label">Correct Answers</div>
+        </div>
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statAccuracy">0%</div>
+          <div class="stat-kpi-label">Accuracy</div>
+        </div>
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statBestScore">0</div>
+          <div class="stat-kpi-label">Best Score</div>
+        </div>
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statDaysPlayed">1</div>
+          <div class="stat-kpi-label">Days Played</div>
+        </div>
+        <div class="stat-kpi-box">
+          <div class="stat-kpi-num" id="statBestStreak">1 🔥</div>
+          <div class="stat-kpi-label">Best Streak</div>
+        </div>
+      </div>
+
+      <!-- Lifetime Stars Earned Banner -->
+      <div class="lifetime-stars-banner">
+        <span>⭐ Lifetime Stars Earned</span>
+        <strong id="statLifetimeStars">0 ⭐</strong>
+      </div>
+
+      <!-- Milestones & Badges Area -->
+      <div class="milestones-section">
+        <div class="milestones-header">
+          <div class="milestones-title">🏅 Milestones & Badges</div>
+          <span class="milestones-badge-count" id="statMilestonesCount">0 / 16 Unlocked</span>
+        </div>
+        <div class="milestones-scroll-list" id="milestonesScrollList">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+
+      <div class="modal-action-footer" style="margin-top: 14px;">
+        <button type="button" class="modal-btn-save" style="flex:1;" onclick="closeStatsModal()">Back to Profile ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master ES Module Page Controller -->
+  <script type="module" src="./js/pages/pencilCasePage.js"></script>
 </body>
 
 </html>

@@ -57,6 +57,13 @@ export class PracticePage {
     this.setInputMode(studentProgress.inputMode || 'draw', false);
     this.updateLiveScoreDisplay();
 
+    const palmShield = document.getElementById('palmShield');
+    if (palmShield) {
+      const mat = studentProgress.userPalmMat || 'mat_slate';
+      palmShield.classList.remove('mat_slate', 'mat_woodcraft', 'mat_space', 'mat_neon_cyber');
+      palmShield.classList.add(mat);
+    }
+
     setTimeout(() => {
       this.canvasEngine.resize();
       this.canvasEngine.ctx.clearRect(0, 0, this.canvasEngine.canvas.width, this.canvasEngine.canvas.height);

@@ -1,9 +1,10 @@
 Issues:
-1) I would like to add a stats modal to include, total questions, total questions answered correctly, current percentage of questions answered correctly, best score, total days played, best daily streak, total stars earned,
-2) Area for milestones where you get awarded a badge for milestones e.g answered 1 st question correctly overall, answered 1st topic (addition, division etc) question correctly, answered 10 questions in total correctly, 1st 8/10, first 9/10, first 10/10 etc. each milestone you will also get awarded stars.
-3) "settings-modal-card" have the modal split up as its getting to big to display all the information now. Split with section for Profile (Player Name, Mascot, Colour Theme, Scratchpad, Statistics (or another name if you can think of one that better matches the theme as described above in point 2), Switch Profile), Settings (Language, Palm Rest Guard, Sound Effects), The Pencil Case.
+1) [x] Pencil Case settings menu accessible via top-right ⚙️ button and clickable player profile badge, embedding full Settings and Stats modals.
+2) [x] Raised .equipped-ribbon z-index to 20 with absolute positioning so it sits prominently on top of preview-box.
+3) [x] Populated Paper Textures & Palm Rest Mats Catalogues with realistic rendered preview artwork, added real CSS textures (paper-chalkboard, paper-galaxy, paper-parchment) and Palm Rest skins (mat_slate, mat_woodcraft, mat_space, mat_neon_cyber) wired to studentProgress and active workbook surfaces.
+4) [x] Fully integrated pencil_case.html: extracted embedded CSS into css/pencil_case.css and embedded JS into js/pages/pencilCasePage.js.
 
-execute v0.17
+execute version-tag v0.18 completed
 
 
 

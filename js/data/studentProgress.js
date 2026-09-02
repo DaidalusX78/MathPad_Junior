@@ -36,6 +36,7 @@ export class StudentProgress {
       INPUT_MODE: 'elismark_input_mode',
       COINS: 'elismark_coins',
       PALM_HEIGHT: 'elismark_palm_height',
+      PALM_MAT: 'elismark_palm_mat',
       STATS: 'elismark_stats',
       MILESTONES: 'elismark_milestones',
       LIFETIME_STARS: 'elismark_lifetime_stars',
@@ -52,6 +53,7 @@ export class StudentProgress {
     this.userThemeBorder = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.THEME_BORDER) || '#f0abfc') : '#f0abfc';
     this.userFont = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.FONT) || 'Fredoka') : 'Fredoka';
     this.userPaper = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.PAPER) || 'paper-blank') : 'paper-blank';
+    this.userPalmMat = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.PALM_MAT) || 'mat_slate') : 'mat_slate';
     this.soundFxEnabled = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.SOUND) !== 'false') : true;
     this.inputMode = hasStorage ? (localStorage.getItem(this.STORAGE_KEYS.INPUT_MODE) || 'draw') : 'draw';
     this.coins = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.COINS) || '0', 10) : 0;
@@ -369,6 +371,23 @@ export class StudentProgress {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(this.STORAGE_KEYS.PALM_HEIGHT, this.palmHeight.toString());
     }
+  }
+
+  setPalmMat(matId) {
+    this.userPalmMat = matId;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.PALM_MAT, matId);
+    }
+    this.applyPalmMatStyle();
+  }
+
+  applyPalmMatStyle() {
+    if (typeof document === 'undefined') return;
+    const palmMat = document.getElementById('palmRestMat');
+    if (!palmMat) return;
+    const allMats = ['mat_slate', 'mat_woodcraft', 'mat_space', 'mat_neon_cyber'];
+    allMats.forEach((m) => palmMat.classList.remove(m));
+    palmMat.classList.add(this.userPalmMat || 'mat_slate');
   }
 
   logout() {

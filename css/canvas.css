@@ -398,6 +398,30 @@ canvas {
   touch-action: none;
   z-index: 12;
   user-select: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.palm-shield.mat_slate {
+  background: linear-gradient(to top, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.92) 80%, rgba(241, 245, 249, 0.7) 100%);
+  border-top: 3px solid var(--theme-border, #cbd5e1);
+}
+
+.palm-shield.mat_woodcraft {
+  background: linear-gradient(to top, #78350f 0%, #92400e 70%, rgba(180, 83, 9, 0.85) 100%);
+  border-top: 3px solid #f59e0b;
+  box-shadow: 0 -4px 16px rgba(120, 53, 15, 0.2);
+}
+
+.palm-shield.mat_space {
+  background: linear-gradient(to top, #0f172a 0%, #1e1b4b 60%, rgba(49, 46, 129, 0.85) 100%);
+  border-top: 3px solid #818cf8;
+  box-shadow: 0 -4px 18px rgba(99, 102, 241, 0.25);
+}
+
+.palm-shield.mat_neon_cyber {
+  background: linear-gradient(to top, #09090b 0%, #18181b 75%, rgba(24, 24, 27, 0.9) 100%);
+  border-top: 3px solid #06b6d4;
+  box-shadow: 0 -4px 20px rgba(6, 182, 212, 0.35);
 }
 
 .shield-drag-handle {

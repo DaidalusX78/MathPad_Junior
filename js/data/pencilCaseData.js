@@ -94,7 +94,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: true,
         className: "paper-blank",
         desc: "Smooth unlined whiteboard for freehand thinking.",
-        desc_es: "Pizarra blanca lisa para calcular libremente."
+        desc_es: "Pizarra blanca lisa para calcular libremente.",
+        previewHtml: "<div class='mini-paper-preview paper-blank'><span class='mini-paper-tag'>Whiteboard</span></div>"
       },
       {
         id: "paper_squares",
@@ -104,7 +105,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: true,
         className: "paper-squares",
         desc: "Classic 24px square grid for column addition & multiplication.",
-        desc_es: "Cuadrícula tradicional para operaciones en columna."
+        desc_es: "Cuadrícula tradicional para operaciones en columna.",
+        previewHtml: "<div class='mini-paper-preview paper-squares'><span class='mini-paper-tag'>Math Grid</span></div>"
       },
       {
         id: "paper_dots",
@@ -114,7 +116,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: true,
         className: "paper-dots",
         desc: "Subtle coordinate dots for neat notes and geometry.",
-        desc_es: "Puntos guía discretos para geometría y notas limpias."
+        desc_es: "Puntos guía discretos para geometría y notas limpias.",
+        previewHtml: "<div class='mini-paper-preview paper-dots'><span class='mini-paper-tag'>Dot Matrix</span></div>"
       },
       {
         id: "paper_chalkboard",
@@ -125,7 +128,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: false,
         className: "paper-chalkboard",
         desc: "Cozy dark mode slate blackboard with faint chalk dust.",
-        desc_es: "Modo oscuro clásico estilo pizarra de aula escolar."
+        desc_es: "Modo oscuro clásico estilo pizarra de aula escolar.",
+        previewHtml: "<div class='mini-paper-preview paper-chalkboard'><span class='mini-paper-tag' style='color:#e2e8f0; background:rgba(15,23,42,0.7);'>Slate Dust</span></div>"
       },
       {
         id: "paper_galaxy",
@@ -135,7 +139,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: false,
         className: "paper-galaxy",
         desc: "Deep cosmic nebula texture with glowing stellar coordinates.",
-        desc_es: "Fondo espacial cósmico con estrellas guía."
+        desc_es: "Fondo espacial cósmico con estrellas guía.",
+        previewHtml: "<div class='mini-paper-preview paper-galaxy'><span class='mini-paper-tag' style='color:#fbcfe8; background:rgba(15,23,42,0.75);'>Nebula Stars</span></div>"
       },
       {
         id: "paper_parchment",
@@ -145,7 +150,8 @@ export const pencilCaseCatalog = {
         unlockedByDefault: false,
         className: "paper-parchment",
         desc: "Antique warm papyrus scroll texture for young adventurers.",
-        desc_es: "Textura de mapa del tesoro antiguo para explorar matemáticas."
+        desc_es: "Textura de mapa del tesoro antiguo para explorar matemáticas.",
+        previewHtml: "<div class='mini-paper-preview paper-parchment'><span class='mini-paper-tag' style='color:#78350f; background:rgba(254,243,199,0.85);'>Old Papyrus</span></div>"
       }
     ],
 
@@ -158,7 +164,8 @@ export const pencilCaseCatalog = {
         price: 0,
         unlockedByDefault: true,
         style: "linear-gradient(to top, rgba(241, 245, 249, 0.96) 0%, rgba(248, 250, 252, 0.82) 85%, transparent 100%)",
-        desc: "Clean minimal wrist shield with subtle grip texture."
+        desc: "Clean minimal wrist shield with subtle grip texture.",
+        previewHtml: "<div class='mini-mat-preview mat_slate'><div class='mini-mat-seam'></div><span class='mini-mat-tag'>Frosted Slate</span></div>"
       },
       {
         id: "mat_woodcraft",
@@ -167,7 +174,8 @@ export const pencilCaseCatalog = {
         price: 110,
         unlockedByDefault: false,
         style: "linear-gradient(to top, #78350f 0%, #92400e 70%, transparent 100%)",
-        desc: "Warm oak workshop table feel for your workstation."
+        desc: "Warm oak workshop table feel for your workstation.",
+        previewHtml: "<div class='mini-mat-preview mat_woodcraft'><div class='mini-mat-seam' style='border-color:#d97706;'></div><span class='mini-mat-tag' style='color:#fef3c7;'>Warm Oak</span></div>"
       },
       {
         id: "mat_space",
@@ -176,7 +184,8 @@ export const pencilCaseCatalog = {
         price: 190,
         unlockedByDefault: false,
         style: "linear-gradient(to top, #1e1b4b 0%, #312e81 70%, transparent 100%)",
-        desc: "Deep indigo and violet galaxy desk mat."
+        desc: "Deep indigo and violet galaxy desk mat.",
+        previewHtml: "<div class='mini-mat-preview mat_space'><div class='mini-mat-seam' style='border-color:#818cf8;'></div><span class='mini-mat-tag' style='color:#e0e7ff;'>Starlight Space</span></div>"
       },
       {
         id: "mat_neon_cyber",
@@ -186,7 +195,8 @@ export const pencilCaseCatalog = {
         unlockReq: { type: "perfectQuiz", value: 3, label: "3 Perfect 10/10 Quizzes" },
         unlockedByDefault: false,
         style: "linear-gradient(to top, #09090b 0%, #18181b 75%, transparent 100%)",
-        desc: "Sleek matte gamer surface with reactive neon edge piping."
+        desc: "Sleek matte gamer surface with reactive neon edge piping.",
+        previewHtml: "<div class='mini-mat-preview mat_neon_cyber'><div class='mini-mat-seam' style='border-color:#06b6d4; box-shadow:0 0 8px #06b6d4;'></div><span class='mini-mat-tag' style='color:#67e8f9;'>Cyber Cyan</span></div>"
       }
     ],
 
