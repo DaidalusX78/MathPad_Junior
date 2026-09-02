@@ -1,197 +1,188 @@
-/* ==========================================================================
-   Canvas Drawing Surface, Stylus Engine & Palm Shield Styles
-   ========================================================================== */
+/**
+ * MathPad Junior - Canvas & Drawing Toolbar Styling
+ */
 
-.workspace {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  border-radius: 14px;
-  border: 1.5px solid var(--border-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
-  min-height: 180px;
-  position: relative;
-}
-
+/* ------------------- Canvas Top Toolbar ------------------- */
 .toolbar {
-  background: #f8fafc;
-  border-bottom: 1px solid var(--border-light);
-  padding: 6px 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
+  background-color: var(--toolbar-bg, #ffffff);
+  border: 1.5px solid var(--border-light, #e2e8f0);
+  border-radius: 18px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
   flex-wrap: wrap;
-  flex-shrink: 0;
+  justify-content: flex-start;
+  margin-bottom: 8px;
   position: relative;
   z-index: 20;
 }
 
 .tool-group {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.tool-btn {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  color: #334155;
-  padding: 8px 10px;
-  min-width: 38px;
-  height: 38px;
+/* ------------------- Input Mode Toggle ------------------- */
+.mode-toggle-group {
+  display: inline-flex;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 2px;
+  gap: 2px;
+  border: 1px solid var(--border-light);
+}
+
+.mode-toggle-btn {
+  background: transparent;
+  border: none;
   border-radius: 10px;
+  padding: 6px 12px;
   font-size: 0.82rem;
   font-weight: 800;
+  color: #64748b;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
   font-family: inherit;
+}
+
+.mode-toggle-btn:hover {
+  color: #0f172a;
+}
+
+.mode-toggle-btn.active {
+  background: #ffffff;
+  color: var(--theme-accent, #a855f7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mode-toggle-btn.active svg {
+  stroke: var(--theme-accent, #a855f7);
+}
+
+/* ------------------- Tool Buttons ------------------- */
+.tool-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
+  color: #475569;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  cursor: pointer;
   transition: all 0.12s ease;
+  padding: 0;
 }
 
 .tool-btn svg {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
 }
 
 .tool-btn:hover {
-  background: #f1f5f9;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .tool-btn.active {
   background: var(--theme-accent);
-  color: #ffffff;
   border-color: var(--theme-accent);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.25);
 }
 
 .tool-btn.active svg {
   stroke: #ffffff;
 }
 
-.clean-dropdown {
-  background-color: #ffffff !important;
-  color: #1e293b !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 10px center !important;
-  border: 1.5px solid var(--border-light) !important;
-  border-radius: 10px !important;
-  padding: 6px 28px 6px 10px !important;
-  font-size: 0.82rem !important;
-  font-weight: 800 !important;
-  cursor: pointer !important;
-  outline: none !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  font-family: inherit !important;
-  color-scheme: light !important;
-}
-
-.clean-dropdown option {
-  background-color: #ffffff !important;
-  color: #1e293b !important;
-  font-weight: 700;
-  padding: 6px 10px;
-}
-
-.clean-dropdown:focus {
-  border-color: var(--theme-accent) !important;
-}
-
-/* ------------------- Color Palette & Active Line ------------------- */
+/* ------------------- Color Swatches & Dynamic Ring ------------------- */
 .color-picker-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 3px;
 }
 
 .color-swatch-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .color-swatch-btn {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
+  border: 2.5px solid #ffffff;
   box-shadow: 0 0 0 1.5px #cbd5e1;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
   padding: 0;
   outline: none;
 }
 
 .color-swatch-btn:hover {
-  transform: scale(1.15);
+  transform: scale(1.18);
 }
 
 .color-swatch-btn.active {
-  transform: scale(1.22);
-  box-shadow: 0 0 0 2px var(--theme-accent), 0 2px 6px rgba(0, 0, 0, 0.18);
-}
-
-.color-indicator-line {
-  height: 3.5px;
-  width: 100%;
-  border-radius: 4px;
-  background: #b57edc;
-  transition: background-color 0.15s ease;
+  transform: scale(1.25);
+  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px var(--active-swatch-ring, var(--theme-accent)), 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 
 /* ------------------- Stroke Size Vector Buttons ------------------- */
 .stroke-btn-group {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: inline-flex;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 2px;
+  gap: 2px;
+  border: 1px solid var(--border-light);
 }
 
 .stroke-btn {
-  width: 36px;
-  height: 36px;
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
-  display: inline-flex;
+  border: none;
+  background: transparent;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.12s ease;
   padding: 0;
+  transition: all 0.12s ease;
 }
 
 .stroke-btn:hover {
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .stroke-btn.active {
-  background: #fdf4ff;
-  border-color: var(--theme-accent);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 
 .stroke-circle-preview {
   border-radius: 50%;
-  background-color: var(--active-ink-color, #b57edc);
+  background-color: var(--active-ink-color, var(--theme-accent));
   transition: background-color 0.15s ease;
 }
 
-/* ------------------- Canvas Container & Surface ------------------- */
+/* ------------------- Canvas Surface & Paper Types ------------------- */
 .canvas-container {
   flex: 1;
   position: relative;
   background-color: #ffffff;
-  touch-action: none;
   overflow: hidden;
-  margin-bottom: 4px;
+  border-radius: 16px;
+  border: 2px solid var(--border-light);
+  touch-action: none;
   transition: background-image 0.2s ease;
 }
 
@@ -227,7 +218,7 @@ canvas {
   z-index: 6;
 }
 
-/* ------------------- Answer Box Overlay ------------------- */
+/* ------------------- Answer Box Overlay (Doubled Size & Opacity Watermark) ------------------- */
 .target-answer-box-wrapper {
   position: absolute;
   top: 10px;
@@ -263,11 +254,11 @@ canvas {
 }
 
 .target-answer-box {
-  width: 100px;
-  height: 64px;
+  width: 210px;
+  height: 120px;
   border: 2.5px dashed var(--theme-accent);
-  background: rgba(168, 85, 247, 0.05);
-  border-radius: 12px;
+  background: rgba(168, 85, 247, 0.04);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -275,15 +266,16 @@ canvas {
 }
 
 .answer-box-label {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   font-weight: 900;
   color: var(--theme-accent);
-  opacity: 0.85;
+  opacity: 0.35;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.8px;
+  user-select: none;
 }
 
-/* ------------------- Palm Shield Guard ------------------- */
+/* ------------------- Palm Rest Mat Guard ------------------- */
 .palm-shield {
   position: absolute;
   bottom: 0;
@@ -296,26 +288,6 @@ canvas {
   touch-action: none;
   z-index: 12;
   user-select: none;
-}
-
-.shield-left-score {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.shield-stat-badge {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: 14px;
-  padding: 4px 12px;
-  color: #0f172a;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.85rem;
-  font-weight: 900;
 }
 
 .shield-drag-handle {
@@ -345,8 +317,26 @@ canvas {
   color: var(--theme-accent);
 }
 
-.shield-right-placeholder {
-  width: 20px;
+.palm-hint-pill {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: hintFloat 2s ease-in-out infinite alternate;
+}
+
+@keyframes hintFloat {
+  0% { transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(-4px); }
 }
 
 /* ------------------- Feedback Toast ------------------- */
@@ -374,54 +364,42 @@ canvas {
 .feedback-toast.correct {
   border-color: var(--success);
   color: #047857;
-  background: #ecfdf5;
 }
 
 .feedback-toast.try-again {
-  border-color: var(--warning);
+  border-color: #f59e0b;
   color: #b45309;
-  background: #fffbeb;
 }
 
 @keyframes toastPop {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  0% { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.95); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
 /* ------------------- Flying Coin Transport Animation ------------------- */
 .flying-coin-reward {
   position: fixed;
-  z-index: 999;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: #78350f;
-  border: 2.5px solid #ffffff;
-  border-radius: 50px;
-  padding: 6px 16px;
-  font-size: 1.15rem;
+  z-index: 9999;
+  font-size: 1.4rem;
   font-weight: 900;
-  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+  color: #b45309;
+  background: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Fredoka', cursive, sans-serif;
-  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.65s ease;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
   will-change: transform, opacity;
 }
 
 .coin-badge-bounce {
-  animation: coinBounce 0.45s ease;
+  animation: badgeBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes coinBounce {
+@keyframes badgeBounce {
   0% { transform: scale(1); }
-  35% { transform: scale(1.32); }
-  65% { transform: scale(0.92); }
+  45% { transform: scale(1.35) rotate(-3deg); }
+  75% { transform: scale(0.95); }
   100% { transform: scale(1); }
 }

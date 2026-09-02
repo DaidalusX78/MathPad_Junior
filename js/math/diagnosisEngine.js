@@ -48,15 +48,19 @@ export class DiagnosisEngine {
    * Helper: Extracts numbers and operator from question metadata or equation text
    */
   static parseProblem(qItem) {
+    if (!qItem) return null;
+
     if (qItem.meta && qItem.meta.op && qItem.meta.a !== undefined && qItem.meta.b !== undefined) {
       const a = parseInt(qItem.meta.a, 10);
       const b = parseInt(qItem.meta.b, 10);
       const op = qItem.meta.op;
-      let expectedAns;
-      if (op === '+') expectedAns = a + b;
-      else if (op === '−' || op === '-') expectedAns = a - b;
-      else if (op === '×' || op === '*') expectedAns = a * b;
-      else if (op === '÷' || op === ':') expectedAns = Math.floor(a / b);
+      let expectedAns = parseInt(qItem.num || qItem.a_en, 10);
+      if (isNaN(expectedAns)) {
+        if (op === '+') expectedAns = a + b;
+        else if (op === '−' || op === '-') expectedAns = a - b;
+        else if (op === '×' || op === '*') expectedAns = a * b;
+        else if (op === '÷' || op === ':') expectedAns = Math.floor(a / b);
+      }
       return { op, a, b, expectedAns };
     }
 
@@ -72,11 +76,13 @@ export class DiagnosisEngine {
       if (rawOp === '-') op = '−';
       if (rawOp === ':' || rawOp === '/') op = '÷';
 
-      let expectedAns;
-      if (op === '+') expectedAns = a + b;
-      else if (op === '−') expectedAns = a - b;
-      else if (op === '×') expectedAns = a * b;
-      else if (op === '÷') expectedAns = Math.floor(a / b);
+      let expectedAns = parseInt(qItem.num || qItem.a_en, 10);
+      if (isNaN(expectedAns)) {
+        if (op === '+') expectedAns = a + b;
+        else if (op === '−') expectedAns = a - b;
+        else if (op === '×') expectedAns = a * b;
+        else if (op === '÷') expectedAns = Math.floor(a / b);
+      }
       return { op, a, b, expectedAns };
     }
 

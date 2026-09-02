@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathPad Junior — The Pencil Case (Reward Shop & Catalog)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-subtle: #e2e8f0;
+      --theme-accent: #a855f7;
+      --theme-subtle: #fdf4ff;
+      --color-coin: #eab308;
+      --color-coin-bg: #fffbeb;
+      --color-coin-border: #fde68a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .shop-container {
+      width: 100%;
+      max-width: 980px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      border: 2px solid var(--border-subtle);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Top Bar: Title & Balance */
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .shop-title-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .shop-avatar-icon {
+      font-size: 2.2rem;
+      background: var(--theme-subtle);
+      border: 2px solid #f0abfc;
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.12);
+    }
+
+    .shop-title-block h1 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .shop-title-block p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .wallet-badge {
+      background: var(--color-coin-bg);
+      border: 2px solid var(--color-coin-border);
+      padding: 8px 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-weight: 900;
+      color: #b45309;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+      user-select: none;
+    }
+
+    /* Category Tab Navigation */
+    .category-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .cat-tab-btn {
+      background: #f8fafc;
+      border: 1.5px solid var(--border-subtle);
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .cat-tab-btn:hover {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .cat-tab-btn.active {
+      background: var(--theme-accent);
+      color: #ffffff;
+      border-color: var(--theme-accent);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+    }
+
+    /* Items Grid */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .item-card {
+      background: #ffffff;
+      border: 2px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .item-card.is-equipped {
+      border-color: var(--theme-accent);
+      background: #faf5ff;
+    }
+
+    .preview-box {
+      height: 105px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1.5px dashed var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+      user-select: none;
+    }
+
+    .item-meta h3 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .item-meta p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      transition: all 0.12s ease;
+    }
+
+    .action-btn.buy {
+      background: #f59e0b;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    }
+
+    .action-btn.buy:hover {
+      background: #d97706;
+      transform: translateY(-1px);
+    }
+
+    .action-btn.equip {
+      background: var(--theme-accent);
+      color: #ffffff;
+    }
+
+    .action-btn.equipped {
+      background: #e2e8f0;
+      color: #475569;
+      cursor: default;
+    }
+
+    .action-btn.locked {
+      background: #f1f5f9;
+      color: #94a3b8;
+      border: 1.5px solid var(--border-subtle);
+      cursor: not-allowed;
+      font-size: 0.8rem;
+    }
+
+    /* JSON Data Reference View */
+    .data-viewer-card {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 16px;
+      padding: 18px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      max-height: 480px;
+      line-height: 1.5;
+    }
+
+    /* Mini interactive scratchpad on preview */
+    .try-scratchpad {
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .scratch-hint {
+      position: absolute;
+      bottom: 4px;
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-weight: 800;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="shop-container">
+
+    <!-- Top Header & Wallet -->
+    <header class="shop-header">
+      <div class="shop-title-block">
+        <div class="shop-avatar-icon">🎒</div>
+        <div>
+          <h1>The Pencil Case</h1>
+          <p>MathPad Junior — Reward Shop & Equipment Catalog</p>
+        </div>
+      </div>
+
+      <div class="wallet-badge" id="walletBalance" title="Your Math Coins Balance">
+        <span>🪙</span>
+        <span id="userCoins">340</span>
+      </div>
+    </header>
+
+    <!-- Category Tabs -->
+    <nav class="category-nav" id="categoryNav">
+      <button class="cat-tab-btn active" onclick="switchCategory('inks')">🖊️ Magic Inks</button>
+      <button class="cat-tab-btn" onclick="switchCategory('papers')">📐 Paper Textures</button>
+      <button class="cat-tab-btn" onclick="switchCategory('deskMats')">🖼️ Palm Rest Mats</button>
+      <button class="cat-tab-btn" onclick="switchCategory('accessories')">👑 Mascot Gear</button>
+      <button class="cat-tab-btn" onclick="switchCategory('stickers')">⭐ Stickers</button>
+      <button class="cat-tab-btn" onclick="switchCategory('json')" style="margin-left:auto;">📋 Data Reference</button>
+    </nav>
+
+    <!-- Items Grid Container -->
+    <div class="shop-grid" id="itemsGrid"></div>
+
+    <!-- JSON Data Reference Block -->
+    <div id="jsonDataContainer" style="display:none;">
+      <h3 style="font-family:'Fredoka',cursive; font-size:1.15rem; margin-bottom:8px;">📦 Module Source: <code>js/data/pencilCaseData.js</code></h3>
+      <pre class="data-viewer-card" id="jsonViewer"></pre>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { pencilCaseCatalog } from './js/data/pencilCaseData.js';
+
+    // Simulated student inventory state
+    const userState = {
+      coins: 340,
+      streak: 4,
+      perfectQuizzes: 2,
+      ownedItems: ['ink_lilac', 'paper_blank', 'paper_squares', 'paper_dots', 'mat_slate'],
+      equippedItems: {
+        inks: 'ink_lilac',
+        papers: 'paper_squares',
+        deskMats: 'mat_slate',
+        accessories: null
+      }
+    };
+
+    let activeCat = 'inks';
+
+    function renderWallet() {
+      const el = document.getElementById('userCoins');
+      if (el) el.innerText = userState.coins;
+    }
+
+    function switchCategory(catId) {
+      activeCat = catId;
+      document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+        const text = btn.innerText.toLowerCase();
+        btn.classList.toggle('active', 
+          (catId === 'inks' && text.includes('ink')) ||
+          (catId === 'papers' && text.includes('paper')) ||
+          (catId === 'deskMats' && text.includes('palm')) ||
+          (catId === 'accessories' && text.includes('gear')) ||
+          (catId === 'stickers' && text.includes('sticker')) ||
+          (catId === 'json' && text.includes('data'))
+        );
+      });
+
+      const grid = document.getElementById('itemsGrid');
+      const jsonContainer = document.getElementById('jsonDataContainer');
+
+      if (catId === 'json') {
+        grid.style.display = 'none';
+        jsonContainer.style.display = 'block';
+        document.getElementById('jsonViewer').innerText = JSON.stringify(pencilCaseCatalog, null, 2);
+        return;
+      }
+
+      grid.style.display = 'grid';
+      jsonContainer.style.display = 'none';
+      renderCategoryItems(catId);
+    }
+
+    window.switchCategory = switchCategory;
+
+    function renderCategoryItems(catId) {
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = '';
+
+      const items = pencilCaseCatalog.items[catId] || [];
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        const isOwned = userState.ownedItems.includes(item.id) || item.unlockedByDefault;
+        const isEquipped = userState.equippedItems[catId] === item.id;
+        
+        let isLocked = false;
+        let lockReason = '';
+
+        if (item.unlockReq) {
+          if (item.unlockReq.type === 'streak' && userState.streak < item.unlockReq.value) {
+            isLocked = true;
+            lockReason = `🔒 ${item.unlockReq.label}`;
+          } else if (item.unlockReq.type === 'perfectQuiz' && userState.perfectQuizzes < item.unlockReq.value) {
+            isLocked = true;
+            lockReason = `🔒 ${item.unlockReq.label}`;
+          }
+        }
+
+        card.className = `item-card ${isEquipped ? 'is-equipped' : ''}`;
+
+        // Build preview display
+        let previewHtml = '';
+        if (item.previewHtml) {
+          previewHtml = item.previewHtml;
+        } else if (catId === 'papers') {
+          previewHtml = `<div style="width:100%; height:100%; background-color:#ffffff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.1rem; color:#64748b;">${item.name}</div>`;
+        } else if (catId === 'deskMats') {
+          previewHtml = `<div style="width:100%; height:100%; border-radius:8px; background:${item.style}; display:flex; align-items:center; justify-content:center; color:#ffffff; font-weight:800; font-size:0.8rem;">Desk Mat Preview</div>`;
+        } else if (item.icon) {
+          previewHtml = `<span style="font-size: 2.8rem;">${item.icon}</span>`;
+        }
+
+        let actionButtonHtml = '';
+        if (isEquipped) {
+          actionButtonHtml = `<button class="action-btn equipped">✓ Equipped</button>`;
+        } else if (isOwned) {
+          actionButtonHtml = `<button class="action-btn equip" onclick="equipItem('${catId}', '${item.id}')">Equip</button>`;
+        } else if (isLocked) {
+          actionButtonHtml = `<button class="action-btn locked" disabled>${lockReason}</button>`;
+        } else {
+          actionButtonHtml = `<button class="action-btn buy" onclick="buyItem('${catId}', '${item.id}', ${item.price})">🪙 ${item.price} Coins</button>`;
+        }
+
+        card.innerHTML = `
+          <div class="preview-box">
+            ${previewHtml}
+          </div>
+          <div class="item-meta">
+            <h3>${item.name}</h3>
+            <p>${item.desc || ''}</p>
+          </div>
+          <div class="item-actions">
+            ${actionButtonHtml}
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    window.buyItem = function(catId, itemId, price) {
+      if (userState.coins >= price) {
+        userState.coins -= price;
+        userState.ownedItems.push(itemId);
+        userState.equippedItems[catId] = itemId;
+        renderWallet();
+        renderCategoryItems(catId);
+      } else {
+        alert("Not enough Math Coins! Practice more math problems to earn more 🪙!");
+      }
+    };
+
+    window.equipItem = function(catId, itemId) {
+      userState.equippedItems[catId] = itemId;
+      renderCategoryItems(catId);
+    };
+
+    // Initial render
+    renderWallet();
+    switchCategory('inks');
+  </script>
+</body>
+
+</html>

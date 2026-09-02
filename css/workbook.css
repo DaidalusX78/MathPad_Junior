@@ -227,6 +227,13 @@ main {
   min-width: 0;
 }
 
+.q-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .q-type-label {
   font-size: 0.8rem;
   font-weight: 900;
@@ -235,10 +242,20 @@ main {
   letter-spacing: 0.05em;
 }
 
+.q-progress-pill {
+  background: #f1f5f9;
+  border: 1px solid var(--border-light);
+  color: #475569;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+}
+
 .q-count-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-muted);
+  display: none;
 }
 
 .q-text {

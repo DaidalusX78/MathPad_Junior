@@ -220,13 +220,17 @@ export class CanvasEngine {
   setColor(color) {
     this.currentColor = color;
     document.documentElement.style.setProperty('--active-ink-color', color);
+    document.documentElement.style.setProperty('--active-swatch-ring', color);
 
     document.querySelectorAll('.color-swatch-btn').forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.color === color);
+      const isActive = btn.dataset.color === color;
+      btn.classList.toggle('active', isActive);
+      if (isActive) {
+        btn.style.boxShadow = `0 0 0 2.5px #ffffff, 0 0 0 5px ${color}, 0 3px 8px rgba(0, 0, 0, 0.18)`;
+      } else {
+        btn.style.boxShadow = '';
+      }
     });
-
-    const line = document.getElementById('colorIndicatorLine');
-    if (line) line.style.backgroundColor = color;
 
     this.setTool('pen');
   }

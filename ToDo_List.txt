@@ -1,16 +1,12 @@
 Issues:
-1) [x] q-count-label - removed as question type is already displayed in q-type-label
-2) [x] Score moved to header-right (score-badge-header on left of coin-badge-header)
-3) [x] Palm rest area cleaned into comfortable desk mat (see gamification suggestions for desk mat skins / sticker collage!)
-4) [x] palmDragHandle - added bidirectional adjustment (vertical height + horizontal slide away from writing hand) with animated indicator pill
-5) [x] lblWritten - updated text to "Read:" (EN) and "Leído:" (ES)
-6) [x] toolbar - vector icon buttons only; custom color swatches with active indicator line (removed text & lblInk)
-7) [x] strokeSize - vector line/circle representation in active ink color
-8) [x] Flying coin animation - animated coin flies to header badge with joyful bounce and score tally on correct answers
-9) [x] Spanish flag in settings - real-time live preview translation
-10) [x] lblModalPlayerName and modalPlayerNameInput - styled with matching sleek input styles
+1) [x] Added text back to Draw & Keypad buttons only ("btnModeDraw" & "btnModeKeypad")
+2) [x] Removed color-indicator-line, updated active color swatch ring to dynamically match the active ink color
+3) [x] Doubled the size of targetAnswerBox (210px x 120px)
+4) [x] Checked and verified multiplication math & step breakdown generation; fixed question parsing to ensure 100% mathematical accuracy
+5) [x] Reduced lblAnswerBoxGuide watermark opacity to 0.35 so it doesn't overpower child handwriting
+6) [x] scoreBadgePractice updated to display round score count only; coins accumulated and awarded on round finish with celebratory flight; added question progress pill (1 / 10) in question meta header
 
-execute v0.14 completed
+execute v0.15 completed
 
 
 
@@ -20,6 +16,8 @@ Gamification ideas:
 3) Next up: Spend coins in shop to unlock special pen colors, avatar mascot accessories, and custom theme presets!
 4) Sticker Book & Trophy Showcase: Collect stickers and badges for streak milestones.
 5) Earn x amount for loggin in daily, and bonus coins for streaks of 3, 7, 14, 30 days. Bonus for completing X number of problems. 
+6) Palm Rest area - Desk Mat Skins & Stickers: Allow students to spend their Math Coins in the shop to customize their palm rest (e.g., Galaxy Desk Mat, Wood Grain Craft Table, Neon Cyber Pad, Comic Strip Collage).
+Sticker Showcase: Let students drag and place reward stickers directly onto their palm rest mat like decorating a physical school pencil box or desk!
 
 
 execute v0.13

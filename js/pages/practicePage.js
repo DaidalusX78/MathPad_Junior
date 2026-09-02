@@ -37,6 +37,7 @@ export class PracticePage {
   startPractice(mode) {
     this.activeMode = mode;
     this.sessionScores = {};
+    this.sessionCoinsEarned = 0;
     this.isAnswerRevealed = false;
     this.currentIndex = 0;
     this.lastDiagnosis = null;
@@ -75,14 +76,23 @@ export class PracticePage {
     const qItem = this.sessionQuestions[index];
     const t = this.pageManager.getI18n();
 
-    document.getElementById('qNumber').innerText = `${t.categories[qItem.cat] || qItem.cat} (${index + 1}/10)`;
-    document.getElementById('qCatTag').innerText = t.categories[qItem.cat] || qItem.cat;
-    document.getElementById('qText').innerText = (studentProgress.currentLang === 'es') ? qItem.q_es : qItem.q_en;
+    const pill = document.getElementById('qProgressPill');
+    if (pill) pill.innerText = `${index + 1} / ${this.totalQuestions}`;
+
+    const qNum = document.getElementById('qNumber');
+    if (qNum) qNum.innerText = `${t.categories[qItem.cat] || qItem.cat} (${index + 1}/10)`;
+
+    const catTag = document.getElementById('qCatTag');
+    if (catTag) catTag.innerText = t.categories[qItem.cat] || qItem.cat;
+
+    const qText = document.getElementById('qText');
+    if (qText) qText.innerText = (studentProgress.currentLang === 'es') ? qItem.q_es : qItem.q_en;
 
     const guideBtn = document.getElementById('stepGuideBtn');
     if (guideBtn) guideBtn.style.display = 'none';
 
-    document.getElementById('recognizedVal').innerText = '--';
+    const recognizedVal = document.getElementById('recognizedVal');
+    if (recognizedVal) recognizedVal.innerText = '--';
     
     const nextBtn = document.getElementById('nextQuestionBtn');
     if (nextBtn) {
@@ -148,10 +158,9 @@ export class PracticePage {
     if (isMatch) {
       this.sessionScores[this.currentIndex] = true;
       const coinReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
-      studentProgress.addCoins(coinReward);
+      this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
       this.updateLiveScoreDisplay();
       audioManager.playSound('success');
-      this.triggerFlyingCoinAnimation(coinReward);
       this.showToast(`🎉 ${t.correctMsg} (+${coinReward} 🪙)`, 'correct');
 
       const guideBtn = document.getElementById('stepGuideBtn');
@@ -244,10 +253,9 @@ export class PracticePage {
         if (isMatch) {
           this.sessionScores[this.currentIndex] = true;
           const coinReward = (qItem.cat === 'word' || qItem.cat === 'geo' || qItem.cat === 'add' || qItem.cat === 'sub') ? 10 : 5;
-          studentProgress.addCoins(coinReward);
+          this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + coinReward;
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
-          this.triggerFlyingCoinAnimation(coinReward);
           this.showToast(`🎉 ${t.correctMsg} (+${coinReward} 🪙)`, 'correct');
 
           const guideBtn = document.getElementById('stepGuideBtn');
@@ -347,7 +355,7 @@ export class PracticePage {
   updateLiveScoreDisplay() {
     const score = Object.keys(this.sessionScores).length;
     const elem = document.getElementById('liveScoreCount');
-    if (elem) elem.innerText = `${score}/10`;
+    if (elem) elem.innerText = `${score}`;
     this.updateCoinDisplays();
   }
 
@@ -358,11 +366,17 @@ export class PracticePage {
     const score = Object.keys(this.sessionScores).length;
     document.getElementById('gradeScoreVal').innerText = score;
 
-    const coinsEarned = score * 5;
+    // Bonus for high scores
+    const roundBonus = (score === 10) ? 20 : (score >= 8 ? 10 : 0);
+    const coinsEarned = (this.sessionCoinsEarned || (score * 5)) + roundBonus;
+    studentProgress.addCoins(coinsEarned);
+
     const coinsElem = document.getElementById('gradeCoinsAwarded');
     if (coinsElem) {
       coinsElem.innerText = `+${coinsEarned} 🪙 Math Coins Earned!`;
     }
+
+    this.triggerFlyingCoinAnimation(coinsEarned);
 
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];

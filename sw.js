@@ -3,11 +3,12 @@
  * Provides full offline support, caching app shell, styles, fonts, and assets.
  */
 
-const CACHE_NAME = 'mathpad-junior-v1.4.4';
+const CACHE_NAME = 'mathpad-junior-v1.5.0';
 
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './pencil_case.html',
   './manifest.json',
   './css/main.css',
   './css/base.css',
@@ -20,6 +21,7 @@ const PRECACHE_ASSETS = [
   './js/data/curricula.js',
   './js/data/curricula.json',
   './js/data/studentProgress.js',
+  './js/data/pencilCaseData.js',
   './js/core/audioManager.js',
   './js/core/canvasEngine.js',
   './js/core/historyManager.js',
