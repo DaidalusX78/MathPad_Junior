@@ -722,11 +722,11 @@
   </div>
 
   <!-- MODAL: PRACTICE SETUP & DIFFICULTY CONFIGURATION -->
-  <div class="modal-backdrop" id="practiceSetupModalBackdrop">
-    <div class="modal-card" id="practiceSetupModalCard" style="max-width: 440px;">
+  <div class="modal-overlay" id="practiceSetupModal" onclick="handleOverlayClick(event)">
+    <div class="settings-modal-card" id="practiceSetupModalCard" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h2 id="setupModalTitle">Practice Setup</h2>
-        <button type="button" class="modal-close-btn" onclick="closePracticeSetupModal()">✕</button>
+        <div class="modal-title" id="setupModalTitle">Practice Setup</div>
+        <button type="button" class="modal-close" onclick="closePracticeSetupModal()">✕</button>
       </div>
 
       <!-- 1. Number of Questions -->

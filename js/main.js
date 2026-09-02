@@ -190,13 +190,13 @@ class App {
         titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Setup`;
       }
       updateForecast();
-      const modal = document.getElementById('practiceSetupModalBackdrop');
+      const modal = document.getElementById('practiceSetupModal');
       if (modal) modal.classList.add('active');
       audioManager.playSound('click');
     };
 
     window.closePracticeSetupModal = () => {
-      const modal = document.getElementById('practiceSetupModalBackdrop');
+      const modal = document.getElementById('practiceSetupModal');
       if (modal) modal.classList.remove('active');
     };
 
