@@ -1,10 +1,7 @@
 Issues:
-1) Pencil Case i cannot access the settings menu
-2) pencil case - "equipped-ribbon" raise z-index as currently behind the other items eg "preview-box"
-3) Paper Textures Catalogue - These are placeholders i guess, best way to populate this section? Also Palm Rest Mats Catalogue as well.
-4) once the above 3 are complete can you fully integrate the pencil_case.html into the project as it still has embedded css and js
+1) [x] Upgraded designs, buttons, and popovers to meet Android Material 3 (M3) specifications (48px+ touch targets, focus-visible switch indicators, safe-area insets, and tactile state layers).
 
-execute "version-tag"v0.18
+execute "version-tag"v0.19 completed
 
 
 
@@ -15,11 +12,6 @@ Gamification ideas:
 5) Earn x amount for loggin in daily, and bonus coins for streaks of 3, 7, 14, 30 days. Bonus for completing X number of problems. 
 6) Palm Rest area - Desk Mat Skins & Stickers: Allow students to spend their Math Coins in the shop to customize their palm rest (e.g., Galaxy Desk Mat, Wood Grain Craft Table, Neon Cyber Pad, Comic Strip Collage).
 Sticker Showcase: Let students drag and place reward stickers directly onto their palm rest mat like decorating a physical school pencil box or desk!
-
-
-
-Features and Updates Roadmap:
-1) Star Rewards & Sticker Book: Trophy/sticker book modal where students unlock reward badges, track daily practice streaks, and celebrate milestones.
 
 
 Accessibility:
@@ -34,5 +26,4 @@ Accessibility:
 
 Extras
 1) Hidden dev mode on question page
-2) check designs against android m3 requirements.
-3) [x] strip out any unwanted files from the project (deleted obsolete code & moved prototypes to archive/)
+2) [x] check designs against android m3 requirements (Full M3 compliance implemented).
