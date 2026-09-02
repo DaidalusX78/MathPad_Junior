@@ -204,6 +204,16 @@ main {
   padding: 6px 12px 6px 12px;
   gap: 8px;
   overflow: hidden;
+  min-height: 0;
+}
+
+.workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 0;
+  width: 100%;
 }
 
 .question-card {

@@ -195,17 +195,30 @@ export class CanvasEngine {
   }
 
   resize() {
+    if (!this.container || !this.canvas) return;
     const rect = this.container.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
-      if (this.canvas.width !== Math.floor(rect.width) || this.canvas.height !== Math.floor(rect.height)) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = this.canvas.width;
-        tempCanvas.height = this.canvas.height;
-        tempCanvas.getContext('2d').drawImage(this.canvas, 0, 0);
+      const targetW = Math.floor(rect.width);
+      const targetH = Math.floor(rect.height);
 
-        this.canvas.width = Math.floor(rect.width);
-        this.canvas.height = Math.floor(rect.height);
-        this.ctx.drawImage(tempCanvas, 0, 0);
+      if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
+        let tempCanvas = null;
+        if (this.canvas.width > 0 && this.canvas.height > 0) {
+          tempCanvas = document.createElement('canvas');
+          tempCanvas.width = this.canvas.width;
+          tempCanvas.height = this.canvas.height;
+          try {
+            tempCanvas.getContext('2d').drawImage(this.canvas, 0, 0);
+          } catch (e) {}
+        }
+
+        this.canvas.width = targetW;
+        this.canvas.height = targetH;
+        if (tempCanvas && tempCanvas.width > 0 && tempCanvas.height > 0) {
+          try {
+            this.ctx.drawImage(tempCanvas, 0, 0);
+          } catch (e) {}
+        }
       }
     }
   }
