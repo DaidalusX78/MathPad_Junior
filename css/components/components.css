@@ -551,15 +551,16 @@
 
 /* ------------------- Coin Guide Modal ------------------- */
 .coin-guide-modal-card {
+  position: relative;
   background: #ffffff;
-  border-radius: 24px;
-  border: 2px solid var(--border-light);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+  border-radius: 28px;
+  border: 2.5px solid var(--theme-border, #f0abfc);
+  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.16);
   width: 92%;
   max-width: 480px;
-  max-height: 85vh;
+  max-height: 88vh;
   overflow-y: auto;
-  padding: 22px;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -568,19 +569,23 @@
 
 .coin-guide-hero {
   text-align: center;
-  padding: 10px 0 6px 0;
+  padding: 6px 0 4px 0;
 }
 
 .coin-hero-icon {
   font-size: 2.8rem;
   margin-bottom: 4px;
-  animation: spinSlow 6s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 6px rgba(234, 179, 8, 0.35));
 }
 
 .coin-hero-title {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 900;
-  color: #0f172a;
+  font-family: 'Fredoka', cursive, sans-serif;
+  color: var(--text-dark, #0f172a);
   margin: 0;
 }
 
@@ -592,9 +597,9 @@
 }
 
 .coin-guide-section-title {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 900;
-  color: #334155;
+  color: var(--text-dark, #334155);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 8px;
@@ -607,8 +612,8 @@
 }
 
 .coin-rule-card {
-  background: #f8fafc;
-  border: 1.5px solid var(--border-light);
+  background: var(--theme-subtle, #fdf4ff);
+  border: 1.5px solid var(--theme-border, #f0abfc);
   border-radius: 14px;
   padding: 10px 12px;
   display: flex;
@@ -619,7 +624,7 @@
 .coin-rule-reward {
   font-size: 1.05rem;
   font-weight: 900;
-  color: #b45309;
+  color: var(--theme-accent, #a855f7);
 }
 
 .coin-rule-desc {
@@ -638,13 +643,18 @@
 .coin-shop-preview-item {
   background: #fffbeb;
   border: 1.5px dashed #fde68a;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 8px 6px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  transition: transform 0.12s ease;
+}
+
+.coin-shop-preview-item:hover {
+  transform: translateY(-2px);
 }
 
 .coin-shop-item-icon {
@@ -658,22 +668,23 @@
 }
 
 .coin-guide-close-btn {
-  background: var(--theme-accent);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   color: #ffffff;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 12px;
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   font-weight: 900;
   cursor: pointer;
   font-family: inherit;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.12s ease;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28);
+  transition: all 0.15s ease;
   margin-top: 6px;
 }
 
 .coin-guide-close-btn:hover {
   transform: translateY(-1px);
+  filter: brightness(1.05);
 }
 
 /* ------------------- Settings Modal Action Footer ------------------- */

@@ -103,6 +103,11 @@ export class PracticePage {
       nextBtn.innerHTML = `<span>${(index === this.totalQuestions - 1) ? ('🏁 ' + t.finish) : (t.next + ' →')}</span>`;
     }
 
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+      prevBtn.disabled = (index === 0);
+    }
+
     historyManager.restoreQuestionState(index, this.canvasEngine.canvas, this.canvasEngine.ctx, (strokes) => {
       this.canvasEngine.inkStrokes = strokes;
     });

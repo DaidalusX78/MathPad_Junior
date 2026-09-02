@@ -450,9 +450,14 @@
         </div>
 
         <div class="q-right-actions">
-          <button class="action-stack-btn next-btn" id="nextQuestionBtn" onclick="nextQuestion()" title="Next Question">
-            <span id="lblNext">Next →</span>
-          </button>
+          <div class="q-nav-split-row">
+            <button class="action-stack-btn prev-btn" id="prevQuestionBtn" onclick="prevQuestion()" title="Previous Question" disabled>
+              <span id="lblPrev">← Prev</span>
+            </button>
+            <button class="action-stack-btn next-btn" id="nextQuestionBtn" onclick="nextQuestion()" title="Next Question">
+              <span id="lblNext">Next →</span>
+            </button>
+          </div>
           <button class="action-stack-btn check-btn" id="checkHandwritingBtn" onclick="recognizeHandwriting()" title="Check Answer">
             <span id="lblCheckHandwriting">Check Answer</span>
           </button>
@@ -607,21 +612,24 @@
     </main>
   </div>
 
-  <!-- SCREEN 3: SCORE & GRADE SCREEN (/10) -->
+  <!-- SCREEN 3: SCORE & GRADE SCREEN -->
   <div class="screen" id="screenGrade">
     <div class="grade-card">
       <div class="grade-badge-icon" id="gradeBadgeIcon">🌟</div>
       <h2 class="grade-title" id="gradeTitle">Great Effort!</h2>
-      <div class="grade-score"><span id="gradeScoreVal">0</span> / 10</div>
-      <div class="grade-coins-awarded" id="gradeCoinsAwarded" style="font-size:1.15rem; font-weight:900; color:#b45309; margin: 4px 0 12px 0;">
-        +50 🪙 Math Coins Earned!
+      <div class="grade-score-banner">
+        <div class="grade-score-subtitle" id="lblGradeScoreSubtitle">Questions Correct</div>
+        <div class="grade-score"><span id="gradeScoreVal">0</span> / 10</div>
+      </div>
+      <div class="grade-coins-awarded" id="gradeCoinsAwarded">
+        +50 ⭐ Math Stars Earned!
       </div>
       <p class="grade-summary" id="gradeSummaryMsg">You scored 0 out of 10! Keep up the amazing work!</p>
       <div class="grade-actions">
         <button class="btn-start" style="background: var(--theme-accent); color: white;" onclick="retryQuiz()"
-          id="btnGradeRetry">Play Another 10</button>
+          id="btnGradeRetry">Play Again 🚀</button>
         <button class="footer-btn" style="width: 100%; border-radius: 14px; font-weight: 800;" onclick="goToHome()"
-          id="btnGradeHome">Home Menu</button>
+          id="btnGradeHome">Menu</button>
       </div>
     </div>
   </div>
@@ -848,9 +856,15 @@
 
   <!-- MODAL: MATH STARS & REWARDS GUIDE -->
   <div class="modal-overlay" id="coinGuideModal" onclick="handleOverlayClick(event)">
-    <div class="coin-guide-modal-card" onclick="event.stopPropagation()">
+    <div class="coin-guide-modal-card" id="coinGuideModalCard" onclick="event.stopPropagation()">
+      <button type="button" class="modal-close" style="position: absolute; top: 18px; right: 18px; z-index: 10;" onclick="closeCoinGuideModal()" title="Close Guide">✕</button>
+
       <div class="coin-guide-hero">
-        <div class="coin-hero-icon">⭐</div>
+        <div class="coin-hero-icon">
+          <svg viewBox="0 0 24 24" width="38" height="38" fill="#facc15" stroke="#ca8a04" stroke-width="1.2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
         <h2 class="coin-hero-title">Math Stars & The Pencil Case</h2>
         <div class="coin-hero-sub">Practice math, earn stars, and customize your equipment in The Pencil Case!</div>
       </div>
@@ -872,7 +886,7 @@
           </div>
           <div class="coin-rule-card">
             <div class="coin-rule-reward">+50 ⭐ Stars</div>
-            <div class="coin-rule-desc">Perfect 10/10 practice sheet round bonus</div>
+            <div class="coin-rule-desc">Perfect practice sheet round bonus</div>
           </div>
         </div>
       </div>
@@ -907,7 +921,10 @@
         </div>
       </div>
 
-      <button type="button" class="coin-guide-close-btn" onclick="closeCoinGuideModal()">Awesome! Let's Earn Stars ⭐</button>
+      <a href="pencil_case.html" class="coin-guide-close-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;" title="Visit The Pencil Case Shop">
+        <span>🎒</span>
+        <span>Visit The Pencil Case Shop →</span>
+      </a>
     </div>
   </div>
 
