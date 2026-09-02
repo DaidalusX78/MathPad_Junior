@@ -445,10 +445,11 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: none;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 100;
-  padding: 16px;
+  padding: max(28px, 5vh) 16px 24px 16px;
+  overflow-y: auto;
 }
 
 .modal-overlay.active {
@@ -461,10 +462,13 @@
   border: 2px solid var(--border-light);
   padding: 22px 24px;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  min-height: 520px;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
   max-height: 90vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-header {
@@ -779,9 +783,46 @@
 .modal-action-footer {
   display: flex;
   gap: 12px;
-  margin-top: 18px;
-  padding-top: 14px;
+  margin-top: auto;
+  padding-top: 16px;
   border-top: 2px solid #f1f5f9;
+}
+
+/* Switch Profile / Change Player Button */
+.player-switch-btn {
+  width: auto;
+  min-height: 40px;
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #fca5a5;
+  background: #fef2f2;
+  color: #dc2626;
+  font-weight: 800;
+  font-size: 0.86rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+.player-switch-btn:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+  color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.player-switch-btn:focus-visible {
+  outline: 3px solid #dc2626;
+  outline-offset: 2px;
+}
+
+.player-switch-btn:active {
+  transform: scale(0.96);
 }
 
 .modal-btn-cancel {
@@ -887,6 +928,7 @@
 .modal-tab-section {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 /* Shop Tab Showcase inside Settings */

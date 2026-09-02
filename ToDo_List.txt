@@ -1,29 +1,18 @@
 Issues:
-1) [x] Upgraded designs, buttons, and popovers to meet Android Material 3 (M3) specifications (48px+ touch targets, focus-visible switch indicators, safe-area insets, and tactile state layers).
+1) 
 
-execute "version-tag"v0.19 completed
+execute "version-tag"v0.19
 
 
 
 Gamification ideas:
-2) Math Coins Economy: need to add a section explaining how it works, how to earn and how much, and what you can spend them on. 
-3) Next up: Spend coins in shop to unlock special pen colors, avatar mascot accessories, and custom theme presets!
-4) Sticker Book & Trophy Showcase: Collect stickers and badges for streak milestones.
-5) Earn x amount for loggin in daily, and bonus coins for streaks of 3, 7, 14, 30 days. Bonus for completing X number of problems. 
-6) Palm Rest area - Desk Mat Skins & Stickers: Allow students to spend their Math Coins in the shop to customize their palm rest (e.g., Galaxy Desk Mat, Wood Grain Craft Table, Neon Cyber Pad, Comic Strip Collage).
-Sticker Showcase: Let students drag and place reward stickers directly onto their palm rest mat like decorating a physical school pencil box or desk!
+1) 
 
 
 Accessibility:
-1) Assistive Switch & Full Keyboard Navigation: Full switch access compatibility (Tab, Space, Enter, Arrow keys) with prominent, high-contrast :focus-visible indicators for motor control difficulties.
-2) Large Touch & Click Targets: Generously sized buttons (64px+) with ample spacing to prevent accidental taps for kids with tremors or fine-motor challenges.
-3) Low-Vision & High-Contrast Mode: Scalable fonts, high-contrast numerical styling, and clear visual differentiation for sight-impaired learners.
-4) Screen Reader & Multi-Sensory Audio (aria-live): Dynamic spoken announcements for problem changes, keypad inputs, and answer evaluations ("Correct!", "Try again").
-5) Input Flexibility Toggle: Quick switch between ✏️ Draw Mode and 🔢 Keypad Mode so students can choose the input method best suited to their physical abilities.
-6) Text-to-Speech (Read Aloud 🔊): Native Web Speech API integration to read math problems and word problems aloud in English 🇬🇧 or Spanish 🇪🇸.
-7) Handwriting & OCR Recognition Polish
+1) 
 
 
 Extras
 1) Hidden dev mode on question page
-2) [x] check designs against android m3 requirements (Full M3 compliance implemented).
+2) Add an area to explain the project and the add Created by Marc Bailey
