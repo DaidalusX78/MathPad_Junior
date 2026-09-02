@@ -514,12 +514,6 @@
         <span class="cat-label">Stickers</span>
         <span class="cat-badge" id="badgeCountStickers">4 Items</span>
       </div>
-
-      <div class="category-square-btn" onclick="switchCategory('json')">
-        <span class="cat-icon">📋</span>
-        <span class="cat-label">Data Info</span>
-        <span class="cat-badge">JSON</span>
-      </div>
     </div>
 
     <!-- Active Category Section Header -->
@@ -531,13 +525,6 @@
     <main id="shopMain">
       <!-- Items Grid -->
       <div class="shop-grid" id="itemsGrid"></div>
-
-      <!-- JSON Data Reference Viewer -->
-      <div id="jsonDataContainer" style="display:none;">
-        <div class="data-viewer-card">
-          <pre id="jsonViewer"></pre>
-        </div>
-      </div>
     </main>
 
   </div>
@@ -572,8 +559,7 @@
       papers: { title: '📐 Paper Textures Catalog', countId: 'badgeCountPapers' },
       deskMats: { title: '🖼️ Palm Rest Mats Catalog', countId: 'badgeCountMats' },
       accessories: { title: '👑 Mascot Gear Catalog', countId: 'badgeCountGear' },
-      stickers: { title: '⭐ Reward Stickers Catalog', countId: 'badgeCountStickers' },
-      json: { title: '📋 Catalog JSON Data Reference', countId: null }
+      stickers: { title: '⭐ Reward Stickers Catalog', countId: 'badgeCountStickers' }
     };
 
     let activeCat = 'inks';
@@ -611,18 +597,6 @@
         titleEl.innerText = categoryMeta[catId].title;
       }
 
-      const grid = document.getElementById('itemsGrid');
-      const jsonContainer = document.getElementById('jsonDataContainer');
-
-      if (catId === 'json') {
-        grid.style.display = 'none';
-        jsonContainer.style.display = 'block';
-        document.getElementById('jsonViewer').innerText = JSON.stringify(pencilCaseCatalog, null, 2);
-        return;
-      }
-
-      grid.style.display = 'grid';
-      jsonContainer.style.display = 'none';
       renderCategoryItems(catId);
     }
 

@@ -249,7 +249,7 @@ export class CanvasEngine {
       const isActive = btn.dataset.color === color;
       btn.classList.toggle('active', isActive);
       if (isActive) {
-        btn.style.boxShadow = `0 0 0 2.5px #ffffff, 0 0 0 5px ${color}, 0 3px 8px rgba(0, 0, 0, 0.18)`;
+        btn.style.boxShadow = `0 0 0 0.5px #ffffff, 0 0 0 2px ${color}, 0 3px 8px rgba(0, 0, 0, 0.18)`;
       } else {
         btn.style.boxShadow = '';
       }

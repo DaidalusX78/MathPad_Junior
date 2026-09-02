@@ -153,34 +153,34 @@
 .pen-settings-popover {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
   background: #ffffff;
   border: 1.5px solid var(--border-light, #e2e8f0);
-  border-radius: 16px;
-  padding: 12px 14px;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
-  min-width: 190px;
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 42px;
+  min-width: unset;
+  box-sizing: border-box;
   animation: popoverFade 0.15s ease forwards;
 }
 
 .pen-settings-popover.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes popoverFade {
-  0% { opacity: 0; transform: translateY(-4px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translate(-50%, -4px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .popover-section-label {
-  font-size: 0.72rem;
-  font-weight: 900;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 6px;
+  display: none;
 }
 
 /* ------------------- Color Swatches & Dynamic Ring ------------------- */
@@ -191,15 +191,17 @@
 
 .color-swatch-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  width: 100%;
 }
 
 .color-swatch-btn {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2.5px solid #ffffff;
+  border: 2px solid #ffffff;
   box-shadow: 0 0 0 1.5px #cbd5e1;
   cursor: pointer;
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
@@ -208,47 +210,51 @@
 }
 
 .color-swatch-btn:hover {
-  transform: scale(1.18);
+  transform: scale(1.12);
 }
 
 .color-swatch-btn.active {
-  transform: scale(1.25);
+  transform: scale(1.15);
 }
 
 .color-swatch-btn[data-color="#b57edc"].active {
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #b57edc, 0 3px 8px rgba(181, 126, 220, 0.35);
+  box-shadow: 0 0 0 0.5px #ffffff, 0 0 0 2px #b57edc, 0 3px 8px rgba(181, 126, 220, 0.35);
 }
 
 .color-swatch-btn[data-color="#dc2626"].active {
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #dc2626, 0 3px 8px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 0 0 0.5px #ffffff, 0 0 0 2px #dc2626, 0 3px 8px rgba(220, 38, 38, 0.35);
 }
 
 .color-swatch-btn[data-color="#16a34a"].active {
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #16a34a, 0 3px 8px rgba(22, 163, 74, 0.35);
+  box-shadow: 0 0 0 0.5px #ffffff, 0 0 0 2px #16a34a, 0 3px 8px rgba(22, 163, 74, 0.35);
 }
 
 .color-swatch-btn[data-color="#2563eb"].active {
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #2563eb, 0 3px 8px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 0 0 0.5px #ffffff, 0 0 0 2px #2563eb, 0 3px 8px rgba(37, 99, 235, 0.35);
 }
 
 .color-swatch-btn[data-color="#0f172a"].active {
-  box-shadow: 0 0 0 2.5px #ffffff, 0 0 0 5px #0f172a, 0 3px 8px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 0 0 0.5px #ffffff, 0 0 0 2px #0f172a, 0 3px 8px rgba(15, 23, 42, 0.35);
 }
 
 /* ------------------- Stroke Size Vector Buttons ------------------- */
 .stroke-btn-group {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: #f1f5f9;
-  border-radius: 12px;
-  padding: 2px;
-  gap: 2px;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 4px;
   border: 1px solid var(--border-light);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .stroke-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   border: none;
   background: transparent;
   display: flex;

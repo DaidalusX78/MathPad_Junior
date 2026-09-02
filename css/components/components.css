@@ -149,8 +149,9 @@
 }
 
 .theme-swatch.active {
-  transform: scale(1.1);
-  border-color: #0f172a;
+  transform: scale(1.12);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px var(--theme-accent, #a855f7), 0 4px 12px rgba(168, 85, 247, 0.28);
 }
 
 /* ------------------- Font Selector Grid ------------------- */
