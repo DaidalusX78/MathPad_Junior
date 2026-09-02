@@ -42,7 +42,8 @@ export class StudentProgress {
       MILESTONES: 'elismark_milestones',
       LIFETIME_STARS: 'elismark_lifetime_stars',
       DATES_PLAYED: 'elismark_dates_played',
-      STREAK_INFO: 'elismark_streak_info'
+      STREAK_INFO: 'elismark_streak_info',
+      MISTAKES: 'elismark_mistake_bank'
     };
 
     const hasStorage = typeof localStorage !== 'undefined';
@@ -61,12 +62,13 @@ export class StudentProgress {
     this.coins = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.COINS) || '0', 10) : 0;
     this.palmHeight = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.PALM_HEIGHT) || '140', 10) : 140;
 
-    // Stats & Milestones
+    // Stats & Milestones & Mistakes
     this.stats = this.loadStats();
     this.milestones = this.loadMilestones();
     this.lifetimeStars = hasStorage ? parseInt(localStorage.getItem(this.STORAGE_KEYS.LIFETIME_STARS) || this.coins.toString(), 10) : 0;
     this.datesPlayed = this.loadDatesPlayed();
     this.streakInfo = this.loadStreakInfo();
+    this.mistakes = this.loadMistakes();
 
     // Ensure today is tracked
     this.recordDailyLogin();
@@ -131,6 +133,54 @@ export class StudentProgress {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(this.STORAGE_KEYS.STREAK_INFO, JSON.stringify(this.streakInfo));
     }
+  }
+
+  loadMistakes() {
+    if (typeof localStorage === 'undefined') return [];
+    try {
+      return JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MISTAKES)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  saveMistakes() {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEYS.MISTAKES, JSON.stringify(this.mistakes || []));
+    }
+  }
+
+  addMistake(qItem) {
+    if (!qItem) return;
+    if (!this.mistakes) this.mistakes = [];
+    const sig = `${qItem.cat}:${qItem.q_en}`;
+    const exists = this.mistakes.some(m => `${m.cat}:${m.q_en}` === sig);
+    if (!exists) {
+      this.mistakes.unshift({
+        id: qItem.id || `mistake_${Date.now()}_${Math.random()}`,
+        cat: qItem.cat,
+        q_en: qItem.q_en,
+        q_es: qItem.q_es,
+        a_en: qItem.a_en,
+        a_es: qItem.a_es,
+        num: qItem.num,
+        aliases: qItem.aliases || [],
+        meta: qItem.meta || {},
+        timestamp: Date.now()
+      });
+      if (this.mistakes.length > 25) this.mistakes.pop();
+      this.saveMistakes();
+    }
+  }
+
+  resolveMistake(questionIdOrSig) {
+    if (!this.mistakes || this.mistakes.length === 0) return;
+    this.mistakes = this.mistakes.filter(m => m.id !== questionIdOrSig && `${m.cat}:${m.q_en}` !== questionIdOrSig);
+    this.saveMistakes();
+  }
+
+  getMistakes() {
+    return this.mistakes || [];
   }
 
   recordDailyLogin() {

@@ -204,6 +204,7 @@ class App {
     let stagedPracticeMode = 'mult';
     let stagedQuestionCount = 10;
     let stagedDifficulty = 'medium';
+    let stagedPeriod = 'lesson'; // 'lesson' | 'breaktime' | 'detention'
 
     const topicTitles = {
       tables: 'Times Tables',
@@ -217,15 +218,93 @@ class App {
       random: 'Random Mix'
     };
 
+    const updateDetentionBadges = () => {
+      const mistakes = studentProgress.getMistakes();
+      const count = mistakes.length;
+      const homeBadge = document.getElementById('detentionBadgeCount');
+      if (homeBadge) homeBadge.innerText = count.toString();
+      const setupBadge = document.getElementById('setupDetentionCount');
+      if (setupBadge) setupBadge.innerText = count.toString();
+    };
+
     const updateForecast = () => {
+      updateDetentionBadges();
       const base = stagedDifficulty === 'easy' ? 5 : (stagedDifficulty === 'medium' ? 8 : 12);
       const isSpecial = stagedPracticeMode === 'word' || stagedPracticeMode === 'geo';
-      const perQ = base + (isSpecial ? 4 : 0);
-      const maxBase = perQ * stagedQuestionCount;
-      const maxBonus = stagedQuestionCount * 3;
+      let perQ = base + (isSpecial ? 4 : 0);
       const forecastDetail = document.getElementById('forecastStarDetail');
-      if (forecastDetail) {
-        forecastDetail.innerHTML = `Earn <strong>${perQ} ⭐</strong> per question (up to <strong>${maxBase} ⭐</strong> + up to <strong>${maxBonus} ⭐</strong> bonus)!`;
+      const countRow = document.getElementById('setupCountBtnGroup');
+      const countNotice = document.getElementById('periodSpecialNotice');
+      const countLabel = document.getElementById('lblSetupQuestionCount');
+
+      if (stagedPeriod === 'breaktime') {
+        perQ *= 2;
+        if (countRow) countRow.style.display = 'none';
+        if (countNotice) {
+          countNotice.style.display = 'block';
+          countNotice.innerHTML = '⚡ <strong>60-Second Speed Run:</strong> Answer as many questions as you can before the recess bell rings! Auto-advances on correct answers.';
+        }
+        if (countLabel) countLabel.innerText = 'Session Format: 60s Speed Sprint';
+        if (forecastDetail) {
+          forecastDetail.innerHTML = `Earn <strong>${perQ} ⭐ (2x Multiplier)</strong> per question answered in 60 seconds!`;
+        }
+      } else if (stagedPeriod === 'detention') {
+        const mistakes = studentProgress.getMistakes();
+        const mCount = mistakes.length;
+        if (countRow) countRow.style.display = 'none';
+        if (countNotice) {
+          countNotice.style.display = 'block';
+          if (mCount > 0) {
+            countNotice.innerHTML = `🚨 <strong>Mistake Buster:</strong> ${mCount} question${mCount === 1 ? '' : 's'} waiting for correction. Solve them to clear your detention record and earn redemption stars!`;
+          } else {
+            countNotice.innerHTML = '🎉 <strong>Clean Record!</strong> You have 0 mistakes! Solving 3 quick refresher questions for bonus stars.';
+          }
+        }
+        if (countLabel) countLabel.innerText = 'Session Format: Mistake Buster Clinic';
+        if (forecastDetail) {
+          forecastDetail.innerHTML = `Earn <strong>${perQ} ⭐</strong> per corrected question + record redemption star bonus!`;
+        }
+      } else {
+        if (countRow) countRow.style.display = 'flex';
+        if (countNotice) countNotice.style.display = 'none';
+        if (countLabel) countLabel.innerText = 'Number of Questions';
+        const maxBase = perQ * stagedQuestionCount;
+        const maxBonus = stagedQuestionCount * 3;
+        if (forecastDetail) {
+          forecastDetail.innerHTML = `Earn <strong>${perQ} ⭐</strong> per question (up to <strong>${maxBase} ⭐</strong> + up to <strong>${maxBonus} ⭐</strong> bonus)!`;
+        }
+      }
+    };
+
+    window.setSchoolPeriod = (period) => {
+      stagedPeriod = period || 'lesson';
+      document.querySelectorAll('.school-period-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.period === stagedPeriod);
+      });
+      document.querySelectorAll('.school-period-pill').forEach((pill) => {
+        pill.classList.toggle('active', pill.id === `homePeriod${period.charAt(0).toUpperCase() + period.slice(1)}`);
+      });
+      updateForecast();
+      audioManager.playSound('click');
+    };
+
+    window.setGlobalSchoolPeriod = (period) => {
+      stagedPeriod = period || 'lesson';
+      document.querySelectorAll('.school-period-pill').forEach((pill) => {
+        pill.classList.toggle('active', pill.id === `homePeriod${period.charAt(0).toUpperCase() + period.slice(1)}`);
+      });
+      document.querySelectorAll('.school-period-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.period === stagedPeriod);
+      });
+
+      if (period === 'detention') {
+        const mistakes = studentProgress.getMistakes();
+        if (mistakes.length === 0) {
+          this.practicePage.showToast('🎉 Clean Record! No mistakes in detention. Try a Class Lesson!', 'correct');
+        }
+        window.openPracticeSetupModal('random');
+      } else {
+        audioManager.playSound('click');
       }
     };
 
@@ -235,6 +314,9 @@ class App {
       if (titleElem) {
         titleElem.innerText = `${topicTitles[stagedPracticeMode] || 'Math'} Quiz Setup`;
       }
+      document.querySelectorAll('.school-period-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.period === stagedPeriod);
+      });
       updateForecast();
       const modal = document.getElementById('practiceSetupModal');
       if (modal) modal.classList.add('active');
@@ -266,15 +348,18 @@ class App {
 
     window.confirmStartPractice = () => {
       window.closePracticeSetupModal();
-      this.practicePage.startPractice(stagedPracticeMode, stagedQuestionCount, stagedDifficulty);
+      this.practicePage.startPractice(stagedPracticeMode, stagedQuestionCount, stagedDifficulty, stagedPeriod);
     };
 
-    window.startPractice = (mode, count, diff) => this.practicePage.startPractice(mode, count, diff);
+    window.startPractice = (mode, count, diff, format) => this.practicePage.startPractice(mode, count, diff, format);
     window.nextQuestion = () => this.practicePage.nextQuestion();
     window.prevQuestion = () => this.practicePage.prevQuestion();
     window.recognizeHandwriting = () => this.practicePage.checkAnswer();
     window.checkAnswer = () => this.practicePage.checkAnswer();
-    window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode, this.practicePage.totalQuestions, this.practicePage.difficulty);
+    window.retryQuiz = () => this.practicePage.startPractice(this.practicePage.activeMode, this.practicePage.totalQuestions, this.practicePage.difficulty, this.practicePage.sessionFormat);
+
+    // Initial sync of detention badges
+    updateDetentionBadges();
 
     window.toggleInkColorMenu = (e) => {
       if (e) e.stopPropagation();

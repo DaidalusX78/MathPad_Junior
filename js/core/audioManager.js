@@ -40,7 +40,16 @@ class AudioManager {
         gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
+      } else if (type === 'bell') {
+        // School Bell Chime (harmonious dual-tone ding-dong)
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+        osc.frequency.setValueAtTime(1046.5, audioCtx.currentTime + 0.15); // C6
+        osc.frequency.setValueAtTime(1318.5, audioCtx.currentTime + 0.3); // E6
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.85);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.85);
       }
     } catch (e) {
       console.warn('Audio play error:', e);

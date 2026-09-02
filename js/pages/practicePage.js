@@ -34,11 +34,16 @@ export class PracticePage {
     this.stepGuideModal = new StepGuideModal(this.pageManager);
   }
 
-  startPractice(mode, totalQuestions = 10, difficulty = 'medium') {
+  startPractice(mode, totalQuestions = 10, difficulty = 'medium', format = 'lesson') {
     this.activeMode = mode;
-    this.totalQuestions = parseInt(totalQuestions, 10) || 10;
+    this.sessionFormat = format || 'lesson'; // 'lesson' | 'breaktime' | 'detention'
     this.difficulty = difficulty || 'medium';
     this.baseStarReward = (this.difficulty === 'easy') ? 5 : (this.difficulty === 'medium' ? 8 : 12);
+
+    // Breaktime Dash grants 2x Star Multiplier for high-speed mental math!
+    if (this.sessionFormat === 'breaktime') {
+      this.baseStarReward *= 2;
+    }
 
     this.sessionScores = {};
     this.sessionCoinsEarned = 0;
@@ -50,8 +55,29 @@ export class PracticePage {
     this.canvasEngine.currentStroke = null;
     if (this.numKeypad) this.numKeypad.clear();
 
-    // Generate fresh procedural questions with chosen difficulty and count
-    this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, this.totalQuestions, this.difficulty);
+    // Clear any previous speed dash timer
+    this.stopDashTimer();
+
+    // Configure questions based on school period
+    if (this.sessionFormat === 'detention') {
+      const mistakes = studentProgress.getMistakes();
+      if (mistakes.length > 0) {
+        this.sessionQuestions = [...mistakes.slice(0, 10)];
+        this.totalQuestions = this.sessionQuestions.length;
+      } else {
+        // Clean record bonus challenge
+        this.totalQuestions = 3;
+        this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, 3, this.difficulty);
+      }
+    } else if (this.sessionFormat === 'breaktime') {
+      // 60-second dash: provide a large queue of 30 rapid-fire questions
+      this.totalQuestions = 30;
+      this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, 30, this.difficulty);
+    } else {
+      // Standard Class Lesson
+      this.totalQuestions = parseInt(totalQuestions, 10) || 10;
+      this.sessionQuestions = ProceduralGenerator.generateQuiz(mode, this.totalQuestions, this.difficulty);
+    }
 
     this.pageManager.showScreen('screenPractice');
     this.setInputMode(studentProgress.inputMode || 'draw', false);
@@ -70,9 +96,56 @@ export class PracticePage {
       this.canvasEngine.resize();
       this.canvasEngine.ctx.clearRect(0, 0, this.canvasEngine.canvas.width, this.canvasEngine.canvas.height);
       this.loadQuestion(0);
+
+      // Start 60-second dash timer if Breaktime Dash
+      if (this.sessionFormat === 'breaktime') {
+        this.startDashTimer();
+      }
     }, 40);
 
     audioManager.playSound('click');
+  }
+
+  startDashTimer() {
+    this.stopDashTimer();
+    this.dashTimeLeft = 60;
+    const timerBadge = document.getElementById('dashTimerBadge');
+    const timerText = document.getElementById('dashTimerText');
+    if (!timerBadge || !timerText) return;
+
+    timerBadge.style.display = 'inline-flex';
+    timerBadge.classList.remove('warning');
+    timerText.innerText = '0:60';
+
+    this.dashInterval = setInterval(() => {
+      this.dashTimeLeft--;
+      const sec = this.dashTimeLeft;
+      const formatted = sec < 10 ? `0:0${sec}` : `0:${sec}`;
+      timerText.innerText = formatted;
+
+      if (sec <= 10) {
+        timerBadge.classList.add('warning');
+        audioManager.playSound('click');
+      }
+
+      if (sec <= 0) {
+        this.stopDashTimer();
+        audioManager.playSound('bell');
+        this.showGradeScreen();
+      }
+    }, 1000);
+  }
+
+  stopDashTimer() {
+    if (this.dashInterval) {
+      clearInterval(this.dashInterval);
+      this.dashInterval = null;
+    }
+    const timerBadge = document.getElementById('dashTimerBadge');
+    if (timerBadge) {
+      timerBadge.style.display = 'none';
+      timerBadge.classList.remove('warning');
+    }
   }
 
   loadQuestion(index) {
@@ -190,6 +263,13 @@ export class PracticePage {
         this.sessionScores[this.currentIndex] = true;
         this.sessionCoinsEarned = (this.sessionCoinsEarned || 0) + starReward;
         this.triggerFlyingCoinAnimation(starReward, 'targetAnswerBox', 'scoreBadgePractice');
+        const unlocked = studentProgress.recordQuestionAttempt(true, qItem.cat);
+        if (unlocked && unlocked.length > 0) {
+          setTimeout(() => {
+            unlocked.forEach((b) => this.showToast(`🏅 Milestone: ${b.title} (+${b.stars} ⭐)!`, 'correct'));
+          }, 1200);
+        }
+        studentProgress.resolveMistake(qItem.id);
       }
       this.updateLiveScoreDisplay();
       audioManager.playSound('success');
@@ -197,7 +277,16 @@ export class PracticePage {
 
       const guideBtn = document.getElementById('stepGuideBtn');
       if (guideBtn) guideBtn.style.display = 'none';
+
+      // Auto-advance in Breaktime Dash!
+      if (this.sessionFormat === 'breaktime') {
+        setTimeout(() => {
+          if (this.dashTimeLeft > 0) this.nextQuestion();
+        }, 400);
+      }
     } else {
+      studentProgress.recordQuestionAttempt(false, qItem.cat);
+      studentProgress.addMistake(qItem);
       audioManager.playSound('error');
       const lang = studentProgress.currentLang || 'en';
       const diagnosis = DiagnosisEngine.diagnose(trimmed, qItem, lang);
@@ -296,6 +385,7 @@ export class PracticePage {
                 unlocked.forEach((b) => this.showToast(`🏅 Milestone: ${b.title} (+${b.stars} ⭐)!`, 'correct'));
               }, 1200);
             }
+            studentProgress.resolveMistake(qItem.id);
           }
           this.updateLiveScoreDisplay();
           audioManager.playSound('success');
@@ -303,8 +393,16 @@ export class PracticePage {
 
           const guideBtn = document.getElementById('stepGuideBtn');
           if (guideBtn) guideBtn.style.display = 'none';
+
+          // Auto-advance in Breaktime Dash!
+          if (this.sessionFormat === 'breaktime') {
+            setTimeout(() => {
+              if (this.dashTimeLeft > 0) this.nextQuestion();
+            }, 400);
+          }
         } else {
           studentProgress.recordQuestionAttempt(false, qItem.cat);
+          studentProgress.addMistake(qItem);
           audioManager.playSound('error');
           const lang = studentProgress.currentLang || 'en';
           const diagnosis = DiagnosisEngine.diagnose(topDetected, qItem, lang);
@@ -406,15 +504,29 @@ export class PracticePage {
   }
 
   showGradeScreen() {
+    this.stopDashTimer();
     this.saveCurrentCanvas();
     this.pageManager.showScreen('screenGrade');
 
     const score = Object.keys(this.sessionScores).length;
-    document.getElementById('gradeScoreVal').innerText = `${score} / ${this.totalQuestions}`;
+    const scoreValElem = document.getElementById('gradeScoreVal');
+    const scoreSubtitleElem = document.getElementById('lblGradeScoreSubtitle');
+
+    if (this.sessionFormat === 'breaktime') {
+      if (scoreValElem) scoreValElem.innerText = `${score} Solved!`;
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Speed Sprint in 60s';
+    } else if (this.sessionFormat === 'detention') {
+      if (scoreValElem) scoreValElem.innerText = `${score} / ${this.totalQuestions}`;
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Mistakes Corrected';
+    } else {
+      if (scoreValElem) scoreValElem.innerText = `${score} / ${this.totalQuestions}`;
+      if (scoreSubtitleElem) scoreSubtitleElem.innerText = 'Questions Correct';
+    }
 
     // Bonus for high scores
-    const ratio = score / (this.totalQuestions || 10);
-    const roundBonus = Math.round((ratio === 1.0) ? (this.totalQuestions * 3) : (ratio >= 0.8 ? (this.totalQuestions * 1.5) : 0));
+    const effectiveTotal = (this.sessionFormat === 'breaktime') ? Math.max(score, 5) : (this.totalQuestions || 10);
+    const ratio = score / effectiveTotal;
+    const roundBonus = Math.round((ratio === 1.0) ? (effectiveTotal * 3) : (ratio >= 0.8 ? (effectiveTotal * 1.5) : 0));
     const totalStarsEarned = (this.sessionCoinsEarned || 0) + roundBonus;
     studentProgress.addStars(totalStarsEarned);
 
@@ -437,19 +549,32 @@ export class PracticePage {
     const t = this.pageManager.getI18n();
     let title = t.gradeTitles[0];
     let icon = '🌱';
+    let summary = `You scored ${score} out of ${this.totalQuestions}! Keep up the amazing work!`;
 
-    if (ratio >= 0.8) {
-      title = t.gradeTitles[2];
-      icon = '🌟';
+    if (this.sessionFormat === 'breaktime') {
+      icon = '🏃💨';
+      title = (score >= 8) ? '⚡ Breaktime Champion!' : '🏃 Great Speed Sprint!';
+      summary = `You answered ${score} questions in 60 seconds with double speed stars banked!`;
+      audioManager.playSound('bell');
+    } else if (this.sessionFormat === 'detention') {
+      icon = '🛡️';
+      title = '🎉 Detention Cleared!';
+      summary = 'Outstanding resilience! You conquered your tricky questions and cleared your error record!';
       audioManager.playSound('success');
-    } else if (ratio >= 0.5) {
-      title = t.gradeTitles[1];
-      icon = '👏';
+    } else {
+      if (ratio >= 0.8) {
+        title = t.gradeTitles[2];
+        icon = '🌟';
+        audioManager.playSound('success');
+      } else if (ratio >= 0.5) {
+        title = t.gradeTitles[1];
+        icon = '👏';
+      }
     }
 
     document.getElementById('gradeBadgeIcon').innerText = icon;
     document.getElementById('gradeTitle').innerText = title;
-    document.getElementById('gradeSummaryMsg').innerText = `You scored ${score} out of ${this.totalQuestions}! Keep up the amazing work!`;
+    document.getElementById('gradeSummaryMsg').innerText = summary;
   }
 
   togglePalmShield() {

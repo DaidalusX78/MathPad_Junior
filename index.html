@@ -111,7 +111,7 @@
       </div>
       <div class="welcome-title" id="welTitle">
         MathPad <span class="brand-junior">Junior</span>
-        <span class="version-tag">v0.19</span>
+        <span class="version-tag">v0.20</span>
       </div>
       <div class="welcome-byline" id="welByline">Interactive Stylus Workbook for Kids</div>
 
@@ -241,7 +241,7 @@
 
         <span class="brand-title-3">
           MathPad <span class="brand-junior">Junior</span>
-          <span class="version-tag">v0.19</span>
+          <span class="version-tag">v0.20</span>
         </span>
       </a>
 
@@ -264,6 +264,24 @@
         <button class="player-header-badge" onclick="openSettingsModal()" title="Edit Profile & Settings">
           <span class="badge-name" id="badgeNameHome">Eli</span>
           <span class="badge-avatar" id="badgeAvatarHome">🦄</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- School Day Schedule Ribbon -->
+    <div class="school-day-ribbon">
+      <div class="school-day-label">
+        <span>🏫</span> <strong>The School Day:</strong>
+      </div>
+      <div class="school-period-tabs">
+        <button type="button" class="school-period-pill active" id="homePeriodLesson" onclick="setGlobalSchoolPeriod('lesson')">
+          <span>📚</span> Class Lessons
+        </button>
+        <button type="button" class="school-period-pill" id="homePeriodBreak" onclick="setGlobalSchoolPeriod('breaktime')">
+          <span>🏃</span> Breaktime Dash (60s)
+        </button>
+        <button type="button" class="school-period-pill" id="homePeriodDetention" onclick="setGlobalSchoolPeriod('detention')">
+          <span>🚨</span> Detention (<span id="detentionBadgeCount">0</span>)
         </button>
       </div>
     </div>
@@ -498,10 +516,18 @@
 
           <span class="brand-title-3">
             MathPad <span class="brand-junior">Junior</span>
-            <span class="version-tag">v0.19</span>
+            <span class="version-tag">v0.20</span>
           </span>
         </a>
       </div>
+
+      <div class="header-center" style="display: flex; align-items: center; justify-content: center;">
+        <div class="dash-timer-badge" id="dashTimerBadge" style="display: none;" title="Breaktime Dash Countdown">
+          <span class="timer-icon">⏱️</span>
+          <span id="dashTimerText">0:60</span>
+        </div>
+      </div>
+
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
         <div class="score-badge-header" id="scoreBadgePractice" title="Stars Earned This Round">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="#facc15" stroke="#ca8a04" stroke-width="1.2"
@@ -974,7 +1000,7 @@
               </svg>
             </div>
             <div>
-              <div class="about-app-title">MathPad <span class="brand-junior">Junior</span> <span class="version-tag">v0.19</span></div>
+              <div class="about-app-title">MathPad <span class="brand-junior">Junior</span> <span class="version-tag">v0.20</span></div>
               <div class="about-app-sub">Interactive Stylus Workbook for Kids</div>
             </div>
           </div>
@@ -1097,10 +1123,38 @@
         <button type="button" class="modal-close" onclick="closePracticeSetupModal()">✕</button>
       </div>
 
-      <!-- 1. Number of Questions -->
+      <!-- 0. School Day Period Selection -->
       <div class="setting-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div class="setting-label">School Day Period</div>
+        <div class="school-period-grid" role="radiogroup" aria-label="School Day Period">
+          <button type="button" class="school-period-btn active" id="periodBtnLesson" data-period="lesson" onclick="setSchoolPeriod('lesson')">
+            <span class="period-btn-icon">📚</span>
+            <div class="period-btn-info">
+              <span class="period-btn-title">Class Lesson</span>
+              <span class="period-btn-sub">Curriculum Practice</span>
+            </div>
+          </button>
+          <button type="button" class="school-period-btn" id="periodBtnBreak" data-period="breaktime" onclick="setSchoolPeriod('breaktime')">
+            <span class="period-btn-icon">🏃</span>
+            <div class="period-btn-info">
+              <span class="period-btn-title">Breaktime Dash</span>
+              <span class="period-btn-sub">60s Speed Sprint (2x ⭐)</span>
+            </div>
+          </button>
+          <button type="button" class="school-period-btn" id="periodBtnDetention" data-period="detention" onclick="setSchoolPeriod('detention')">
+            <span class="period-btn-icon">🚨</span>
+            <div class="period-btn-info">
+              <span class="period-btn-title">Detention</span>
+              <span class="period-btn-sub">Mistake Buster (<span id="setupDetentionCount">0</span>)</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. Number of Questions (Or Period Notice) -->
+      <div class="setting-row" id="setupQuestionCountRow" style="flex-direction: column; align-items: stretch; gap: 8px;">
         <div class="setting-label" id="lblSetupQuestionCount">Number of Questions</div>
-        <div class="palette-swatch-row" role="radiogroup" aria-label="Question Count" style="display: flex; gap: 8px;">
+        <div class="palette-swatch-row" id="setupCountBtnGroup" role="radiogroup" aria-label="Question Count" style="display: flex; gap: 8px;">
           <button type="button" class="tool-btn q-count-btn" data-count="5"
             onclick="setSetupQuestionCount(5)">5</button>
           <button type="button" class="tool-btn q-count-btn active" data-count="10"
@@ -1110,6 +1164,7 @@
           <button type="button" class="tool-btn q-count-btn" data-count="20"
             onclick="setSetupQuestionCount(20)">20</button>
         </div>
+        <div class="period-special-notice" id="periodSpecialNotice" style="display: none;"></div>
       </div>
 
       <!-- 2. Difficulty Level -->

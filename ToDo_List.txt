@@ -1,12 +1,12 @@
 Issues:
-1) 
+1) [x] Implement Option A: "The School Day" Session Formats (Class Lessons, 60s Breaktime Dash with countdown timer & double stars, and Detention / Mistake Buster clinic).
 
-execute "version-tag"v0.19
-
+execute "version-tag"v0.20
 
 
 Gamification ideas:
-1) 
+1) Option B: "The Academic Calendar" — School Terms (Autumn, Spring, Summer), Graduation Year-End Exams, Holiday Events (Summer Camp, Winter Workshop), and Year Levels (Year 1 to Year 6).
+2) Option C: "The School Timetable" — Visual Weekly Planner & Schedule Grid (Period 1 to Period 4 + Golden Time bonus hour).
 
 
 Accessibility:
@@ -16,4 +16,4 @@ Accessibility:
 Extras
 1) Hidden dev mode on question page
 2) [x] Add an area to explain the project and add Created by Marc Bailey (Implemented in Settings 'About' tab).
-3) Explore/organise play format & time structures into school-themed categories (Classes, Week, Term, Holidays, Year, lunch time, break time, after school, detention etc).
+3) [x] Option A: "The School Day" — Daily Session Modes (Class Lessons, Breaktime Dash, Detention Mistake Buster).

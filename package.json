@@ -1,6 +1,6 @@
 {
   "name": "mathpad-junior",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "MathPad Junior - Interactive Stylus-Powered Math Workbook with Handwriting Recognition",
   "type": "module",
   "main": "js/main.js",
