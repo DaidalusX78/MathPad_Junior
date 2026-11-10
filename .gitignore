@@ -10,6 +10,9 @@ android/.idea/
 node_modules/
 www/
 
+# Notes & task tracking
+ToDoList.md
+
 # Android build outputs & caches
 android/app/build/
 android/.gradle/
